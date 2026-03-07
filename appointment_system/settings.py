@@ -125,3 +125,21 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# Add at the top of settings.py
+import os
+
+# Security Settings for Render.com
+CSRF_TRUSTED_ORIGINS = [
+    'https://makgetha-appointment-system.onrender.com',
+    'http://makgetha-appointment-system.onrender.com',
+]
+
+# If you also want to allow local development
+if DEBUG:
+    CSRF_TRUSTED_ORIGINS += [
+        'http://localhost:8000',
+        'http://127.0.0.1:8000',
+    ]
+
+
+
