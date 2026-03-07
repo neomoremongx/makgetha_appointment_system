@@ -219,57 +219,7 @@ def delete_appointment(request, id):
     
     return redirect('home')
 
-def search_appointment(request):
-    """Search for an appointment by ID"""
-    appointment_id = request.GET.get('id', '')
-    appointment = None
-    error = None
-    
-    if appointment_id:
-        try:
-            appointment = Appointment.objects.get(appointment_id=appointment_id)
-        except Appointment.DoesNotExist:
-            error = f"No appointment found with ID: {appointment_id}"
-    
-    # Get all appointments for the main list
-    appointments = Appointment.objects.all()
-    
-    # Calculate statistics
-    now = localtime(timezone.now())
-    today = now.date()
-    week_start = today - timedelta(days=today.weekday())
-    week_end = week_start + timedelta(days=6)
-    
-    # Use datetime range for accurate filtering
-    today_start = timezone.make_aware(datetime.combine(today, datetime.min.time()))
-    today_end = timezone.make_aware(datetime.combine(today, datetime.max.time()))
-    
-    daily_appointments = Appointment.objects.filter(
-        appointment_datetime__range=[today_start, today_end],
-        status='active'
-    ).count()
-    
-    week_start_dt = timezone.make_aware(datetime.combine(week_start, datetime.min.time()))
-    week_end_dt = timezone.make_aware(datetime.combine(week_end, datetime.max.time()))
-    
-    weekly_appointments = Appointment.objects.filter(
-        appointment_datetime__range=[week_start_dt, week_end_dt],
-        status='active'
-    ).count()
-    
-    # Check if there's a new appointment ID to show
-    new_appointment_id = request.session.pop('new_appointment_id', None)
-    
-    context = {
-        'appointments': appointments,
-        'daily_appointments': daily_appointments,
-        'weekly_appointments': weekly_appointments,
-        'search_result': appointment,
-        'search_error': error,
-        'search_id': appointment_id,
-        'new_appointment_id': new_appointment_id,
-    }
-    return render(request, "index.html", context)
+
 
 def get_appointment_detail(request, id):
     """Get appointment details for editing"""

@@ -531,7 +531,7 @@
             <div style="display: flex; justify-content: space-between; align-items: center;">
                 <h3 style="font-family: 'Crimson Text', serif; font-size: 1.2rem; margin: 0;">
                     <i class="fas fa-calendar-day" style="margin-right: 10px;"></i>
-                    Today's Schedule
+                    Today's Appointments
                 </h3>
                 <span style="background: var(--primary-gold); color: var(--accent-navy); padding: 0.2rem 1rem; border-radius: 20px; font-weight: 600;">
                     {{ today_count }} appointment{{ today_count|pluralize }}
@@ -573,9 +573,7 @@
             <div style="text-align: center; padding: 2rem 1rem;">
                 <i class="fas fa-calendar-check" style="font-size: 2.5rem; color: var(--gray-300); margin-bottom: 0.5rem;"></i>
                 <p style="color: var(--gray-600); margin-bottom: 1rem;">No appointments scheduled for today</p>
-                <button class="btn btn-primary" onclick="openCreateModal()" style="font-size: 0.85rem; padding: 0.4rem 1rem;">
-                    <i class="fas fa-plus"></i> Schedule Today
-                </button>
+                
             </div>
             {% endif %}
         </div>
