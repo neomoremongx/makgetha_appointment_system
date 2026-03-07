@@ -57,7 +57,7 @@ def get_home(request):
         'appointments': appointments,
         'daily_appointments': daily_appointments,
         'weekly_appointments': weekly_appointments,
-        'today_appointments': today_appointments,  # Add today's appointments
+        'today_appointments': today_appointments,
         'today_count': daily_appointments,
         'tomorrow_appointments': tomorrow_appointments,
         'tomorrow_count': tomorrow_appointments.count(),
@@ -125,7 +125,7 @@ def search_appointment(request):
         'appointments': appointments,
         'daily_appointments': daily_appointments,
         'weekly_appointments': weekly_appointments,
-        'today_appointments': today_appointments,  # Add today's appointments
+        'today_appointments': today_appointments,
         'today_count': daily_appointments,
         'tomorrow_appointments': tomorrow_appointments,
         'tomorrow_count': tomorrow_appointments.count(),
@@ -158,6 +158,16 @@ def create_appointment(request):
             messages.error(request, 'Cannot create appointment with past date.')
             return redirect('home')
         
+        # Check for duplicate date and time
+        existing_appointment = Appointment.objects.filter(
+            appointment_datetime=appointment_dt,
+            status='active'
+        ).exists()
+        
+        if existing_appointment:
+            messages.error(request, 'This date and time is already booked. Please select a different time.')
+            return redirect('home')
+        
         appointment = Appointment.objects.create(
             client_name=client_name,
             service_type=service_type,
@@ -175,7 +185,6 @@ def create_appointment(request):
         request.session['new_appointment_id'] = appointment.appointment_id
         
     return redirect('home')
-
 
 def update_appointment(request, id):
     """Update an existing appointment"""
@@ -201,6 +210,16 @@ def update_appointment(request, id):
             messages.error(request, 'Cannot update appointment to a past date.')
             return redirect('home')
         
+        # Check for duplicate date and time (excluding the current appointment)
+        existing_appointment = Appointment.objects.filter(
+            appointment_datetime=appointment_dt,
+            status='active'
+        ).exclude(id=id).exists()
+        
+        if existing_appointment:
+            messages.error(request, 'This date and time is already booked. Please select a different time.')
+            return redirect('home')
+        
         appointment.client_name = client_name
         appointment.service_type = service_type
         appointment.appointment_datetime = appointment_dt
@@ -218,8 +237,6 @@ def delete_appointment(request, id):
         messages.success(request, f'Appointment {appointment.appointment_id} has been cancelled successfully.')
     
     return redirect('home')
-
-
 
 def get_appointment_detail(request, id):
     """Get appointment details for editing"""

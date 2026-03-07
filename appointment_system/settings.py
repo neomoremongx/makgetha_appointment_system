@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-7t3*4^l_agll(#ft(rxxr)(6u1qw3ljgfgjqr2@3q0a&-3#idw
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['makgetha-appointment-system.onrender.com']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -124,31 +124,3 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-# Add at the top of settings.py
-import os
-
-# Security Settings for Render.com
-CSRF_TRUSTED_ORIGINS = [
-    'https://makgetha-appointment-system.onrender.com',
-    'http://makgetha-appointment-system.onrender.com',
-]
-
-# If you also want to allow local development
-if DEBUG:
-    CSRF_TRUSTED_ORIGINS += [
-        'http://localhost:8000',
-        'http://127.0.0.1:8000',
-    ]
-
-# Make sure these settings are configured:
-CSRF_COOKIE_SECURE = True  # Set to True in production
-CSRF_COOKIE_HTTPONLY = False  # Important for JavaScript to read the cookie
-CSRF_USE_SESSIONS = False  # Default is False
-CSRF_COOKIE_SAMESITE = 'Lax'  # or 'Strict' in production
-
-# Session settings (optional but recommended)
-SESSION_COOKIE_SECURE = True
-SESSION_COOKIE_SAMESITE = 'Lax'
-
-

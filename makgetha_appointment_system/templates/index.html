@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -465,6 +465,68 @@
     }
 }
 
+/* Conflict Modal Specific Styles */
+.conflict-details {
+    background: var(--danger-bg);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+    text-align: center;
+}
+
+.conflict-icon {
+    font-size: 3rem;
+    color: var(--danger);
+    margin-bottom: 1rem;
+}
+
+.conflict-message {
+    color: var(--danger);
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.conflict-info {
+    background: white;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-top: 1rem;
+}
+
+.conflict-info p {
+    margin: 0.5rem 0;
+    color: var(--gray-700);
+}
+
+.conflict-info strong {
+    color: var(--accent-navy);
+}
+
+.suggestion-times {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 1rem;
+    justify-content: center;
+}
+
+.suggestion-time-btn {
+    background: var(--gray-100);
+    border: 1px solid var(--gray-300);
+    border-radius: 20px;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+.suggestion-time-btn:hover {
+    background: var(--primary-gold);
+    border-color: var(--primary-gold);
+    color: var(--accent-navy);
+}
+
         @media (max-width: 768px) {
             .sidebar {
                 display: none;
@@ -780,11 +842,47 @@
         </div>
     </div>
 
+    <!-- Conflict Modal for Duplicate Appointments -->
+    <div class="modal" id="conflictModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Time Slot Unavailable</h3>
+                <button class="modal-close" onclick="closeConflictModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="conflict-details">
+                <div class="conflict-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="conflict-message" id="conflictMessage">
+                    This time slot is already booked
+                </div>
+                <div class="conflict-info" id="conflictInfo">
+                    <!-- Conflict details will be inserted here dynamically -->
+                </div>
+                <div class="suggestion-times" id="suggestionTimes">
+                    <!-- Suggested alternative times will be inserted here -->
+                </div>
+            </div>
+            <div class="modal-footer" style="justify-content: center;">
+                <button class="btn btn-primary" onclick="closeConflictModal()">Choose Another Time</button>
+            </div>
+        </div>
+    </div>
+
          <script>
         // Check for new appointment ID on page load
         document.addEventListener('DOMContentLoaded', function() {
             {% if new_appointment_id %}
             showSuccessModal('{{ new_appointment_id }}');
+            {% endif %}
+            
+            // Check for error messages and show conflict modal if it's a duplicate error
+            {% if messages %}
+                {% for message in messages %}
+                    {% if message.tags == 'error' and 'already booked' in message.message %}
+                        showConflictModal('{{ message.message|escapejs }}');
+                    {% endif %}
+                {% endfor %}
             {% endif %}
         });
 
@@ -795,6 +893,7 @@
             document.getElementById('clientName').value = '';
             document.getElementById('serviceType').value = '';
             document.getElementById('appointmentTime').value = '';
+            setMinDateTime();
             document.getElementById('appointmentModal').classList.add('show');
         }
 
@@ -804,6 +903,16 @@
             document.getElementById('clientName').value = clientName;
             document.getElementById('serviceType').value = serviceType;
             document.getElementById('appointmentTime').value = appointmentTime;
+            setMinDateTime();
+            
+            // Check if the existing appointment date is in the past
+            const selectedDate = new Date(appointmentTime);
+            const now = new Date();
+            
+            if (selectedDate < now) {
+                showConflictModal('Warning: This appointment is in the past. You can still update it to a future date.', false);
+            }
+            
             document.getElementById('appointmentModal').classList.add('show');
         }
 
@@ -830,11 +939,121 @@
             document.getElementById('successModal').classList.remove('show');
         }
 
+        // Conflict modal functions
+        function showConflictModal(message, showSuggestions = true) {
+            document.getElementById('conflictMessage').textContent = message;
+            
+            const conflictInfo = document.getElementById('conflictInfo');
+            const suggestionTimes = document.getElementById('suggestionTimes');
+            
+            if (showSuggestions) {
+                // Extract the date from the message if possible
+                const dateMatch = message.match(/\d{4}-\d{2}-\d{2}/);
+                if (dateMatch) {
+                    const selectedDate = dateMatch[0];
+                    conflictInfo.innerHTML = `
+                        <p><strong>Selected Time:</strong> ${selectedDate}</p>
+                        <p>Please choose an alternative time slot below:</p>
+                    `;
+                    
+                    // Generate some suggested alternative times
+                    suggestionTimes.innerHTML = generateAlternativeTimes(selectedDate);
+                } else {
+                    conflictInfo.innerHTML = '<p>Please select a different date and time for your appointment.</p>';
+                    suggestionTimes.innerHTML = '';
+                }
+            } else {
+                conflictInfo.innerHTML = '<p>Please select a valid future date and time.</p>';
+                suggestionTimes.innerHTML = '';
+            }
+            
+            document.getElementById('conflictModal').classList.add('show');
+        }
+
+        function closeConflictModal() {
+            document.getElementById('conflictModal').classList.remove('show');
+        }
+
+        // Generate alternative time suggestions
+        function generateAlternativeTimes(date) {
+            const times = ['09:00', '10:00', '11:00', '14:00', '15:00', '16:00'];
+            let html = '';
+            
+            times.forEach(time => {
+                const dateTime = `${date}T${time}`;
+                html += `<button class="suggestion-time-btn" onclick="selectSuggestedTime('${dateTime}')">${time}</button>`;
+            });
+            
+            return html;
+        }
+
+        // Select a suggested time
+        function selectSuggestedTime(dateTime) {
+            document.getElementById('appointmentTime').value = dateTime;
+            closeConflictModal();
+            // Optionally, reopen the appointment modal
+            document.getElementById('appointmentModal').classList.add('show');
+        }
+
+        // Set min datetime to now to prevent past date selection
+        function setMinDateTime() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            
+            // Format: YYYY-MM-DDTHH:mm
+            const minDateTime = `${year}-${month}-${day}T${hours}:${minutes}`;
+            
+            const datetimeInput = document.getElementById('appointmentTime');
+            datetimeInput.min = minDateTime;
+        }
+
+        // Validate date on input change
+        function validateDateTime() {
+            const datetimeInput = document.getElementById('appointmentTime');
+            const selectedDate = new Date(datetimeInput.value);
+            const now = new Date();
+            
+            if (selectedDate < now) {
+                showConflictModal('Please select a future date and time. Past dates are not allowed.', false);
+                datetimeInput.value = '';
+                return false;
+            }
+            return true;
+        }
+
+        // Add form submission validation
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set min date on page load
+            setMinDateTime();
+            
+            // Add submit event listener to the form
+            const appointmentForm = document.getElementById('appointmentForm');
+            appointmentForm.addEventListener('submit', function(event) {
+                const datetimeInput = document.getElementById('appointmentTime');
+                const selectedDate = new Date(datetimeInput.value);
+                const now = new Date();
+                
+                if (selectedDate < now) {
+                    event.preventDefault();
+                    showConflictModal('Cannot save appointment with past date. Please select a future date and time.', false);
+                }
+            });
+            
+            {% if new_appointment_id %}
+            showSuccessModal('{{ new_appointment_id }}');
+            {% endif %}
+        });
+
         // Close modals when clicking outside
         window.onclick = function(event) {
             const modal = document.getElementById('appointmentModal');
             const deleteModal = document.getElementById('deleteModal');
             const successModal = document.getElementById('successModal');
+            const conflictModal = document.getElementById('conflictModal');
             
             if (event.target === modal) {
                 closeModal();
@@ -845,6 +1064,9 @@
             if (event.target === successModal) {
                 closeSuccessModal();
             }
+            if (event.target === conflictModal) {
+                closeConflictModal();
+            }
         }
 
         // Auto-hide success modal after 5 seconds
@@ -853,90 +1075,6 @@
                 closeSuccessModal();
             }, 5000);
         }
-        // Set min datetime to now to prevent past date selection
-function setMinDateTime() {
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = String(now.getMonth() + 1).padStart(2, '0');
-    const day = String(now.getDate()).padStart(2, '0');
-    const hours = String(now.getHours()).padStart(2, '0');
-    const minutes = String(now.getMinutes()).padStart(2, '0');
-    
-    // Format: YYYY-MM-DDTHH:mm
-    const minDateTime = `${year}-${month}-${day}T${hours}:${minutes}`;
-    
-    const datetimeInput = document.getElementById('appointmentTime');
-    datetimeInput.min = minDateTime;
-}
-
-// Validate date on input change
-function validateDateTime() {
-    const datetimeInput = document.getElementById('appointmentTime');
-    const selectedDate = new Date(datetimeInput.value);
-    const now = new Date();
-    
-    if (selectedDate < now) {
-        alert('Please select a future date and time. Past dates are not allowed.');
-        datetimeInput.value = '';
-        return false;
-    }
-    return true;
-}
-
-// Update the openCreateModal and openEditModal functions
-function openCreateModal() {
-    document.getElementById('modalTitle').textContent = 'New Appointment';
-    document.getElementById('appointmentForm').action = "{% url 'create_appointment' %}";
-    document.getElementById('clientName').value = '';
-    document.getElementById('serviceType').value = '';
-    document.getElementById('appointmentTime').value = '';
-    document.getElementById('appointmentTime').min = ''; // Reset min
-    setMinDateTime(); // Set min date to now
-    document.getElementById('appointmentModal').classList.add('show');
-}
-
-function openEditModal(id, clientName, serviceType, appointmentTime) {
-    document.getElementById('modalTitle').textContent = 'Edit Appointment';
-    document.getElementById('appointmentForm').action = `/appointment/${id}/update/`;
-    document.getElementById('clientName').value = clientName;
-    document.getElementById('serviceType').value = serviceType;
-    document.getElementById('appointmentTime').value = appointmentTime;
-    document.getElementById('appointmentTime').min = ''; // Reset min
-    setMinDateTime(); // Set min date to now
-    
-    // Check if the existing appointment date is in the past
-    const selectedDate = new Date(appointmentTime);
-    const now = new Date();
-    
-    if (selectedDate < now) {
-        alert('Warning: This appointment is in the past. You can still update it to a future date.');
-    }
-    
-    document.getElementById('appointmentModal').classList.add('show');
-}
-
-// Add form submission validation
-document.addEventListener('DOMContentLoaded', function() {
-    // Set min date on page load
-    setMinDateTime();
-    
-    // Add submit event listener to the form
-    const appointmentForm = document.getElementById('appointmentForm');
-    appointmentForm.addEventListener('submit', function(event) {
-        const datetimeInput = document.getElementById('appointmentTime');
-        const selectedDate = new Date(datetimeInput.value);
-        const now = new Date();
-        
-        if (selectedDate < now) {
-            event.preventDefault();
-            alert('Cannot save appointment with past date. Please select a future date and time.');
-        }
-    });
-    
-    {% if new_appointment_id %}
-    showSuccessModal('{{ new_appointment_id }}');
-    {% endif %}
-});
     </script>
 </body>
 </html>
