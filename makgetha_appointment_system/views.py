@@ -13,64 +13,125 @@ def get_home(request):
     # Get current date in the local timezone
     now = localtime(timezone.now())
     today = now.date()
+    tomorrow = today + timedelta(days=1)
     
     # Calculate week start (Monday)
     week_start = today - timedelta(days=today.weekday())
     week_end = week_start + timedelta(days=6)
     
-    # Debug print to console (check your terminal)
-    print(f"Today's date: {today}")
-    print(f"Week start: {week_start}, Week end: {week_end}")
-    
-    # Count appointments for today
-    daily_appointments = 0
-    for apt in appointments:
-        # Convert appointment datetime to local time for comparison
-        apt_local = localtime(apt.appointment_datetime)
-        apt_date = apt_local.date()
-        
-        print(f"Appointment {apt.appointment_id}: {apt_date} - Status: {apt.status}")
-        
-        if apt_date == today and apt.status == 'active':
-            daily_appointments += 1
-    
-    # Count appointments for this week
-    weekly_appointments = 0
-    for apt in appointments:
-        apt_local = localtime(apt.appointment_datetime)
-        apt_date = apt_local.date()
-        
-        if week_start <= apt_date <= week_end and apt.status == 'active':
-            weekly_appointments += 1
-    
-    # Alternative using queryset filters (might be more efficient)
-    # Make sure we're using the correct date range with timezone awareness
+    # Create datetime ranges for filtering
     today_start = timezone.make_aware(datetime.combine(today, datetime.min.time()))
     today_end = timezone.make_aware(datetime.combine(today, datetime.max.time()))
     
-    daily_filtered = Appointment.objects.filter(
-        appointment_datetime__range=[today_start, today_end],
-        status='active'
-    ).count()
+    tomorrow_start = timezone.make_aware(datetime.combine(tomorrow, datetime.min.time()))
+    tomorrow_end = timezone.make_aware(datetime.combine(tomorrow, datetime.max.time()))
     
     week_start_dt = timezone.make_aware(datetime.combine(week_start, datetime.min.time()))
     week_end_dt = timezone.make_aware(datetime.combine(week_end, datetime.max.time()))
     
-    weekly_filtered = Appointment.objects.filter(
+    # Get today's appointments
+    today_appointments = Appointment.objects.filter(
+        appointment_datetime__range=[today_start, today_end],
+        status='active'
+    ).order_by('appointment_datetime')
+    
+    # Count today's appointments
+    daily_appointments = today_appointments.count()
+    
+    # Get tomorrow's appointments
+    tomorrow_appointments = Appointment.objects.filter(
+        appointment_datetime__range=[tomorrow_start, tomorrow_end],
+        status='active'
+    ).order_by('appointment_datetime')
+    
+    # Count weekly appointments
+    weekly_appointments = Appointment.objects.filter(
         appointment_datetime__range=[week_start_dt, week_end_dt],
         status='active'
     ).count()
-    
-    print(f"Daily count (loop): {daily_appointments}, Daily count (filter): {daily_filtered}")
-    print(f"Weekly count (loop): {weekly_appointments}, Weekly count (filter): {weekly_filtered}")
     
     # Check if there's a new appointment ID to show
     new_appointment_id = request.session.pop('new_appointment_id', None)
     
     context = {
         'appointments': appointments,
-        'daily_appointments': daily_filtered,  # Use the filtered count
-        'weekly_appointments': weekly_filtered,  # Use the filtered count
+        'daily_appointments': daily_appointments,
+        'weekly_appointments': weekly_appointments,
+        'today_appointments': today_appointments,  # Add today's appointments
+        'today_count': daily_appointments,
+        'tomorrow_appointments': tomorrow_appointments,
+        'tomorrow_count': tomorrow_appointments.count(),
+        'new_appointment_id': new_appointment_id,
+    }
+    return render(request, "index.html", context)
+
+def search_appointment(request):
+    """Search for an appointment by ID"""
+    appointment_id = request.GET.get('id', '')
+    appointment = None
+    error = None
+    
+    if appointment_id:
+        try:
+            appointment = Appointment.objects.get(appointment_id=appointment_id)
+        except Appointment.DoesNotExist:
+            error = f"No appointment found with ID: {appointment_id}"
+    
+    # Get all appointments for the main list
+    appointments = Appointment.objects.all()
+    
+    # Calculate statistics
+    now = localtime(timezone.now())
+    today = now.date()
+    tomorrow = today + timedelta(days=1)
+    week_start = today - timedelta(days=today.weekday())
+    week_end = week_start + timedelta(days=6)
+    
+    # Create datetime ranges for filtering
+    today_start = timezone.make_aware(datetime.combine(today, datetime.min.time()))
+    today_end = timezone.make_aware(datetime.combine(today, datetime.max.time()))
+    
+    tomorrow_start = timezone.make_aware(datetime.combine(tomorrow, datetime.min.time()))
+    tomorrow_end = timezone.make_aware(datetime.combine(tomorrow, datetime.max.time()))
+    
+    week_start_dt = timezone.make_aware(datetime.combine(week_start, datetime.min.time()))
+    week_end_dt = timezone.make_aware(datetime.combine(week_end, datetime.max.time()))
+    
+    # Get today's appointments
+    today_appointments = Appointment.objects.filter(
+        appointment_datetime__range=[today_start, today_end],
+        status='active'
+    ).order_by('appointment_datetime')
+    
+    # Count today's appointments
+    daily_appointments = today_appointments.count()
+    
+    # Get tomorrow's appointments
+    tomorrow_appointments = Appointment.objects.filter(
+        appointment_datetime__range=[tomorrow_start, tomorrow_end],
+        status='active'
+    ).order_by('appointment_datetime')
+    
+    # Count weekly appointments
+    weekly_appointments = Appointment.objects.filter(
+        appointment_datetime__range=[week_start_dt, week_end_dt],
+        status='active'
+    ).count()
+    
+    # Check if there's a new appointment ID to show
+    new_appointment_id = request.session.pop('new_appointment_id', None)
+    
+    context = {
+        'appointments': appointments,
+        'daily_appointments': daily_appointments,
+        'weekly_appointments': weekly_appointments,
+        'today_appointments': today_appointments,  # Add today's appointments
+        'today_count': daily_appointments,
+        'tomorrow_appointments': tomorrow_appointments,
+        'tomorrow_count': tomorrow_appointments.count(),
+        'search_result': appointment,
+        'search_error': error,
+        'search_id': appointment_id,
         'new_appointment_id': new_appointment_id,
     }
     return render(request, "index.html", context)
@@ -114,6 +175,7 @@ def create_appointment(request):
         request.session['new_appointment_id'] = appointment.appointment_id
         
     return redirect('home')
+
 
 def update_appointment(request, id):
     """Update an existing appointment"""

@@ -427,6 +427,43 @@
             gap: 10px;
             margin-top: 2rem;
         }
+        /* Tomorrow Section Specific Styles */
+.tomorrow-list {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.tomorrow-list > div:last-child {
+    border-bottom: none !important;
+}
+
+.tomorrow-list .btn-icon {
+    width: 36px;
+    height: 36px;
+}
+
+.tomorrow-list .btn-icon i {
+    font-size: 0.9rem;
+}
+
+/* Responsive design for tomorrow section */
+@media (max-width: 768px) {
+    .tomorrow-list > div {
+        flex-direction: column;
+        align-items: flex-start !important;
+        gap: 15px;
+    }
+    
+    .tomorrow-list > div > div:first-child {
+        width: 100%;
+        justify-content: space-between;
+    }
+    
+    .action-buttons {
+        align-self: flex-end;
+    }
+}
 
         @media (max-width: 768px) {
             .sidebar {
@@ -457,27 +494,7 @@
 
         <!-- Main Content -->
         <main class="main-content">
-            <!-- Simple Stats -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-value">{{ weekly_appointments }}</div>
-                    <div class="stat-label">Total appointments this week</div>
-                </div>
-            </div>
-            <!-- Messages Section -->
-           {% if messages %}
-           <div class="messages-section" style="margin-bottom: 20px;">
-           {% for message in messages %}
-               <div class="alert alert-{{ message.tags }}" style="padding: 1rem; border-radius: 8px; background: {% if message.tags == 'error' %}var(--danger-bg){% else %}var(--success-bg){% endif %}; color: {% if message.tags == 'error' %}var(--danger){% else %}var(--success){% endif %}; margin-bottom: 10px;">
-                  <i class="fas {% if message.tags == 'error' %}fa-exclamation-circle{% else %}fa-check-circle{% endif %}"></i>
-                   {{ message.message }}
-               </div>
-               {% endfor %}
-          </div>
-          {% endif %}
-
-            <!-- Search by ID -->
-            <div class="search-section">
+             <div class="search-section">
                 <h3>Search Appointment</h3>
                 <form action="{% url 'search_appointment' %}" method="GET">
                     <div class="search-box">
@@ -496,7 +513,142 @@
                 </div>
                 {% endif %}
             </div>
+             <!-- Stats and Today's Appointments Section -->
+<div class="stats-grid" style="grid-template-columns: 1fr 2fr; gap: 20px;">
+    <!-- Weekly Stats Card -->
+    <div class="stat-card" style="display: flex; flex-direction: column; justify-content: center;">
+        <div class="stat-value">{{ weekly_appointments }}</div>
+        <div class="stat-label">Total appointments this week</div>
+        <div style="margin-top: 10px; font-size: 0.85rem; color: var(--gray-600);">
+            <i class="fas fa-calendar-week" style="color: var(--primary-gold); margin-right: 5px;"></i>
+            Week of {% now "M d" %}
+        </div>
+    </div>
+    
+    <!-- Today's Appointments Card -->
+    <div class="stat-card" style="padding: 0; overflow: hidden;">
+        <div style="background: var(--accent-navy); color: white; padding: 1rem 1.5rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h3 style="font-family: 'Crimson Text', serif; font-size: 1.2rem; margin: 0;">
+                    <i class="fas fa-calendar-day" style="margin-right: 10px;"></i>
+                    Today's Schedule
+                </h3>
+                <span style="background: var(--primary-gold); color: var(--accent-navy); padding: 0.2rem 1rem; border-radius: 20px; font-weight: 600;">
+                    {{ today_count }} appointment{{ today_count|pluralize }}
+                </span>
+            </div>
+            <div style="font-size: 0.85rem; margin-top: 5px; opacity: 0.9;">
+                {% now "l, F j, Y" %}
+            </div>
+        </div>
+        
+        <div style="padding: 1rem; max-height: 300px; overflow-y: auto;">
+            {% if today_appointments %}
+                {% for appointment in today_appointments %}
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; border-bottom: 1px solid var(--gray-200); {% if forloop.last %}border-bottom: none;{% endif %}">
+                    <div style="display: flex; align-items: center; gap: 15px; flex: 1;">
+                        <div style="background: var(--primary-gold); color: var(--accent-navy); width: 45px; height: 45px; border-radius: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-weight: 700;">
+                            <span style="font-size: 0.7rem; line-height: 1;">{{ appointment.appointment_datetime|date:"D" }}</span>
+                            <span style="font-size: 1.1rem; line-height: 1.2;">{{ appointment.appointment_datetime|date:"H:i" }}</span>
+                        </div>
+                        <div style="flex: 1;">
+                            <div style="font-weight: 600;">{{ appointment.client_name }}</div>
+                            <div style="font-size: 0.8rem; color: var(--gray-600); display: flex; gap: 10px; flex-wrap: wrap;">
+                                <span><i class="fas fa-briefcase" style="color: var(--primary-gold); width: 12px;"></i> {{ appointment.service_type|truncatechars:25 }}</span>
+                                <span><i class="fas fa-gavel" style="color: var(--primary-gold); width: 12px;"></i> {{ appointment.attorney }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="action-buttons" style="margin-left: 10px;">
+                        <button class="btn-icon" onclick="openEditModal({{ appointment.id }}, '{{ appointment.client_name|escapejs }}', '{{ appointment.service_type|escapejs }}', '{{ appointment.appointment_datetime|date:'Y-m-d\\TH:i' }}')" title="Edit" style="width: 30px; height: 30px;">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn-icon" onclick="openDeleteModal({{ appointment.id }})" title="Cancel" style="width: 30px; height: 30px;">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+            <div style="text-align: center; padding: 2rem 1rem;">
+                <i class="fas fa-calendar-check" style="font-size: 2.5rem; color: var(--gray-300); margin-bottom: 0.5rem;"></i>
+                <p style="color: var(--gray-600); margin-bottom: 1rem;">No appointments scheduled for today</p>
+                <button class="btn btn-primary" onclick="openCreateModal()" style="font-size: 0.85rem; padding: 0.4rem 1rem;">
+                    <i class="fas fa-plus"></i> Schedule Today
+                </button>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+            
 
+<!-- Tomorrow's Appointments Section -->
+<div class="appointments-card" style="margin-bottom: 20px;">
+    <div class="section-header">
+        <h2>
+             
+            Tomorrow's Appointments
+            {% if tomorrow_count > 0 %}
+            <span style="font-size: 0.9rem; background: var(--primary-gold); color: var(--accent-navy); padding: 0.2rem 0.8rem; border-radius: 20px; margin-left: 10px;">
+                {{ tomorrow_count }} appointment{{ tomorrow_count|pluralize }}
+            </span>
+            {% endif %}
+        </h2>
+    </div>
+    
+    {% if tomorrow_appointments %}
+    <div class="tomorrow-list">
+        {% for appointment in tomorrow_appointments %}
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; border-bottom: 1px solid var(--gray-200); {% if not forloop.last %}border-bottom: 1px solid var(--gray-200);{% endif %}">
+            <div style="display: flex; align-items: center; gap: 20px; flex-wrap: wrap;">
+                <div style="min-width: 100px;">
+                    <span class="appointment-id">{{ appointment.appointment_id }}</span>
+                </div>
+                <div style="min-width: 150px;">
+                    <div style="font-weight: 600;">{{ appointment.client_name }}</div>
+                    <div style="font-size: 0.85rem; color: var(--gray-600);">{{ appointment.service_type }}</div>
+                </div>
+                <div style="min-width: 120px;">
+                    <i class="far fa-clock" style="color: var(--primary-gold); margin-right: 5px;"></i>
+                    {{ appointment.appointment_datetime|date:"H:i" }}
+                </div>
+                <div style="min-width: 120px;">
+                    <i class="fas fa-gavel" style="color: var(--primary-gold); margin-right: 5px;"></i>
+                    {{ appointment.attorney }}
+                </div>
+            </div>
+            <div class="action-buttons">
+                <button class="btn-icon" onclick="openEditModal({{ appointment.id }}, '{{ appointment.client_name|escapejs }}', '{{ appointment.service_type|escapejs }}', '{{ appointment.appointment_datetime|date:'Y-m-d\\TH:i' }}')" title="Edit">
+                    <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn-icon" onclick="openDeleteModal({{ appointment.id }})" title="Cancel">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div style="text-align: center; padding: 3rem; background: var(--gray-50); border-radius: 12px;">
+        <i class="fas fa-calendar-day" style="font-size: 3rem; color: var(--gray-300); margin-bottom: 1rem;"></i>
+        <p style="color: var(--gray-600); font-size: 1.1rem;">No appointments scheduled for tomorrow</p>
+        
+    </div>
+    {% endif %}
+    </div>
+
+            <!-- Messages Section -->
+           {% if messages %}
+           <div class="messages-section" style="margin-bottom: 20px;">
+           {% for message in messages %}
+               <div class="alert alert-{{ message.tags }}" style="padding: 1rem; border-radius: 8px; background: {% if message.tags == 'error' %}var(--danger-bg){% else %}var(--success-bg){% endif %}; color: {% if message.tags == 'error' %}var(--danger){% else %}var(--success){% endif %}; margin-bottom: 10px;">
+                  <i class="fas {% if message.tags == 'error' %}fa-exclamation-circle{% else %}fa-check-circle{% endif %}"></i>
+                   {{ message.message }}
+               </div>
+               {% endfor %}
+          </div>
+          {% endif %}
             <!-- Appointments Section -->
             <div class="appointments-card">
                 <div class="section-header">
