@@ -552,6 +552,14 @@
                 <i class="fas fa-calendar"></i>
                 Appointments
             </div>
+            <div style="padding: 1rem;">
+        <form action="{% url 'logout' %}" method="POST">
+            {% csrf_token %}
+            <button type="submit" class="nav-item" style="width: 100%; border: none; background: transparent; color: rgba(255,255,255,0.8); text-align: left; cursor: pointer;">
+                <i class="fas fa-sign-out-alt"></i>
+                Logout
+            </button>
+        </form>
         </aside>
 
         <!-- Main Content -->
@@ -575,6 +583,8 @@
                 </div>
                 {% endif %}
             </div>
+            <!-- Today's Appointments Card -->
+    
              <!-- Stats and Today's Appointments Section -->
 <div class="stats-grid" style="grid-template-columns: 1fr 2fr; gap: 20px;">
     <!-- Weekly Stats Card -->
@@ -586,8 +596,7 @@
             Week of {% now "M d" %}
         </div>
     </div>
-    
-    <!-- Today's Appointments Card -->
+      <!-- Today's Appointments Card -->
     <div class="stat-card" style="padding: 0; overflow: hidden;">
         <div style="background: var(--accent-navy); color: white; padding: 1rem 1.5rem;">
             <div style="display: flex; justify-content: space-between; align-items: center;">
@@ -641,62 +650,81 @@
         </div>
     </div>
 </div>
+    
+     
             
 
-<!-- Tomorrow's Appointments Section -->
+ 
+    <!-- Weekly Appointments Section (Monday to Friday) -->
 <div class="appointments-card" style="margin-bottom: 20px;">
     <div class="section-header">
         <h2>
-             
-            Tomorrow's Appointments
-            {% if tomorrow_count > 0 %}
-            <span style="font-size: 0.9rem; background: var(--primary-gold); color: var(--accent-navy); padding: 0.2rem 0.8rem; border-radius: 20px; margin-left: 10px;">
-                {{ tomorrow_count }} appointment{{ tomorrow_count|pluralize }}
-            </span>
-            {% endif %}
+            <i class="fas fa-calendar-week" style="color: var(--primary-gold); margin-right: 10px;"></i>
+            This Week's Appointments (Monday - Friday)
+            
         </h2>
+        <div style="font-size: 0.9rem; color: var(--gray-600);">
+            <i class="far fa-calendar-alt" style="margin-right: 5px;"></i>
+            Week of {% now "M d" %}
+        </div>
     </div>
     
-    {% if tomorrow_appointments %}
-    <div class="tomorrow-list">
-        {% for appointment in tomorrow_appointments %}
-        <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; border-bottom: 1px solid var(--gray-200); {% if not forloop.last %}border-bottom: 1px solid var(--gray-200);{% endif %}">
-            <div style="display: flex; align-items: center; gap: 20px; flex-wrap: wrap;">
-                <div style="min-width: 100px;">
-                    <span class="appointment-id">{{ appointment.appointment_id }}</span>
+    {% regroup appointments by appointment_datetime|date:"l" as day_list %}
+    
+    <div style="display: flex; flex-direction: column; gap: 20px;">
+        {% for day in day_list %}
+            {% if day.grouper != 'Saturday' and day.grouper != 'Sunday' %}
+            <div style="border: 1px solid var(--gray-200); border-radius: 12px; overflow: hidden;">
+                <div style="background: var(--gray-50); padding: 1rem 1.5rem; border-bottom: 1px solid var(--gray-200); display: flex; justify-content: space-between; align-items: center;">
+                    <h3 style="font-family: 'Crimson Text', serif; color: var(--accent-navy); margin: 0;">
+                        {{ day.grouper }}
+                    </h3>
+                    <span style="background: var(--primary-gold); color: var(--accent-navy); padding: 0.2rem 1rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600;">
+                        {{ day.list|length }} appointment{{ day.list|length|pluralize }}
+                    </span>
                 </div>
-                <div style="min-width: 150px;">
-                    <div style="font-weight: 600;">{{ appointment.client_name }}</div>
-                    <div style="font-size: 0.85rem; color: var(--gray-600);">{{ appointment.service_type }}</div>
-                </div>
-                <div style="min-width: 120px;">
-                    <i class="far fa-clock" style="color: var(--primary-gold); margin-right: 5px;"></i>
-                    {{ appointment.appointment_datetime|date:"H:i" }}
-                </div>
-                <div style="min-width: 120px;">
-                    <i class="fas fa-gavel" style="color: var(--primary-gold); margin-right: 5px;"></i>
-                    {{ appointment.attorney }}
+                
+                <div style="padding: 1rem;">
+                    {% for appointment in day.list %}
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; border-bottom: 1px solid var(--gray-200); {% if forloop.last %}border-bottom: none;{% endif %}">
+                        <div style="display: flex; align-items: center; gap: 20px; flex-wrap: wrap; flex: 1;">
+                            <div style="min-width: 80px;">
+                                <span class="appointment-id">{{ appointment.appointment_id }}</span>
+                            </div>
+                            <div style="min-width: 150px;">
+                                <div style="font-weight: 600;">{{ appointment.client_name }}</div>
+                                <div style="font-size: 0.85rem; color: var(--gray-600);">{{ appointment.service_type }}</div>
+                            </div>
+                            <div style="min-width: 100px;">
+                                <i class="far fa-clock" style="color: var(--primary-gold); margin-right: 5px;"></i>
+                                {{ appointment.appointment_datetime|date:"H:i" }}
+                            </div>
+                            <div style="min-width: 150px;">
+                                <i class="fas fa-gavel" style="color: var(--primary-gold); margin-right: 5px;"></i>
+                                {{ appointment.attorney }}
+                            </div>
+                        </div>
+                        <div class="action-buttons">
+                            <button class="btn-icon" onclick="openEditModal({{ appointment.id }}, '{{ appointment.client_name|escapejs }}', '{{ appointment.service_type|escapejs }}', '{{ appointment.appointment_datetime|date:'Y-m-d\\TH:i' }}')" title="Edit">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn-icon" onclick="openDeleteModal({{ appointment.id }})" title="Cancel">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    {% endfor %}
                 </div>
             </div>
-            <div class="action-buttons">
-                <button class="btn-icon" onclick="openEditModal({{ appointment.id }}, '{{ appointment.client_name|escapejs }}', '{{ appointment.service_type|escapejs }}', '{{ appointment.appointment_datetime|date:'Y-m-d\\TH:i' }}')" title="Edit">
-                    <i class="fas fa-edit"></i>
-                </button>
-                <button class="btn-icon" onclick="openDeleteModal({{ appointment.id }})" title="Cancel">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
+            {% endif %}
+        {% empty %}
+        <div style="text-align: center; padding: 3rem; background: var(--gray-50); border-radius: 12px;">
+            <i class="fas fa-calendar-week" style="font-size: 3rem; color: var(--gray-300); margin-bottom: 1rem;"></i>
+            <p style="color: var(--gray-600); font-size: 1.1rem;">No appointments scheduled for this week</p>
         </div>
         {% endfor %}
     </div>
-    {% else %}
-    <div style="text-align: center; padding: 3rem; background: var(--gray-50); border-radius: 12px;">
-        <i class="fas fa-calendar-day" style="font-size: 3rem; color: var(--gray-300); margin-bottom: 1rem;"></i>
-        <p style="color: var(--gray-600); font-size: 1.1rem;">No appointments scheduled for tomorrow</p>
-        
-    </div>
-    {% endif %}
-    </div>
+</div>
 
             <!-- Messages Section -->
            {% if messages %}
@@ -765,43 +793,48 @@
     </div>
 
     <!-- Create/Edit Appointment Modal -->
-    <div class="modal" id="appointmentModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 id="modalTitle">New Appointment</h3>
-                <button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
-            </div>
-            <form method="POST" action="" id="appointmentForm">
-                {% csrf_token %}
-                <input type="hidden" name="appointment_id" id="appointmentId">
-                <div class="form-group">
-                    <label>Client Name</label>
-                    <input type="text" class="form-control" name="client_name" id="clientName" required>
-                </div>
-                <div class="form-group">
-                    <label>Service Type</label>
-                    <select class="form-control" name="service_type" id="serviceType" required>
-                        <option value="">Select service</option>
-                        <option value="Divorce Consultation">Divorce Consultation</option>
-                        <option value="Maintenance Hearing">Maintenance Hearing</option>
-                        <option value="Civil Litigation">Civil Litigation</option>
-                        <option value="Criminal Defense">Criminal Defense</option>
-                        <option value="Estate Planning">Estate Planning</option>
-                        <option value="Road Accident Fund">Road Accident Fund</option>
-                        <option value="Other">Other</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Date & Time</label>
-                    <input type="datetime-local" class="form-control" name="appointment_datetime" id="appointmentTime" required>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline" onclick="closeModal()">Cancel</button>
-                    <button type="submit" class="btn btn-primary" id="saveBtn">Save</button>
-                </div>
-            </form>
+     
+<div class="modal" id="appointmentModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 id="modalTitle">New Appointment</h3>
+            <button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
         </div>
+        <form method="POST" action="" id="appointmentForm">
+            {% csrf_token %}
+            <input type="hidden" name="appointment_id" id="appointmentId">
+            <div class="form-group">
+                <label>Client Name</label>
+                <input type="text" class="form-control" name="client_name" id="clientName" required>
+            </div>
+            <div class="form-group">
+                <label>Service Type</label>
+                <select class="form-control" name="service_type" id="serviceType" required>
+                    <option value="">Select service</option>
+                    <option value="Divorce Consultation">Divorce Consultation</option>
+                    <option value="Maintenance Hearing">Maintenance Hearing</option>
+                    <option value="Civil Litigation">Civil Litigation</option>
+                    <option value="Criminal Defense">Criminal Defense</option>
+                    <option value="Estate Planning">Estate Planning</option>
+                    <option value="Road Accident Fund">Road Accident Fund</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Date</label>
+                <input type="date" class="form-control" name="appointment_date" id="appointmentDate" required>
+            </div>
+            <div class="form-group">
+                <label>Time</label>
+                <input type="time" class="form-control" name="appointment_time" id="appointmentTime" required>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline" onclick="closeModal()">Cancel</button>
+                <button type="submit" class="btn btn-primary" id="saveBtn">Save</button>
+            </div>
+        </form>
     </div>
+</div>
 
     <!-- Delete Confirmation Modal -->
     <div class="modal" id="deleteModal">
@@ -869,212 +902,273 @@
         </div>
     </div>
 
-         <script>
-        // Check for new appointment ID on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            {% if new_appointment_id %}
-            showSuccessModal('{{ new_appointment_id }}');
+        <script>
+// Global variables
+let currentConflictMessage = '';
+
+// Check for new appointment ID on page load
+document.addEventListener('DOMContentLoaded', function() {
+    {% if new_appointment_id %}
+    showSuccessModal('{{ new_appointment_id }}');
+    {% endif %}
+    
+    // Check for error messages and show conflict modal if it's a duplicate error
+    {% if messages %}
+        {% for message in messages %}
+            {% if message.tags == 'error' and 'already booked' in message.message %}
+                showConflictModal('{{ message.message|escapejs }}');
             {% endif %}
-            
-            // Check for error messages and show conflict modal if it's a duplicate error
-            {% if messages %}
-                {% for message in messages %}
-                    {% if message.tags == 'error' and 'already booked' in message.message %}
-                        showConflictModal('{{ message.message|escapejs }}');
-                    {% endif %}
-                {% endfor %}
-            {% endif %}
+        {% endfor %}
+    {% endif %}
+    
+    // Set min date on page load
+    setMinDateTime();
+    
+    // Add change event to date input to update time min
+    const dateInput = document.getElementById('appointmentDate');
+    if (dateInput) {
+        dateInput.addEventListener('change', updateTimeMinBasedOnDate);
+    }
+    
+    // Add submit event listener to the form
+    const appointmentForm = document.getElementById('appointmentForm');
+    if (appointmentForm) {
+        appointmentForm.addEventListener('submit', function(event) {
+            if (!validateDateTime()) {
+                event.preventDefault();
+            }
         });
+    }
+});
 
-        // Modal functions
-        function openCreateModal() {
-            document.getElementById('modalTitle').textContent = 'New Appointment';
-            document.getElementById('appointmentForm').action = "{% url 'create_appointment' %}";
-            document.getElementById('clientName').value = '';
-            document.getElementById('serviceType').value = '';
-            document.getElementById('appointmentTime').value = '';
-            setMinDateTime();
-            document.getElementById('appointmentModal').classList.add('show');
+// Modal functions
+function openCreateModal() {
+    document.getElementById('modalTitle').textContent = 'New Appointment';
+    document.getElementById('appointmentForm').action = "{% url 'create_appointment' %}";
+    document.getElementById('clientName').value = '';
+    document.getElementById('serviceType').value = '';
+    document.getElementById('appointmentDate').value = '';
+    document.getElementById('appointmentTime').value = '';
+    setMinDateTime();
+    document.getElementById('appointmentModal').classList.add('show');
+}
+
+function openEditModal(id, clientName, serviceType, appointmentDateTime) {
+    document.getElementById('modalTitle').textContent = 'Edit Appointment';
+    document.getElementById('appointmentForm').action = `/appointment/${id}/update/`;
+    document.getElementById('clientName').value = clientName;
+    document.getElementById('serviceType').value = serviceType;
+    
+    // Split the datetime-local value into date and time
+    if (appointmentDateTime) {
+        const [date, time] = appointmentDateTime.split('T');
+        document.getElementById('appointmentDate').value = date;
+        document.getElementById('appointmentTime').value = time;
+    }
+    
+    setMinDateTime();
+    
+    // Check if the existing appointment date is in the past
+    if (appointmentDateTime) {
+        const selectedDate = new Date(appointmentDateTime);
+        const now = new Date();
+        
+        if (selectedDate < now) {
+            showConflictModal('Warning: This appointment is in the past. You can still update it to a future date.', false);
         }
+    }
+    
+    document.getElementById('appointmentModal').classList.add('show');
+}
 
-        function openEditModal(id, clientName, serviceType, appointmentTime) {
-            document.getElementById('modalTitle').textContent = 'Edit Appointment';
-            document.getElementById('appointmentForm').action = `/appointment/${id}/update/`;
-            document.getElementById('clientName').value = clientName;
-            document.getElementById('serviceType').value = serviceType;
-            document.getElementById('appointmentTime').value = appointmentTime;
-            setMinDateTime();
+function closeModal() {
+    document.getElementById('appointmentModal').classList.remove('show');
+}
+
+function openDeleteModal(id) {
+    document.getElementById('deleteForm').action = `/appointment/${id}/delete/`;
+    document.getElementById('deleteModal').classList.add('show');
+}
+
+function closeDeleteModal() {
+    document.getElementById('deleteModal').classList.remove('show');
+}
+
+// Success modal functions
+function showSuccessModal(appointmentId) {
+    document.getElementById('newAppointmentId').textContent = appointmentId;
+    document.getElementById('successModal').classList.add('show');
+    autoHideSuccessModal();
+}
+
+function closeSuccessModal() {
+    document.getElementById('successModal').classList.remove('show');
+}
+
+// Conflict modal functions
+function showConflictModal(message, showSuggestions = true) {
+    currentConflictMessage = message;
+    document.getElementById('conflictMessage').textContent = message;
+    
+    const conflictInfo = document.getElementById('conflictInfo');
+    const suggestionTimes = document.getElementById('suggestionTimes');
+    
+    if (showSuggestions) {
+        // Extract the date from the message if possible
+        const dateMatch = message.match(/\d{4}-\d{2}-\d{2}/);
+        if (dateMatch) {
+            const selectedDate = dateMatch[0];
+            conflictInfo.innerHTML = `
+                <p><strong>Selected Time:</strong> ${selectedDate}</p>
+                <p>Please choose an alternative time slot below:</p>
+            `;
             
-            // Check if the existing appointment date is in the past
-            const selectedDate = new Date(appointmentTime);
-            const now = new Date();
-            
-            if (selectedDate < now) {
-                showConflictModal('Warning: This appointment is in the past. You can still update it to a future date.', false);
-            }
-            
-            document.getElementById('appointmentModal').classList.add('show');
+            // Generate some suggested alternative times
+            suggestionTimes.innerHTML = generateAlternativeTimes(selectedDate);
+        } else {
+            conflictInfo.innerHTML = '<p>Please select a different date and time for your appointment.</p>';
+            suggestionTimes.innerHTML = '';
         }
+    } else {
+        conflictInfo.innerHTML = '<p>Please select a valid future date and time.</p>';
+        suggestionTimes.innerHTML = '';
+    }
+    
+    document.getElementById('conflictModal').classList.add('show');
+}
 
-        function closeModal() {
-            document.getElementById('appointmentModal').classList.remove('show');
-        }
+function closeConflictModal() {
+    document.getElementById('conflictModal').classList.remove('show');
+}
 
-        function openDeleteModal(id) {
-            document.getElementById('deleteForm').action = `/appointment/${id}/delete/`;
-            document.getElementById('deleteModal').classList.add('show');
-        }
+// Generate alternative time suggestions
+function generateAlternativeTimes(date) {
+    const times = ['09:00', '10:00', '11:00', '14:00', '15:00', '16:00'];
+    let html = '';
+    
+    times.forEach(time => {
+        const dateTime = `${date}T${time}`;
+        html += `<button class="suggestion-time-btn" onclick="selectSuggestedTime('${dateTime}')">${time}</button>`;
+    });
+    
+    return html;
+}
 
-        function closeDeleteModal() {
-            document.getElementById('deleteModal').classList.remove('show');
-        }
+// Select a suggested time
+function selectSuggestedTime(dateTime) {
+    if (dateTime) {
+        const [date, time] = dateTime.split('T');
+        document.getElementById('appointmentDate').value = date;
+        document.getElementById('appointmentTime').value = time;
+    }
+    closeConflictModal();
+    // Reopen the appointment modal
+    document.getElementById('appointmentModal').classList.add('show');
+}
 
-        // Success modal functions
-        function showSuccessModal(appointmentId) {
-            document.getElementById('newAppointmentId').textContent = appointmentId;
-            document.getElementById('successModal').classList.add('show');
-        }
+// Set min date to today to prevent past date selection
+function setMinDateTime() {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    
+    // Format: YYYY-MM-DD
+    const minDate = `${year}-${month}-${day}`;
+    
+    const dateInput = document.getElementById('appointmentDate');
+    if (dateInput) {
+        dateInput.min = minDate;
+    }
+    
+    // Also set current time for time input if it's today
+    updateTimeMinBasedOnDate();
+}
 
-        function closeSuccessModal() {
-            document.getElementById('successModal').classList.remove('show');
-        }
-
-        // Conflict modal functions
-        function showConflictModal(message, showSuggestions = true) {
-            document.getElementById('conflictMessage').textContent = message;
-            
-            const conflictInfo = document.getElementById('conflictInfo');
-            const suggestionTimes = document.getElementById('suggestionTimes');
-            
-            if (showSuggestions) {
-                // Extract the date from the message if possible
-                const dateMatch = message.match(/\d{4}-\d{2}-\d{2}/);
-                if (dateMatch) {
-                    const selectedDate = dateMatch[0];
-                    conflictInfo.innerHTML = `
-                        <p><strong>Selected Time:</strong> ${selectedDate}</p>
-                        <p>Please choose an alternative time slot below:</p>
-                    `;
-                    
-                    // Generate some suggested alternative times
-                    suggestionTimes.innerHTML = generateAlternativeTimes(selectedDate);
-                } else {
-                    conflictInfo.innerHTML = '<p>Please select a different date and time for your appointment.</p>';
-                    suggestionTimes.innerHTML = '';
-                }
-            } else {
-                conflictInfo.innerHTML = '<p>Please select a valid future date and time.</p>';
-                suggestionTimes.innerHTML = '';
-            }
-            
-            document.getElementById('conflictModal').classList.add('show');
-        }
-
-        function closeConflictModal() {
-            document.getElementById('conflictModal').classList.remove('show');
-        }
-
-        // Generate alternative time suggestions
-        function generateAlternativeTimes(date) {
-            const times = ['09:00', '10:00', '11:00', '14:00', '15:00', '16:00'];
-            let html = '';
-            
-            times.forEach(time => {
-                const dateTime = `${date}T${time}`;
-                html += `<button class="suggestion-time-btn" onclick="selectSuggestedTime('${dateTime}')">${time}</button>`;
-            });
-            
-            return html;
-        }
-
-        // Select a suggested time
-        function selectSuggestedTime(dateTime) {
-            document.getElementById('appointmentTime').value = dateTime;
-            closeConflictModal();
-            // Optionally, reopen the appointment modal
-            document.getElementById('appointmentModal').classList.add('show');
-        }
-
-        // Set min datetime to now to prevent past date selection
-        function setMinDateTime() {
-            const now = new Date();
-            const year = now.getFullYear();
-            const month = String(now.getMonth() + 1).padStart(2, '0');
-            const day = String(now.getDate()).padStart(2, '0');
+// Update time minimum based on selected date
+function updateTimeMinBasedOnDate() {
+    const dateInput = document.getElementById('appointmentDate');
+    const timeInput = document.getElementById('appointmentTime');
+    
+    if (dateInput && timeInput && dateInput.value) {
+        const selectedDate = new Date(dateInput.value);
+        const now = new Date();
+        
+        // If selected date is today, set min time to current time
+        if (selectedDate.toDateString() === now.toDateString()) {
             const hours = String(now.getHours()).padStart(2, '0');
             const minutes = String(now.getMinutes()).padStart(2, '0');
+            timeInput.min = `${hours}:${minutes}`;
             
-            // Format: YYYY-MM-DDTHH:mm
-            const minDateTime = `${year}-${month}-${day}T${hours}:${minutes}`;
-            
-            const datetimeInput = document.getElementById('appointmentTime');
-            datetimeInput.min = minDateTime;
-        }
-
-        // Validate date on input change
-        function validateDateTime() {
-            const datetimeInput = document.getElementById('appointmentTime');
-            const selectedDate = new Date(datetimeInput.value);
-            const now = new Date();
-            
-            if (selectedDate < now) {
-                showConflictModal('Please select a future date and time. Past dates are not allowed.', false);
-                datetimeInput.value = '';
-                return false;
+            // If current time is greater than selected time, clear it
+            if (timeInput.value && timeInput.value < timeInput.min) {
+                timeInput.value = '';
             }
-            return true;
+        } else {
+            // If future date, remove time restriction
+            timeInput.min = '';
         }
+    }
+}
 
-        // Add form submission validation
-        document.addEventListener('DOMContentLoaded', function() {
-            // Set min date on page load
-            setMinDateTime();
-            
-            // Add submit event listener to the form
-            const appointmentForm = document.getElementById('appointmentForm');
-            appointmentForm.addEventListener('submit', function(event) {
-                const datetimeInput = document.getElementById('appointmentTime');
-                const selectedDate = new Date(datetimeInput.value);
-                const now = new Date();
-                
-                if (selectedDate < now) {
-                    event.preventDefault();
-                    showConflictModal('Cannot save appointment with past date. Please select a future date and time.', false);
-                }
-            });
-            
-            {% if new_appointment_id %}
-            showSuccessModal('{{ new_appointment_id }}');
-            {% endif %}
+// Validate date and time
+function validateDateTime() {
+    const dateInput = document.getElementById('appointmentDate');
+    const timeInput = document.getElementById('appointmentTime');
+    
+    if (!dateInput || !timeInput || !dateInput.value || !timeInput.value) {
+        showConflictModal('Please select both date and time.', false);
+        return false;
+    }
+    
+    const selectedDateTime = new Date(`${dateInput.value}T${timeInput.value}`);
+    const now = new Date();
+    
+    if (selectedDateTime < now) {
+        showConflictModal('Please select a future date and time. Past dates are not allowed.', false);
+        return false;
+    }
+    return true;
+}
+
+// Close modals when clicking outside
+window.onclick = function(event) {
+    const modal = document.getElementById('appointmentModal');
+    const deleteModal = document.getElementById('deleteModal');
+    const successModal = document.getElementById('successModal');
+    const conflictModal = document.getElementById('conflictModal');
+    
+    if (event.target === modal) {
+        closeModal();
+    }
+    if (event.target === deleteModal) {
+        closeDeleteModal();
+    }
+    if (event.target === successModal) {
+        closeSuccessModal();
+    }
+    if (event.target === conflictModal) {
+        closeConflictModal();
+    }
+}
+
+// Auto-hide success modal after 5 seconds
+function autoHideSuccessModal() {
+    setTimeout(function() {
+        closeSuccessModal();
+    }, 5000);
+}
+
+// Add validation on time change
+document.addEventListener('DOMContentLoaded', function() {
+    const timeInput = document.getElementById('appointmentTime');
+    if (timeInput) {
+        timeInput.addEventListener('change', function() {
+            validateDateTime();
         });
+    }
+});
 
-        // Close modals when clicking outside
-        window.onclick = function(event) {
-            const modal = document.getElementById('appointmentModal');
-            const deleteModal = document.getElementById('deleteModal');
-            const successModal = document.getElementById('successModal');
-            const conflictModal = document.getElementById('conflictModal');
-            
-            if (event.target === modal) {
-                closeModal();
-            }
-            if (event.target === deleteModal) {
-                closeDeleteModal();
-            }
-            if (event.target === successModal) {
-                closeSuccessModal();
-            }
-            if (event.target === conflictModal) {
-                closeConflictModal();
-            }
-        }
-
-        // Auto-hide success modal after 5 seconds
-        function autoHideSuccessModal() {
-            setTimeout(function() {
-                closeSuccessModal();
-            }, 5000);
-        }
     </script>
 </body>
 </html>

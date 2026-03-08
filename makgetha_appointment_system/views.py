@@ -53,7 +53,7 @@ def logout_view(request):
 
 def get_home(request):
     """Render the main page with all appointments"""
-    appointments = Appointment.objects.all()
+    appointments = Appointment.objects.all().order_by('appointment_datetime')  # Add ordering
     
     # Get current date in the local timezone
     now = localtime(timezone.now())
@@ -112,6 +112,7 @@ def get_home(request):
 
 def search_appointment(request):
     """Search for an appointment by ID"""
+    
     appointment_id = request.GET.get('id', '')
     appointment = None
     error = None
@@ -123,7 +124,7 @@ def search_appointment(request):
             error = f"No appointment found with ID: {appointment_id}"
     
     # Get all appointments for the main list
-    appointments = Appointment.objects.all()
+    appointments = Appointment.objects.all().order_by('appointment_datetime') 
     
     # Calculate statistics
     now = localtime(timezone.now())
@@ -186,7 +187,11 @@ def create_appointment(request):
     if request.method == 'POST':
         client_name = request.POST.get('client_name')
         service_type = request.POST.get('service_type')
-        appointment_datetime_str = request.POST.get('appointment_datetime')
+        appointment_date = request.POST.get('appointment_date')
+        appointment_time = request.POST.get('appointment_time')
+        
+        # Combine date and time into a single datetime string
+        appointment_datetime_str = f"{appointment_date}T{appointment_time}"
         
         # Convert the string to a datetime object
         appointment_dt = datetime.fromisoformat(appointment_datetime_str)
@@ -238,7 +243,11 @@ def update_appointment(request, id):
     if request.method == 'POST':
         client_name = request.POST.get('client_name')
         service_type = request.POST.get('service_type')
-        appointment_datetime_str = request.POST.get('appointment_datetime')
+        appointment_date = request.POST.get('appointment_date')
+        appointment_time = request.POST.get('appointment_time')
+        
+        # Combine date and time into a single datetime string
+        appointment_datetime_str = f"{appointment_date}T{appointment_time}"
         
         # Convert the string to a datetime object
         appointment_dt = datetime.fromisoformat(appointment_datetime_str)
