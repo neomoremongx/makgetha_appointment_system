@@ -564,6 +564,17 @@
 
         <!-- Main Content -->
         <main class="main-content">
+            <!-- Messages Section -->
+           {% if messages %}
+           <div class="messages-section" style="margin-bottom: 20px;">
+           {% for message in messages %}
+               <div class="alert alert-{{ message.tags }}" style="padding: 1rem; border-radius: 8px; background: {% if message.tags == 'error' %}var(--danger-bg){% else %}var(--success-bg){% endif %}; color: {% if message.tags == 'error' %}var(--danger){% else %}var(--success){% endif %}; margin-bottom: 10px;">
+                  <i class="fas {% if message.tags == 'error' %}fa-exclamation-circle{% else %}fa-check-circle{% endif %}"></i>
+                   {{ message.message }}
+               </div>
+               {% endfor %}
+          </div>
+          {% endif %}
              <div class="search-section">
                 <h3>Search Appointment</h3>
                 <form action="{% url 'search_appointment' %}" method="GET">
@@ -727,16 +738,7 @@
 </div>
 
             <!-- Messages Section -->
-           {% if messages %}
-           <div class="messages-section" style="margin-bottom: 20px;">
-           {% for message in messages %}
-               <div class="alert alert-{{ message.tags }}" style="padding: 1rem; border-radius: 8px; background: {% if message.tags == 'error' %}var(--danger-bg){% else %}var(--success-bg){% endif %}; color: {% if message.tags == 'error' %}var(--danger){% else %}var(--success){% endif %}; margin-bottom: 10px;">
-                  <i class="fas {% if message.tags == 'error' %}fa-exclamation-circle{% else %}fa-check-circle{% endif %}"></i>
-                   {{ message.message }}
-               </div>
-               {% endfor %}
-          </div>
-          {% endif %}
+           
             <!-- Appointments Section -->
             <div class="appointments-card">
                 <div class="section-header">
