@@ -2,9 +2,54 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.utils import timezone
 from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from datetime import datetime, timedelta
 from django.utils.timezone import make_aware, get_current_timezone, localtime
 from .models import Appointment
+
+# Login View
+def login_view(request):
+    """Handle user login"""
+    # If user is already authenticated, redirect to home
+    if request.user.is_authenticated:
+        return redirect('home')
+    
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        remember_me = request.POST.get('remember_me')
+        
+        user = authenticate(request, username=username, password=password)
+        
+        if user is not None:
+            login(request, user)
+            
+            # Set session expiry based on remember me checkbox
+            if not remember_me:
+                # Session expires when browser closes
+                request.session.set_expiry(0)
+            else:
+                # Session expires in 2 weeks
+                request.session.set_expiry(1209600)
+            
+            messages.success(request, f'Welcome back, {user.username}!')
+            return redirect('home')
+        else:
+            messages.error(request, 'Invalid username or password.')
+    
+    return render(request, 'login.html')
+
+# Logout View
+def logout_view(request):
+    """Handle user logout"""
+    logout(request)
+    messages.info(request, 'You have been logged out successfully.')
+    return redirect('login')
+
+# Protect existing views with login_required decorator
+@login_required(login_url='login')
 
 def get_home(request):
     """Render the main page with all appointments"""
