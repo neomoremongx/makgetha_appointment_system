@@ -552,6 +552,7 @@
                 <i class="fas fa-calendar"></i>
                 Appointments
             </div>
+             
             <div style="padding: 1rem;">
         <form action="{% url 'logout' %}" method="POST">
             {% csrf_token %}
@@ -666,75 +667,61 @@
             
 
  
-    <!-- Weekly Appointments Section (Monday to Friday) -->
+<!-- Tomorrow's Appointments Section -->
 <div class="appointments-card" style="margin-bottom: 20px;">
     <div class="section-header">
         <h2>
-            <i class="fas fa-calendar-week" style="color: var(--primary-gold); margin-right: 10px;"></i>
-            This Week's Appointments (Monday - Friday)
-            
+            <i class="fas fa-sun" style="color: var(--primary-gold); margin-right: 10px;"></i>
+            Tomorrow's Appointments
+            {% if tomorrow_count > 0 %}
+            <span style="font-size: 0.9rem; background: var(--primary-gold); color: var(--accent-navy); padding: 0.2rem 0.8rem; border-radius: 20px; margin-left: 10px;">
+                {{ tomorrow_count }} appointment{{ tomorrow_count|pluralize }}
+            </span>
+            {% endif %}
         </h2>
-        <div style="font-size: 0.9rem; color: var(--gray-600);">
-            <i class="far fa-calendar-alt" style="margin-right: 5px;"></i>
-            Week of {% now "M d" %}
-        </div>
     </div>
     
-    {% regroup appointments by appointment_datetime|date:"l" as day_list %}
-    
-    <div style="display: flex; flex-direction: column; gap: 20px;">
-        {% for day in day_list %}
-            {% if day.grouper != 'Saturday' and day.grouper != 'Sunday' %}
-            <div style="border: 1px solid var(--gray-200); border-radius: 12px; overflow: hidden;">
-                <div style="background: var(--gray-50); padding: 1rem 1.5rem; border-bottom: 1px solid var(--gray-200); display: flex; justify-content: space-between; align-items: center;">
-                    <h3 style="font-family: 'Crimson Text', serif; color: var(--accent-navy); margin: 0;">
-                        {{ day.grouper }}
-                    </h3>
-                    <span style="background: var(--primary-gold); color: var(--accent-navy); padding: 0.2rem 1rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600;">
-                        {{ day.list|length }} appointment{{ day.list|length|pluralize }}
-                    </span>
+    {% if tomorrow_appointments %}
+    <div class="tomorrow-list">
+        {% for appointment in tomorrow_appointments %}
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; border-bottom: 1px solid var(--gray-200); {% if not forloop.last %}border-bottom: 1px solid var(--gray-200);{% endif %}">
+            <div style="display: flex; align-items: center; gap: 20px; flex-wrap: wrap;">
+                <div style="min-width: 100px;">
+                    <span class="appointment-id">{{ appointment.appointment_id }}</span>
                 </div>
-                
-                <div style="padding: 1rem;">
-                    {% for appointment in day.list %}
-                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; border-bottom: 1px solid var(--gray-200); {% if forloop.last %}border-bottom: none;{% endif %}">
-                        <div style="display: flex; align-items: center; gap: 20px; flex-wrap: wrap; flex: 1;">
-                            <div style="min-width: 80px;">
-                                <span class="appointment-id">{{ appointment.appointment_id }}</span>
-                            </div>
-                            <div style="min-width: 150px;">
-                                <div style="font-weight: 600;">{{ appointment.client_name }}</div>
-                                <div style="font-size: 0.85rem; color: var(--gray-600);">{{ appointment.service_type }}</div>
-                            </div>
-                            <div style="min-width: 100px;">
-                                <i class="far fa-clock" style="color: var(--primary-gold); margin-right: 5px;"></i>
-                                {{ appointment.appointment_datetime|date:"H:i" }}
-                            </div>
-                            <div style="min-width: 150px;">
-                                <i class="fas fa-gavel" style="color: var(--primary-gold); margin-right: 5px;"></i>
-                                {{ appointment.attorney }}
-                            </div>
-                        </div>
-                        <div class="action-buttons">
-                            <button class="btn-icon" onclick="openEditModal({{ appointment.id }}, '{{ appointment.client_name|escapejs }}', '{{ appointment.service_type|escapejs }}', '{{ appointment.appointment_datetime|date:'Y-m-d\\TH:i' }}')" title="Edit">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="btn-icon" onclick="openDeleteModal({{ appointment.id }})" title="Cancel">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-                    </div>
-                    {% endfor %}
+                <div style="min-width: 150px;">
+                    <div style="font-weight: 600;">{{ appointment.client_name }}</div>
+                    <div style="font-size: 0.85rem; color: var(--gray-600);">{{ appointment.service_type }}</div>
+                </div>
+                <div style="min-width: 120px;">
+                    <i class="far fa-clock" style="color: var(--primary-gold); margin-right: 5px;"></i>
+                    {{ appointment.appointment_datetime|date:"H:i" }}
+                </div>
+                <div style="min-width: 120px;">
+                    <i class="fas fa-gavel" style="color: var(--primary-gold); margin-right: 5px;"></i>
+                    {{ appointment.attorney }}
                 </div>
             </div>
-            {% endif %}
-        {% empty %}
-        <div style="text-align: center; padding: 3rem; background: var(--gray-50); border-radius: 12px;">
-            <i class="fas fa-calendar-week" style="font-size: 3rem; color: var(--gray-300); margin-bottom: 1rem;"></i>
-            <p style="color: var(--gray-600); font-size: 1.1rem;">No appointments scheduled for this week</p>
+            <div class="action-buttons">
+                <button class="btn-icon" onclick="openEditModal({{ appointment.id }}, '{{ appointment.client_name|escapejs }}', '{{ appointment.service_type|escapejs }}', '{{ appointment.appointment_datetime|date:'Y-m-d\\TH:i' }}')" title="Edit">
+                    <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn-icon" onclick="openDeleteModal({{ appointment.id }})" title="Cancel">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
         </div>
         {% endfor %}
     </div>
+    {% else %}
+    <div style="text-align: center; padding: 3rem; background: var(--gray-50); border-radius: 12px;">
+        <i class="fas fa-calendar-day" style="font-size: 3rem; color: var(--gray-300); margin-bottom: 1rem;"></i>
+        <p style="color: var(--gray-600); font-size: 1.1rem;">No appointments scheduled for tomorrow</p>
+        <button class="btn btn-primary" onclick="openCreateModal()" style="margin-top: 1rem;">
+            <i class="fas fa-plus"></i> Schedule Tomorrow
+        </button>
+    </div>
+    {% endif %}
 </div>
 
             <!-- Messages Section -->
