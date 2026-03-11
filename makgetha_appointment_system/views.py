@@ -50,17 +50,18 @@ def logout_view(request):
 
 # Protect existing views with login_required decorator
 @login_required(login_url='login')
+
 def get_home(request):
-   """Render the main page with all appointments"""
-   print("=" * 50)
-   print("get_home view called")
-   print(f"User authenticated: {request.user.is_authenticated}")
-   print(f"User: {request.user}")
+    """Render the main page with all appointments"""
+    print("=" * 50)
+    print("get_home view called")
+    print(f"User authenticated: {request.user.is_authenticated}")
+    print(f"User: {request.user}")
     
-   appointments = Appointment.objects.all().order_by('appointment_datetime')
-   print(f"Appointments count via ORM: {appointments.count()}")
-   for app in appointments:
-       print(f"  - {app.appointment_id}: {app.client_name} at {app.appointment_datetime}")
+    appointments = Appointment.objects.all().order_by('appointment_datetime')
+    print(f"Appointments count via ORM: {appointments.count()}")
+    for app in appointments:
+        print(f"  - {app.appointment_id}: {app.client_name} at {app.appointment_datetime}")
     
     # Get current date in the local timezone
     now = localtime(timezone.now())
@@ -305,6 +306,4 @@ def get_appointment_detail(request, id):
     appointment = get_object_or_404(Appointment, id=id)
 
     return render(request, 'index.html', {'edit_appointment': appointment})
-
-
 
