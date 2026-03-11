@@ -232,7 +232,8 @@ def create_appointment(request):
         print(f"Created appointment: {appointment.appointment_id} at {appointment.appointment_datetime}")
         print(f"Local time: {localtime(appointment.appointment_datetime)}")
         print(f"Today is: {localtime(timezone.now()).date()}")
-        
+
+        appointment.save()
         # Store the newly created appointment ID in session to show in modal
         request.session['new_appointment_id'] = appointment.appointment_id
         
@@ -300,4 +301,5 @@ def delete_appointment(request, id):
 def get_appointment_detail(request, id):
     """Get appointment details for editing"""
     appointment = get_object_or_404(Appointment, id=id)
+
     return render(request, 'index.html', {'edit_appointment': appointment})
