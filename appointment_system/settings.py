@@ -34,7 +34,7 @@ DEBUG = False
 ALLOWED_HOSTS = ['makgethaappointmentsystem-production.up.railway.app']
 
 # Security Settings for RAILWAY.com
-CSRF_TRUSTED_ORIGINS = ['makgethaappointmentsystem-production.up.railway.app','https://makgethaappointmentsystem-production.up.railway.app']
+CSRF_TRUSTED_ORIGINS = ['http://makgethaappointmentsystem-production.up.railway.app','https://makgethaappointmentsystem-production.up.railway.app']
 
 
 
