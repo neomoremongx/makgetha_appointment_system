@@ -790,7 +790,7 @@
             <button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
         </div>
         <form method="POST" action="" id="appointmentForm">
-            
+             {% csrf_token %}
             <input type="hidden" name="appointment_id" id="appointmentId">
             <div class="form-group">
                 <label>Client Name</label>
