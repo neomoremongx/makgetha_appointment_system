@@ -97,7 +97,7 @@ DATABASES = {
 
         'USER': 'postgres',
 
-        'PASSWORD': 'mIBXpVFNtVZQzKEnletavFYutUxlTDVx',
+        'PASSWORD': os.environ['DB_PASSWORD'],
 
         'HOST': 'postgres.railway.internal',
 
