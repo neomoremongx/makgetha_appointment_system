@@ -23,9 +23,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-7t3*4^l_agll(#ft(rxxr)(6u1qw3ljgfgjqr2@3q0a&-3#idw'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['makgetha-appointment-system.onrender.com','127.0.0.1','makgethaappointmentsystem-production.up.railway.app']
+ALLOWED_HOSTS = ['makgethaappointmentsystem-production.up.railway.app']
+
+# Security Settings for RAILWAY.com
+CSRF_TRUSTED_ORIGINS = ['makgethaappointmentsystem-production.up.railway.app','https://makgethaappointmentsystem-production.up.railway.app']
+
 
 
 # Application definition
@@ -143,13 +147,7 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Add at the top of settings.py
-import os
-
-# Security Settings for Render.com
-CSRF_TRUSTED_ORIGINS = [
-    'https://makgetha-appointment-system.onrender.com',
-    'http://makgetha-appointment-system.onrender.com',
-]
+ 
 
 # If you also want to allow local development
 if DEBUG:
