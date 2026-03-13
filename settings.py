@@ -28,8 +28,9 @@ SECRET_KEY = 'django-insecure-7t3*4^l_agll(#ft(rxxr)(6u1qw3ljgfgjqr2@3q0a&-3#idw
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['http://makgethaappointmentsystem-production.up.railway.app','https://makgethaappointmentsystem-production.up.railway.app']
-# Security Settings for Render.com
+ALLOWED_HOSTS = ['makgethaappointmentsystem-production.up.railway.app']
+
+# Security Settings for RAILWAY.com
 CSRF_TRUSTED_ORIGINS = ['https://makgethaappointmentsystem-production.up.railway.app']
 
 
