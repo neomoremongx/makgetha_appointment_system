@@ -13,11 +13,6 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 import os
 from dotenv import load_dotenv
-import environ
-env = environ.Env()
-
-ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['.railway.app'])
-CSRF_TRUSTED_ORIGINS = env.list('CSRF_TRUSTED_ORIGINS', default=['https://makgethaappointmentsystem-production.up.railway.app'])
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -33,7 +28,9 @@ SECRET_KEY = 'django-insecure-7t3*4^l_agll(#ft(rxxr)(6u1qw3ljgfgjqr2@3q0a&-3#idw
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['makgetha-appointment-system.onrender.com','127.0.0.1','makgethaappointmentsystem-production.up.railway.app']
+ALLOWED_HOSTS = ['makgethaappointmentsystem-production.up.railway.app','https://makgethaappointmentsystem-production.up.railway.app']
+# Security Settings for Render.com
+CSRF_TRUSTED_ORIGINS = ['makgethaappointmentsystem-production.up.railway.app','https://makgethaappointmentsystem-production.up.railway.app']
 
 
 # Application definition
@@ -150,14 +147,8 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Add at the top of settings.py
-import os
 
-# Security Settings for Render.com
-CSRF_TRUSTED_ORIGINS = [
-    'https://makgethaappointmentsystem-production.up.railway.app',
-    'http://makgethaappointmentsystem-production.up.railway.app',
-]
+ 
 
 # If you also want to allow local development
 if DEBUG:
