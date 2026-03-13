@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-7t3*4^l_agll(#ft(rxxr)(6u1qw3ljgfgjqr2@3q0a&-3#idw
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['makgetha-appointment-system.onrender.com','127.0.0.1']
+ALLOWED_HOSTS = ['makgetha-appointment-system.onrender.com','127.0.0.1','makgethaappointmentsystem-production.up.railway.app']
 
 
 # Application definition
