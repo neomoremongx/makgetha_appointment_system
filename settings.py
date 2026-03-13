@@ -30,7 +30,7 @@ DEBUG = False
 
 ALLOWED_HOSTS = ['makgethaappointmentsystem-production.up.railway.app','https://makgethaappointmentsystem-production.up.railway.app']
 # Security Settings for Render.com
-CSRF_TRUSTED_ORIGINS = ['makgethaappointmentsystem-production.up.railway.app','https://makgethaappointmentsystem-production.up.railway.app']
+CSRF_TRUSTED_ORIGINS = ['https://makgethaappointmentsystem-production.up.railway.app']
 
 
 # Application definition
