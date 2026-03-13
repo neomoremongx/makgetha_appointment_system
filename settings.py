@@ -27,6 +27,8 @@ SECRET_KEY = 'django-insecure-7t3*4^l_agll(#ft(rxxr)(6u1qw3ljgfgjqr2@3q0a&-3#idw
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+USE_X_FORWARDED_HOST = True
 
 ALLOWED_HOSTS = ['makgethaappointmentsystem-production.up.railway.app']
 
