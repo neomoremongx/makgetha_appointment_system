@@ -152,6 +152,9 @@ import os
 CSRF_TRUSTED_ORIGINS = [
     'https://makgetha-appointment-system.onrender.com',
     'http://makgetha-appointment-system.onrender.com',
+    'https://makgethaappointmentsystem-production.up.railway.app',
+    'https://makgethaappointmentsystem-production.up.railway.app',
+    'http://makgethaappointmentsystem-production.up.railway.app',
 ]
 
 # If you also want to allow local development
