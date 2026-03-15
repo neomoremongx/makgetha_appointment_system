@@ -14,12 +14,16 @@ class Appointment(models.Model):
     ]
     
     SERVICE_CHOICES = [
-        ('Divorce Consultation', 'Divorce Consultation'),
-        ('Maintenance Hearing', 'Maintenance Hearing'),
-        ('Civil Litigation', 'Civil Litigation'),
-        ('Criminal Defense', 'Criminal Defense'),
-        ('Estate Planning', 'Estate Planning'),
-        ('Road Accident Fund', 'Road Accident Fund'),
+        ('Divorce Matters', 'Divorce Matters'),
+        ('Maintenance Matters', 'Maintenance Matters'),
+        ('Civil Matters', 'Civil Matters'),
+        ('Domestic Violence', 'Domestic Violence'),
+        ('Harassment Matters', 'Harassment Matters'),
+        ('Deceased Estate Matters', 'Deceased Estate Matters'),
+        ('Road Accident Matters', 'Road Accident Matters'),
+        ('Unlawful Arrests Matters', 'Unlawful Arrests Matters'),
+        ('Immigration Matters', 'Immigration Matters'),
+        ('Criminal Matters', 'Criminal Matters'),
         ('Other', 'Other'),
     ]
     
