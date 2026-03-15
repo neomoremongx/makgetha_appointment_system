@@ -882,9 +882,418 @@
         ::-webkit-scrollbar-thumb:hover {
             background: var(--neutral-500);
         }
+    /* Mobile Dashboard - Hidden by default on desktop */
+.mobile-dashboard {
+    display: none;
+}
+
+/* Mobile Responsive Styles */
+@media screen and (max-width: 768px) {
+    /* Hide desktop sidebar and adjust main content */
+    .sidebar {
+        display: none;
+    }
+    
+    .main-content {
+        margin-left: 0;
+        padding: 0;
+        width: 100%;
+    }
+    
+    /* Hide desktop sections */
+    .search-section,
+    .appointments-card,
+    .messages-section {
+        display: none;
+    }
+    
+    /* Show mobile dashboard */
+    .mobile-dashboard {
+        display: block;
+        width: 100%;
+        min-height: 100vh;
+        background: linear-gradient(135deg, #f6f9fc 0%, #edf2f9 100%);
+        padding: 0;
+    }
+    
+    /* Mobile Header */
+    .mobile-header {
+        background: linear-gradient(135deg, var(--primary-navy) 0%, #0b202f 100%);
+        padding: 1rem;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .mobile-header h2 {
+        color: white;
+        font-size: 1.1rem;
+        font-family: 'Georgia', 'Times New Roman', 'Times', serif;
+    }
+    
+    .mobile-header h2 i {
+        color: var(--secondary-gold);
+        margin-right: 8px;
+    }
+    
+    .burger-menu {
+        background: rgba(255,255,255,0.1);
+        border: none;
+        color: white;
+        font-size: 1.5rem;
+        padding: 0.5rem 1rem;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+    
+    /* Mobile Navigation Menu */
+    .mobile-nav {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: linear-gradient(135deg, var(--primary-navy) 0%, #0b202f 100%);
+        padding: 0.5rem;
+        z-index: 99;
+    }
+    
+    .mobile-nav.show {
+        display: block;
+    }
+    
+    .mobile-nav-item {
+        padding: 1rem;
+        color: white;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        border-radius: 10px;
+        margin-bottom: 4px;
+    }
+    
+    .mobile-nav-item i {
+        width: 24px;
+        color: var(--secondary-gold);
+    }
+    
+    .mobile-nav-item.active {
+        background: rgba(198, 164, 92, 0.2);
+    }
+    
+    .mobile-logout-btn {
+        width: 100%;
+        text-align: left;
+        background: transparent;
+        border: none;
+        font-size: 1rem;
+        cursor: pointer;
+    }
+    
+    /* Mobile Content */
+    .mobile-content {
+        padding: 1rem;
+    }
+    
+    /* Mobile Stats Card */
+    .mobile-stat-card {
+        background: white;
+        border-radius: 16px;
+        padding: 1.2rem;
+        margin-bottom: 1rem;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        border: 1px solid rgba(0,0,0,0.02);
+    }
+    
+    .mobile-stat-value {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--primary-navy);
+        line-height: 1.2;
+    }
+    
+    .mobile-stat-label {
+        color: var(--neutral-500);
+        font-size: 0.9rem;
+        margin-top: 0.2rem;
+    }
+    
+    /* Mobile Section Headers */
+    .mobile-section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 1.5rem 0 1rem 0;
+    }
+    
+    .mobile-section-header h3 {
+        font-family: 'Georgia', 'Times New Roman', 'Times', serif;
+        color: var(--primary-navy);
+        font-size: 1.2rem;
+    }
+    
+    .mobile-badge {
+        background: var(--secondary-gold);
+        color: var(--primary-navy);
+        padding: 0.3rem 0.8rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+    }
+    
+    /* Mobile Appointment Items */
+    .mobile-appointment-item {
+        background: white;
+        border-radius: 16px;
+        padding: 1.2rem;
+        margin-bottom: 0.8rem;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+        border: 1px solid var(--neutral-200);
+    }
+    
+    .mobile-appointment-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.8rem;
+    }
+    
+    .mobile-time {
+        background: var(--secondary-gold);
+        color: var(--primary-navy);
+        padding: 0.4rem 1rem;
+        border-radius: 30px;
+        font-weight: 600;
+        font-size: 0.9rem;
+    }
+    
+    .mobile-client-name {
+        font-weight: 600;
+        font-size: 1.1rem;
+        color: var(--neutral-800);
+        margin-bottom: 0.5rem;
+    }
+    
+    .mobile-client-details {
+        display: flex;
+        gap: 1rem;
+        color: var(--neutral-500);
+        font-size: 0.9rem;
+        margin-bottom: 0.8rem;
+        flex-wrap: wrap;
+    }
+    
+    .mobile-client-details i {
+        color: var(--secondary-gold);
+        width: 18px;
+    }
+    
+    .mobile-actions {
+        display: flex;
+        gap: 10px;
+        justify-content: flex-end;
+        border-top: 1px solid var(--neutral-200);
+        padding-top: 0.8rem;
+        margin-top: 0.5rem;
+    }
+    
+    .mobile-action-btn {
+        padding: 0.6rem 1.2rem;
+        border-radius: 10px;
+        border: 1px solid var(--neutral-300);
+        background: white;
+        color: var(--neutral-700);
+        font-size: 0.9rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        cursor: pointer;
+    }
+    
+    .mobile-action-btn.primary {
+        background: var(--primary-navy);
+        color: white;
+        border: none;
+    }
+    
+    .mobile-empty-state {
+        text-align: center;
+        padding: 2rem 1rem;
+        background: white;
+        border-radius: 16px;
+        color: var(--neutral-400);
+    }
+    
+    .mobile-empty-state i {
+        font-size: 2.5rem;
+        margin-bottom: 0.5rem;
+        color: var(--neutral-300);
+    }
+    
+    /* Mobile Create Button */
+    .mobile-create-btn {
+        position: fixed;
+        bottom: 1.5rem;
+        right: 1.5rem;
+        width: 56px;
+        height: 56px;
+        border-radius: 28px;
+        background: var(--primary-navy);
+        color: white;
+        border: none;
+        box-shadow: 0 4px 15px rgba(10, 25, 41, 0.3);
+        font-size: 1.5rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 90;
+    }
+    
+    .mobile-create-btn:hover {
+        background: var(--primary-navy-light);
+    }
+}
+
+@media screen and (max-width: 380px) {
+    .mobile-client-details {
+        flex-direction: column;
+        gap: 0.3rem;
+    }
+    
+    .mobile-actions {
+        flex-direction: column;
+    }
+    
+    .mobile-action-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
     </style>
 </head>
 <body>
+     <!-- Mobile Dashboard (Hidden on Desktop) -->
+<div class="mobile-dashboard">
+    <!-- Mobile Header -->
+    <div class="mobile-header">
+        <h2><i class="fas fa-gavel"></i> M. Makgetha Attorneys</h2>
+        <button class="burger-menu" onclick="toggleMobileMenu()">
+            <i class="fas fa-bars"></i>
+        </button>
+    </div>
+    
+    <!-- Mobile Navigation -->
+    <div class="mobile-nav" id="mobileNav">
+        <div class="mobile-nav-item active">
+            <i class="fas fa-calendar-check"></i> Appointments
+        </div>
+        <form action="{% url 'logout' %}" method="POST" style="width: 100%;">
+            {% csrf_token %}
+            <button type="submit" class="mobile-nav-item mobile-logout-btn">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </form>
+    </div>
+    
+    <!-- Mobile Content -->
+    <div class="mobile-content">
+        <!-- Mobile Messages -->
+        {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}" style="margin-bottom: 1rem;">
+                <i class="fas {% if message.tags == 'error' %}fa-exclamation-circle{% else %}fa-check-circle{% endif %}"></i>
+                {{ message.message }}
+            </div>
+            {% endfor %}
+        {% endif %}
+        
+        <!-- Mobile Stats -->
+        <div class="mobile-stat-card">
+            <div class="mobile-stat-value">{{ weekly_appointments }}</div>
+            <div class="mobile-stat-label">Total appointments this week</div>
+        </div>
+        
+        <!-- Today's Appointments -->
+        <div class="mobile-section-header">
+            <h3><i class="fas fa-calendar-day" style="color: var(--secondary-gold); margin-right: 8px;"></i>Today</h3>
+            <span class="mobile-badge">{{ today_count }} today</span>
+        </div>
+        
+        {% if today_appointments %}
+            {% for appointment in today_appointments %}
+            <div class="mobile-appointment-item">
+                <div class="mobile-appointment-header">
+                    <span class="mobile-time">{{ appointment.appointment_datetime|date:"H:i" }}</span>
+                    <span style="color: var(--neutral-500); font-size: 0.9rem;">{{ appointment.appointment_datetime|date:"D" }}</span>
+                </div>
+                <div class="mobile-client-name">{{ appointment.client_name }}</div>
+                <div class="mobile-client-details">
+                    <span><i class="fas fa-briefcase"></i> {{ appointment.service_type|truncatechars:20 }}</span>
+                    <span><i class="fas fa-gavel"></i> {{ appointment.attorney }}</span>
+                </div>
+                <div class="mobile-actions">
+                    <button class="mobile-action-btn" onclick="openEditModal({{ appointment.id }}, '{{ appointment.client_name|escapejs }}', '{{ appointment.service_type|escapejs }}', '{{ appointment.appointment_datetime|date:'Y-m-d\\TH:i' }}')">
+                        <i class="fas fa-edit"></i> Edit
+                    </button>
+                    <button class="mobile-action-btn" onclick="openDeleteModal({{ appointment.id }})">
+                        <i class="fas fa-times"></i> Cancel
+                    </button>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="mobile-empty-state">
+                <i class="fas fa-calendar-check"></i>
+                <p>No appointments today</p>
+            </div>
+        {% endif %}
+        
+        <!-- Tomorrow's Appointments -->
+        <div class="mobile-section-header">
+            <h3><i class="fas fa-sun" style="color: var(--secondary-gold); margin-right: 8px;"></i>Tomorrow</h3>
+            <span class="mobile-badge">{{ tomorrow_count }} upcoming</span>
+        </div>
+        
+        {% if tomorrow_appointments %}
+            {% for appointment in tomorrow_appointments %}
+            <div class="mobile-appointment-item">
+                <div class="mobile-appointment-header">
+                    <span class="mobile-time">{{ appointment.appointment_datetime|date:"H:i" }}</span>
+                    <span style="color: var(--neutral-500); font-size: 0.9rem;">{{ appointment.appointment_datetime|date:"D" }}</span>
+                </div>
+                <div class="mobile-client-name">{{ appointment.client_name }}</div>
+                <div class="mobile-client-details">
+                    <span><i class="fas fa-briefcase"></i> {{ appointment.service_type|truncatechars:20 }}</span>
+                    <span><i class="fas fa-gavel"></i> {{ appointment.attorney }}</span>
+                </div>
+                <div class="mobile-actions">
+                    <button class="mobile-action-btn" onclick="openEditModal({{ appointment.id }}, '{{ appointment.client_name|escapejs }}', '{{ appointment.service_type|escapejs }}', '{{ appointment.appointment_datetime|date:'Y-m-d\\TH:i' }}')">
+                        <i class="fas fa-edit"></i> Edit
+                    </button>
+                    <button class="mobile-action-btn" onclick="openDeleteModal({{ appointment.id }})">
+                        <i class="fas fa-times"></i> Cancel
+                    </button>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="mobile-empty-state">
+                <i class="fas fa-calendar-day"></i>
+                <p>No appointments tomorrow</p>
+            </div>
+        {% endif %}
+    </div>
+    
+    <!-- Mobile Create Button -->
+    <button class="mobile-create-btn" onclick="openCreateModal()">
+        <i class="fas fa-plus"></i>
+    </button>
+</div>
     <div class="app-container">
         <!-- Refined Sidebar -->
         <aside class="sidebar">
@@ -1510,6 +1919,41 @@
                 closeConflictModal();
             }
         }
+    // Mobile menu toggle
+function toggleMobileMenu() {
+    const mobileNav = document.getElementById('mobileNav');
+    const burgerIcon = document.querySelector('.burger-menu i');
+    
+    if (mobileNav.classList.contains('show')) {
+        mobileNav.classList.remove('show');
+        burgerIcon.classList.remove('fa-times');
+        burgerIcon.classList.add('fa-bars');
+    } else {
+        mobileNav.classList.add('show');
+        burgerIcon.classList.remove('fa-bars');
+        burgerIcon.classList.add('fa-times');
+    }
+}
+
+// Close mobile menu when clicking outside
+document.addEventListener('click', function(event) {
+    const mobileNav = document.getElementById('mobileNav');
+    const burgerMenu = document.querySelector('.burger-menu');
+    
+    if (mobileNav.classList.contains('show') && 
+        !mobileNav.contains(event.target) && 
+        !burgerMenu.contains(event.target)) {
+        toggleMobileMenu();
+    }
+});
+
+// Handle window resize
+window.addEventListener('resize', function() {
+    if (window.innerWidth > 768) {
+        const mobileNav = document.getElementById('mobileNav');
+        mobileNav.classList.remove('show');
+    }
+});
     </script>
 </body>
 </html>
