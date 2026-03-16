@@ -741,6 +741,65 @@
             cursor: not-allowed;
         }
 
+        /* Inline field error shown on conflict */
+        .field-error-msg {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 0.45rem;
+            font-size: 0.82rem;
+            font-weight: 500;
+            color: var(--danger);
+            font-family: -apple-system, sans-serif;
+            animation: slideIn 0.2s ease;
+        }
+
+        .field-error-msg i { font-size: 0.85rem; flex-shrink: 0; }
+
+        .form-control.has-error {
+            border-color: var(--danger) !important;
+            box-shadow: 0 0 0 3px rgba(185,28,28,0.1) !important;
+        }
+
+        /* Modal conflict banner — replaces the separate conflict modal */
+        .modal-conflict-banner {
+            display: none;
+            background: var(--danger-bg);
+            border: 1px solid rgba(185,28,28,0.2);
+            border-radius: 12px;
+            padding: 0.9rem 1.1rem;
+            margin-bottom: 1.25rem;
+            gap: 10px;
+            align-items: flex-start;
+            font-family: -apple-system, sans-serif;
+        }
+
+        .modal-conflict-banner.visible {
+            display: flex;
+        }
+
+        .modal-conflict-banner i {
+            color: var(--danger);
+            font-size: 1.1rem;
+            margin-top: 1px;
+            flex-shrink: 0;
+        }
+
+        .modal-conflict-banner .banner-body { flex: 1; }
+
+        .modal-conflict-banner .banner-title {
+            font-weight: 600;
+            color: var(--danger);
+            font-size: 0.9rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .modal-conflict-banner .banner-detail {
+            color: #7f1d1d;
+            font-size: 0.83rem;
+            line-height: 1.4;
+        }
+
         .modal-footer {
             display: flex;
             justify-content: flex-end;
@@ -770,54 +829,6 @@
             color: var(--primary-navy);
             font-family: 'SF Mono', 'Monaco', 'Courier New', monospace;
             letter-spacing: 2px;
-        }
-
-        /* Conflict Modal */
-        .conflict-details {
-            background: var(--danger-bg);
-            border-radius: 16px;
-            padding: 2rem;
-            margin: 1rem 0;
-            text-align: center;
-            font-family: -apple-system, sans-serif;
-        }
-
-        .conflict-icon { font-size: 3rem; color: var(--danger); margin-bottom: 1rem; }
-        .conflict-message { color: var(--danger); font-size: 1.2rem; font-weight: 600; margin-bottom: 1rem; }
-
-        .conflict-info {
-            background: white;
-            border-radius: 12px;
-            padding: 1.25rem;
-            margin-top: 1rem;
-        }
-
-        .suggestion-times {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 1.5rem;
-            justify-content: center;
-        }
-
-        .suggestion-time-btn {
-            background: white;
-            border: 1px solid var(--neutral-300);
-            border-radius: 30px;
-            padding: 0.6rem 1.2rem;
-            cursor: pointer;
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: var(--neutral-700);
-            transition: all 0.2s ease;
-            font-family: -apple-system, sans-serif;
-        }
-
-        .suggestion-time-btn:hover {
-            background: var(--secondary-gold);
-            border-color: var(--secondary-gold);
-            color: white;
-            transform: translateY(-2px);
         }
 
         /* Logout button */
@@ -1468,6 +1479,16 @@
         </div>
         <form method="POST" action="" id="appointmentForm">
             {% csrf_token %}
+            <!-- Inline conflict banner — shown by JS when server returns conflict data -->
+            <div class="modal-conflict-banner" id="conflictBanner">
+                <i class="fas fa-clock"></i>
+                <div class="banner-body">
+                    <div class="banner-title">Time slot unavailable</div>
+                    <div class="banner-detail" id="conflictBannerDetail">
+                        This date and time is already booked. Please choose a different slot.
+                    </div>
+                </div>
+            </div>
             <div class="form-group">
                 <label>Client Name</label>
                 <input type="text" class="form-control" name="client_name" id="clientName" required placeholder="Enter client's full name">
@@ -1574,52 +1595,172 @@
     </div>
 </div>
 
-<!-- Conflict Modal -->
-<div class="modal" id="conflictModal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3>Time Slot Unavailable</h3>
-            <button class="modal-close" onclick="closeConflictModal()"><i class="fas fa-times"></i></button>
-        </div>
-        <div class="conflict-details">
-            <div class="conflict-icon"><i class="fas fa-clock"></i></div>
-            <div class="conflict-message" id="conflictMessage">This time slot is already booked</div>
-            <div class="conflict-info" id="conflictInfo"></div>
-            <div class="suggestion-times" id="suggestionTimes"></div>
-        </div>
-        <div class="modal-footer" style="justify-content:center;">
-            <button class="btn btn-primary" onclick="closeConflictModal()">
-                <i class="fas fa-calendar-alt"></i> Choose Another Time
-            </button>
-        </div>
-    </div>
-</div>
+<!-- Conflict modal replaced by inline banner inside appointment modal -->
 
 <script>
+    // ─────────────────────────────────────────────────────────
+    // Booked appointment times for client-side 30-min gap check
+    // Each entry: { id, iso } where iso is the appointment datetime
+    // ─────────────────────────────────────────────────────────
+    const BOOKED_TIMES = [
+        {% for appt in appointments %}
+        {% if appt.status == 'active' %}
+        { id: {{ appt.id }}, iso: '{{ appt.appointment_datetime|date:"c" }}' },
+        {% endif %}
+        {% endfor %}
+    ];
+
+    const GAP_MINUTES = 30;
+
+    // ─────────────────────────────────────────────────────────
+    // Conflict form data injected from Django session
+    // ─────────────────────────────────────────────────────────
+    {% if conflict_form_data %}
+    const CONFLICT_DATA = {
+        mode:            '{{ conflict_form_data.mode }}',
+        editId:          '{{ conflict_form_data.edit_id|default:"" }}',
+        clientName:      '{{ conflict_form_data.client_name|escapejs }}',
+        serviceType:     '{{ conflict_form_data.service_type|escapejs }}',
+        appointmentDate: '{{ conflict_form_data.appointment_date|escapejs }}',
+        appointmentTime: '{{ conflict_form_data.appointment_time|escapejs }}',
+        attorney:        '{{ conflict_form_data.attorney|escapejs }}',
+    };
+    {% else %}
+    const CONFLICT_DATA = null;
+    {% endif %}
+
     // ── On load ──────────────────────────────────────────────
     document.addEventListener('DOMContentLoaded', function () {
+
         {% if new_appointment_id %}
         showSuccessModal('{{ new_appointment_id }}');
-        {% endif %}
-
-        {% if messages %}
-            {% for message in messages %}
-                {% if message.tags == 'error' and 'already booked' in message.message %}
-                    showConflictModal('{{ message.message|escapejs }}');
-                {% endif %}
-            {% endfor %}
         {% endif %}
 
         setMinDateTime();
 
         const dateInput = document.getElementById('appointmentDate');
-        if (dateInput) dateInput.addEventListener('change', updateTimeMinBasedOnDate);
+        if (dateInput) dateInput.addEventListener('change', function () {
+            updateTimeMinBasedOnDate();
+            clearFieldError('appointmentDate');
+        });
+
+        const timeInput = document.getElementById('appointmentTime');
+        if (timeInput) timeInput.addEventListener('change', function () {
+            clearFieldError('appointmentTime');
+            clearConflictBanner();
+        });
 
         const form = document.getElementById('appointmentForm');
         if (form) form.addEventListener('submit', function (e) {
-            if (!validateDateTime()) e.preventDefault();
+            // Read the editing ID (if any) from the form action URL
+            const actionMatch = form.action.match(/\/appointment\/(\d+)\/update\//);
+            const editingId   = actionMatch ? parseInt(actionMatch[1]) : null;
+            if (!validateDateTime(editingId)) e.preventDefault();
         });
+
+        // If the server returned conflict data, reopen the modal pre-filled
+        if (CONFLICT_DATA) {
+            restoreConflictForm(CONFLICT_DATA);
+        }
     });
+
+    // ─────────────────────────────────────────────────────────
+    // Restore form after server-side conflict
+    // ─────────────────────────────────────────────────────────
+    function restoreConflictForm(data) {
+        // Set title + action
+        if (data.mode === 'edit' && data.editId) {
+            document.getElementById('modalTitle').textContent = 'Edit Appointment';
+            document.getElementById('appointmentForm').action = `/appointment/${data.editId}/update/`;
+        } else {
+            document.getElementById('modalTitle').textContent = 'New Appointment';
+            document.getElementById('appointmentForm').action = "{% url 'create_appointment' %}";
+        }
+
+        // Populate all fields
+        document.getElementById('clientName').value      = data.clientName;
+        document.getElementById('serviceType').value     = data.serviceType;
+        document.getElementById('appointmentDate').value = data.appointmentDate;
+        document.getElementById('appointmentTime').value = data.appointmentTime;
+
+        {% if is_admin %}
+        const sel = document.getElementById('attorney');
+        if (sel) sel.value = data.attorney;
+        {% endif %}
+
+        // Apply min constraints then show error state
+        setMinDateTime();
+
+        // Highlight the date + time fields
+        setFieldError('appointmentDate', 'This date & time is already taken — pick another');
+        setFieldError('appointmentTime', '');
+
+        // Show the inline banner inside the modal
+        {% if messages %}
+        {% for message in messages %}
+        {% if message.tags == 'error' %}
+        showConflictBanner('{{ message.message|escapejs }}');
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+
+        // Open the modal
+        document.getElementById('appointmentModal').classList.add('show');
+
+        // Focus the date field so the user can immediately change it
+        setTimeout(() => {
+            const d = document.getElementById('appointmentDate');
+            if (d) d.focus();
+        }, 120);
+    }
+
+    // ─────────────────────────────────────────────────────────
+    // Inline field error helpers
+    // ─────────────────────────────────────────────────────────
+    function setFieldError(fieldId, message) {
+        const field = document.getElementById(fieldId);
+        if (!field) return;
+
+        field.classList.add('has-error');
+        // Remove any existing error node
+        const existing = field.parentElement.querySelector('.field-error-msg');
+        if (existing) existing.remove();
+
+        if (message) {
+            const err = document.createElement('div');
+            err.className = 'field-error-msg';
+            err.innerHTML = `<i class="fas fa-exclamation-circle"></i><span>${message}</span>`;
+            field.parentElement.appendChild(err);
+        }
+    }
+
+    function clearFieldError(fieldId) {
+        const field = document.getElementById(fieldId);
+        if (!field) return;
+        field.classList.remove('has-error');
+        const existing = field.parentElement.querySelector('.field-error-msg');
+        if (existing) existing.remove();
+    }
+
+    function clearAllFieldErrors() {
+        ['appointmentDate', 'appointmentTime'].forEach(clearFieldError);
+    }
+
+    // ─────────────────────────────────────────────────────────
+    // Modal conflict banner (inside the appointment modal)
+    // ─────────────────────────────────────────────────────────
+    function showConflictBanner(message) {
+        const banner = document.getElementById('conflictBanner');
+        const detail = document.getElementById('conflictBannerDetail');
+        if (!banner || !detail) return;
+        detail.textContent = message;
+        banner.classList.add('visible');
+    }
+
+    function clearConflictBanner() {
+        const banner = document.getElementById('conflictBanner');
+        if (banner) banner.classList.remove('visible');
+    }
 
     // ── Modal helpers ────────────────────────────────────────
     function openCreateModal() {
@@ -1635,6 +1776,8 @@
         if (sel) sel.value = '';
         {% endif %}
 
+        clearAllFieldErrors();
+        clearConflictBanner();
         setMinDateTime();
         document.getElementById('appointmentModal').classList.add('show');
     }
@@ -1656,11 +1799,17 @@
             document.getElementById('appointmentTime').value = time;
         }
 
+        clearAllFieldErrors();
+        clearConflictBanner();
         setMinDateTime();
         document.getElementById('appointmentModal').classList.add('show');
     }
 
-    function closeModal() { document.getElementById('appointmentModal').classList.remove('show'); }
+    function closeModal() {
+        document.getElementById('appointmentModal').classList.remove('show');
+        clearAllFieldErrors();
+        clearConflictBanner();
+    }
 
     function openDeleteModal(id) {
         document.getElementById('deleteForm').action = `/appointment/${id}/delete/`;
@@ -1676,44 +1825,7 @@
 
     function closeSuccessModal() { document.getElementById('successModal').classList.remove('show'); }
 
-    function showConflictModal(message, showSuggestions = true) {
-        document.getElementById('conflictMessage').textContent = message;
-        const conflictInfo    = document.getElementById('conflictInfo');
-        const suggestionTimes = document.getElementById('suggestionTimes');
-
-        if (showSuggestions) {
-            const dateMatch = message.match(/\d{4}-\d{2}-\d{2}/);
-            if (dateMatch) {
-                conflictInfo.innerHTML = `<p>Please choose an alternative time slot below:</p>`;
-                suggestionTimes.innerHTML = generateAlternativeTimes(dateMatch[0]);
-            } else {
-                conflictInfo.innerHTML = '<p>Please select a different date and time.</p>';
-                suggestionTimes.innerHTML = '';
-            }
-        } else {
-            conflictInfo.innerHTML = '<p>Please select a valid future date and time.</p>';
-            suggestionTimes.innerHTML = '';
-        }
-
-        document.getElementById('conflictModal').classList.add('show');
-    }
-
-    function closeConflictModal() { document.getElementById('conflictModal').classList.remove('show'); }
-
-    function generateAlternativeTimes(date) {
-        const times = ['09:00','10:00','11:00','14:00','15:00','16:00'];
-        return times.map(t => `<button class="suggestion-time-btn" onclick="selectSuggestedTime('${date}T${t}')">${t}</button>`).join('');
-    }
-
-    function selectSuggestedTime(dateTime) {
-        const [date, time] = dateTime.split('T');
-        document.getElementById('appointmentDate').value = date;
-        document.getElementById('appointmentTime').value = time;
-        closeConflictModal();
-        document.getElementById('appointmentModal').classList.add('show');
-    }
-
-    // ── Date / time validation ───────────────────────────────
+    // ── Date / time validation (client-side) ─────────────────
     function setMinDateTime() {
         const now = new Date();
         const min = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
@@ -1739,23 +1851,66 @@
         }
     }
 
-    function validateDateTime() {
+    function validateDateTime(editingId) {
         const d = document.getElementById('appointmentDate');
         const t = document.getElementById('appointmentTime');
-        if (!d || !t || !d.value || !t.value) {
-            showConflictModal('Please select both date and time.', false);
+
+        let valid = true;
+
+        if (!d || !d.value) {
+            setFieldError('appointmentDate', 'Please select a date');
+            valid = false;
+        }
+        if (!t || !t.value) {
+            setFieldError('appointmentTime', 'Please select a time');
+            valid = false;
+        }
+        if (!valid) return false;
+
+        const proposed = new Date(`${d.value}T${t.value}`);
+
+        if (proposed < new Date()) {
+            setFieldError('appointmentDate', 'Date and time must be in the future');
+            setFieldError('appointmentTime', '');
             return false;
         }
-        if (new Date(`${d.value}T${t.value}`) < new Date()) {
-            showConflictModal('Please select a future date and time. Past dates are not allowed.', false);
+
+        // 30-minute spacing check against all booked times
+        const clash = findSpacingClash(proposed, editingId);
+        if (clash) {
+            const gapMin = Math.round(Math.abs(proposed - clash.dt) / 60000);
+            const hhmm   = clash.dt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+            setFieldError('appointmentDate',
+                `Must be at least ${GAP_MINUTES} min from ${hhmm} (${gapMin} min away)`);
+            setFieldError('appointmentTime', '');
             return false;
         }
+
         return true;
+    }
+
+    /**
+     * Finds the first booked appointment within ±GAP_MINUTES of `proposed`.
+     * Skips the appointment being edited (editingId).
+     * Returns { id, dt } or null.
+     */
+    function findSpacingClash(proposed, editingId) {
+        const gapMs = GAP_MINUTES * 60 * 1000;
+        for (const entry of BOOKED_TIMES) {
+            if (editingId && entry.id === editingId) continue;
+            const booked = new Date(entry.iso);
+            if (Math.abs(proposed - booked) < gapMs) {
+                return { id: entry.id, dt: booked };
+            }
+        }
+        return null;
     }
 
     // ── Close on backdrop click ──────────────────────────────
     window.onclick = function (e) {
-        ['appointmentModal','deleteModal','successModal','conflictModal'].forEach(id => {
+        const modal = document.getElementById('appointmentModal');
+        if (e.target === modal) { closeModal(); return; }
+        ['deleteModal','successModal'].forEach(id => {
             const m = document.getElementById(id);
             if (e.target === m) m.classList.remove('show');
         });

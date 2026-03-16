@@ -19,6 +19,9 @@ ATTORNEY_MAP = {
     'tshitshiba': 'M. Tshitshiba',
 }
 
+# Minimum gap between consecutive appointments for the same attorney (minutes).
+APPOINTMENT_GAP_MINUTES = 30
+
 
 def get_attorney_for_user(user):
     """
@@ -28,6 +31,32 @@ def get_attorney_for_user(user):
     if user.is_superuser or user.is_staff:
         return None  # Admin — no restriction
     return ATTORNEY_MAP.get(user.username.lower())
+
+
+def check_appointment_spacing(attorney, proposed_dt, exclude_id=None):
+    """
+    Returns None if the proposed datetime is free (≥ APPOINTMENT_GAP_MINUTES
+    away from every other active appointment for this attorney).
+
+    Returns the conflicting Appointment instance if there is a clash so the
+    caller can build a meaningful error message.
+
+    The window is *exclusive* — exactly APPOINTMENT_GAP_MINUTES apart is fine.
+    """
+    window_start = proposed_dt - timedelta(minutes=APPOINTMENT_GAP_MINUTES)
+    window_end   = proposed_dt + timedelta(minutes=APPOINTMENT_GAP_MINUTES)
+
+    qs = Appointment.objects.filter(
+        attorney=attorney,
+        status='active',
+        appointment_datetime__gt=window_start,
+        appointment_datetime__lt=window_end,
+    )
+
+    if exclude_id is not None:
+        qs = qs.exclude(id=exclude_id)
+
+    return qs.order_by('appointment_datetime').first()
 
 
 def _build_dashboard_context(request, base_qs, extra=None):
@@ -67,6 +96,7 @@ def _build_dashboard_context(request, base_qs, extra=None):
     ).count()
 
     new_appointment_id = request.session.pop('new_appointment_id', None)
+    conflict_form_data = request.session.pop('conflict_form_data', None)
 
     context = {
         'appointments':          base_qs.order_by('appointment_datetime'),
@@ -77,6 +107,7 @@ def _build_dashboard_context(request, base_qs, extra=None):
         'tomorrow_appointments': tomorrow_appointments,
         'tomorrow_count':        tomorrow_appointments.count(),
         'new_appointment_id':    new_appointment_id,
+        'conflict_form_data':    conflict_form_data,
         # For the template to know who is viewing
         'is_admin':              get_attorney_for_user(request.user) is None,
         'current_attorney':      get_attorney_for_user(request.user),
@@ -195,18 +226,33 @@ def create_appointment(request):
         appointment_dt = make_aware(appointment_dt, current_tz)
         now = localtime(timezone.now())
 
+        # Reusable form data blob — reopens the modal pre-filled on any error
+        form_data = {
+            'mode':             'create',
+            'client_name':      client_name,
+            'service_type':     service_type,
+            'appointment_date': appointment_date,
+            'appointment_time': appointment_time,
+            'attorney':         attorney_value,
+        }
+
         if appointment_dt < now:
-            messages.error(request, 'Cannot create appointment with past date.')
+            messages.error(request, 'Cannot create an appointment in the past. Please choose a future date and time.')
+            request.session['conflict_form_data'] = form_data
             return redirect('home')
 
-        existing = Appointment.objects.filter(
-            appointment_datetime=appointment_dt,
-            attorney=attorney_value,
-            status='active'
-        ).exists()
+        conflict = check_appointment_spacing(attorney_value, appointment_dt)
 
-        if existing:
-            messages.error(request, 'This date and time is already booked for this attorney. Please select a different time.')
+        if conflict:
+            gap = abs((conflict.appointment_datetime - appointment_dt).total_seconds() // 60)
+            messages.error(
+                request,
+                f'Too close to an existing appointment ({conflict.client_name} at '
+                f'{localtime(conflict.appointment_datetime).strftime("%H:%M")}). '
+                f'Appointments must be at least {APPOINTMENT_GAP_MINUTES} minutes apart '
+                f'— this one is only {int(gap)} minute{"s" if gap != 1 else ""} away.'
+            )
+            request.session['conflict_form_data'] = form_data
             return redirect('home')
 
         appointment = Appointment.objects.create(
@@ -250,18 +296,34 @@ def update_appointment(request, id):
         appointment_dt = make_aware(appointment_dt, current_tz)
         now = localtime(timezone.now())
 
+        # Reusable form data blob — reopens the modal pre-filled on any error
+        form_data = {
+            'mode':             'edit',
+            'edit_id':          id,
+            'client_name':      client_name,
+            'service_type':     service_type,
+            'appointment_date': appointment_date,
+            'appointment_time': appointment_time,
+            'attorney':         attorney_value,
+        }
+
         if appointment_dt < now:
-            messages.error(request, 'Cannot update appointment to a past date.')
+            messages.error(request, 'Cannot update an appointment to a past date. Please choose a future date and time.')
+            request.session['conflict_form_data'] = form_data
             return redirect('home')
 
-        existing = Appointment.objects.filter(
-            appointment_datetime=appointment_dt,
-            attorney=attorney_value,
-            status='active'
-        ).exclude(id=id).exists()
+        conflict = check_appointment_spacing(attorney_value, appointment_dt, exclude_id=id)
 
-        if existing:
-            messages.error(request, 'This date and time is already booked for this attorney. Please select a different time.')
+        if conflict:
+            gap = abs((conflict.appointment_datetime - appointment_dt).total_seconds() // 60)
+            messages.error(
+                request,
+                f'Too close to an existing appointment ({conflict.client_name} at '
+                f'{localtime(conflict.appointment_datetime).strftime("%H:%M")}). '
+                f'Appointments must be at least {APPOINTMENT_GAP_MINUTES} minutes apart '
+                f'— this one is only {int(gap)} minute{"s" if gap != 1 else ""} away.'
+            )
+            request.session['conflict_form_data'] = form_data
             return redirect('home')
 
         appointment.client_name          = client_name
