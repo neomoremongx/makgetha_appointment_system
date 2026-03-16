@@ -1076,6 +1076,127 @@
             .mobile-actions { flex-direction: column; }
             .mobile-action-btn { width: 100%; justify-content: center; }
         }
+        /* Mobile Side Tab */
+.mobile-side-tab {
+    position: fixed;
+    top: 0;
+    left: -280px;
+    width: 280px;
+    height: 100vh;
+    background: linear-gradient(135deg, var(--primary-navy) 0%, #0b202f 100%);
+    z-index: 1000;
+    transition: left 0.3s ease;
+    box-shadow: 2px 0 20px rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column;
+    border-radius: 0 20px 20px 0;
+}
+
+.mobile-side-tab.show {
+    left: 0;
+}
+
+.side-tab-header {
+    padding: 1.5rem 1.2rem;
+    border-bottom: 1px solid rgba(198, 164, 92, 0.3);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.side-tab-header h3 {
+    color: white;
+    font-family: 'Georgia', serif;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.side-tab-header h3 i {
+    color: var(--secondary-gold);
+}
+
+.side-tab-close {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    border: none;
+    background: rgba(255,255,255,0.1);
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.side-tab-close:hover {
+    background: rgba(255,255,255,0.2);
+    transform: rotate(90deg);
+}
+
+.side-tab-content {
+    flex: 1;
+    padding: 1rem 0.5rem;
+}
+
+.side-tab-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 1rem 1.2rem;
+    color: rgba(255,255,255,0.7);
+    border-radius: 10px;
+    margin-bottom: 4px;
+    transition: all 0.2s ease;
+    font-family: -apple-system, sans-serif;
+}
+
+.side-tab-item i {
+    width: 24px;
+    color: var(--secondary-gold);
+}
+
+.side-tab-item.active {
+    background: rgba(198, 164, 92, 0.15);
+    color: white;
+    border-left: 3px solid var(--secondary-gold);
+}
+
+.side-tab-item:not(.active):hover {
+    background: rgba(255,255,255,0.05);
+    color: white;
+}
+
+.side-tab-logout-btn {
+    width: 100%;
+    border: none;
+    background: transparent;
+    text-align: left;
+    cursor: pointer;
+    font-size: 0.95rem;
+}
+
+.side-tab-logout-btn:hover {
+    background: rgba(255,255,255,0.05);
+}
+
+.side-tab-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 999;
+    display: none;
+    backdrop-filter: blur(3px);
+}
+
+.side-tab-overlay.show {
+    display: block;
+}
     </style>
 </head>
 <body>
@@ -1090,6 +1211,32 @@
             <i class="fas fa-bars"></i>
         </button>
     </div>
+    <!-- Add this after the mobile-header div, before the mobile-nav -->
+<div class="mobile-side-tab" id="mobileSideTab">
+    <div class="side-tab-header">
+        <h3><i class="fas fa-gavel"></i> Menu</h3>
+        <button class="side-tab-close" onclick="toggleSideTab()">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+    <div class="side-tab-content">
+        <div class="side-tab-item active">
+            <i class="fas fa-calendar-check"></i>
+            <span>{% if is_admin %}All Appointments{% else %}My Appointments{% endif %}</span>
+        </div>
+        <form action="{% url 'logout' %}" method="POST" style="width:100%;">
+            {% csrf_token %}
+            <button type="submit" class="side-tab-item side-tab-logout-btn">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </button>
+        </form>
+    </div>
+</div>
+
+<!-- Add overlay for when side tab is open -->
+<div class="side-tab-overlay" id="sideTabOverlay" onclick="toggleSideTab()"></div>
+    
 
     <div class="mobile-nav" id="mobileNav">
         <div class="mobile-nav-item active">
@@ -1103,6 +1250,7 @@
             </button>
         </form>
     </div>
+    <div class="side-tab-overlay" id="sideTabOverlay" onclick="toggleSideTab()"></div>
 
     <div class="mobile-content">
         {% if messages %}
@@ -1925,27 +2073,56 @@
     };
 
     // ── Mobile menu ──────────────────────────────────────────
-    function toggleMobileMenu() {
-        const nav = document.getElementById('mobileNav');
-        const icon = document.querySelector('.burger-menu i');
-        const open = nav.classList.toggle('show');
-        icon.className = open ? 'fas fa-times' : 'fas fa-bars';
+    // ── Mobile side tab ───────────────────────────────────────
+function toggleSideTab() {
+    const sideTab = document.getElementById('mobileSideTab');
+    const overlay = document.getElementById('sideTabOverlay');
+    const burgerIcon = document.querySelector('.burger-menu i');
+    
+    sideTab.classList.toggle('show');
+    overlay.classList.toggle('show');
+    
+    // Change burger icon based on state
+    if (sideTab.classList.contains('show')) {
+        burgerIcon.className = 'fas fa-times';
+    } else {
+        burgerIcon.className = 'fas fa-bars';
     }
+}
 
-    document.addEventListener('click', function (e) {
-        const nav    = document.getElementById('mobileNav');
-        const burger = document.querySelector('.burger-menu');
-        if (nav && nav.classList.contains('show') && !nav.contains(e.target) && !burger.contains(e.target)) {
-            toggleMobileMenu();
+// Close side tab when window is resized above mobile breakpoint
+window.addEventListener('resize', function () {
+    if (window.innerWidth > 768) {
+        const sideTab = document.getElementById('mobileSideTab');
+        const overlay = document.getElementById('sideTabOverlay');
+        const burgerIcon = document.querySelector('.burger-menu i');
+        
+        if (sideTab && sideTab.classList.contains('show')) {
+            sideTab.classList.remove('show');
+            overlay.classList.remove('show');
+            if (burgerIcon) burgerIcon.className = 'fas fa-bars';
         }
-    });
+    }
+});
 
-    window.addEventListener('resize', function () {
-        if (window.innerWidth > 768) {
-            const nav = document.getElementById('mobileNav');
-            if (nav) nav.classList.remove('show');
-        }
-    });
+// Prevent clicks inside side tab from closing it
+document.addEventListener('click', function (e) {
+    const sideTab = document.getElementById('mobileSideTab');
+    if (sideTab && sideTab.contains(e.target)) {
+        e.stopPropagation();
+    }
+});
+
+// Update burger menu click handler
+document.addEventListener('DOMContentLoaded', function() {
+    const burgerBtn = document.querySelector('.burger-menu');
+    if (burgerBtn) {
+        burgerBtn.onclick = function(e) {
+            e.stopPropagation();
+            toggleSideTab();
+        };
+    }
+});
 </script>
 </body>
 </html>
