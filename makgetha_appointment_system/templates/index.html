@@ -858,10 +858,18 @@
         .mobile-dashboard { display: none; }
 
         @media screen and (max-width: 768px) {
-            .sidebar { display: none; }
-            .main-content { margin-left: 0; padding: 0; width: 100%; }
-            .search-section, .appointments-card, .messages-section { display: none; }
-            .attorney-view-banner { display: none; }
+            /* Hide the entire desktop layout — mobile-dashboard takes over */
+            .app-container { display: none; }
+
+            /* Belt-and-braces: hide individual desktop sections too */
+            .sidebar,
+            .main-content,
+            .search-section,
+            .appointments-card,
+            .messages-section,
+            .attorney-view-banner,
+            .stats-grid,
+            .tomorrow-section { display: none !important; }
 
             .mobile-dashboard {
                 display: block;
