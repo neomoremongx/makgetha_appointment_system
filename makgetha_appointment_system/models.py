@@ -7,6 +7,8 @@ from datetime import date
 class Appointment(models.Model):
     ATTORNEY = [
         ('M. Makgetha', 'M. Makgetha'),
+        ('M. Mbhalati', 'M. Mbhalati'),
+        ('M. Tshitshiba', 'M. Tshitshiba'),
     ]
     STATUS_CHOICES = [
         ('active', 'Active'),
