@@ -356,7 +356,7 @@ def delete_appointment(request, id):
         appointment.delete()
         messages.success(request, f'Appointment {appt_id} has been cancelled successfully.')
 
-    return redirect('home')
+    return redirect('home#appointments-table')
 
 
 # ---------------------------------------------------------------------------
