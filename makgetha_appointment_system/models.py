@@ -6,9 +6,9 @@ from datetime import date
 
 class Appointment(models.Model):
     ATTORNEY = [
-        ('M. Makgetha', 'M. Makgetha'),
-        ('M. Mbhalati', 'M. Mbhalati'),
-        ('M. Tshitshiba', 'M. Tshitshiba'),
+        ('Mr Makgetha', 'Mr Makgetha'),
+        ('Mr Mbhalati', 'Mr Mbhalati'),
+        ('Mr Tshitshiba', 'Mr Tshitshiba'),
     ]
     STATUS_CHOICES = [
         ('active', 'Active'),
@@ -33,7 +33,7 @@ class Appointment(models.Model):
     client_name = models.CharField(max_length=100)
     service_type = models.CharField(max_length=50, choices=SERVICE_CHOICES)
     appointment_datetime = models.DateTimeField()
-    attorney = models.CharField(max_length=100, default='M. Makgetha', choices=ATTORNEY)
+    attorney = models.CharField(max_length=100, default='Mr Makgetha', choices=ATTORNEY)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='active')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
