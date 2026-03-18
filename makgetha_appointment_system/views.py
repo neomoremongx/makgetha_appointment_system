@@ -14,9 +14,9 @@ from .models import Appointment
 # The superuser / admin (is_staff or is_superuser) bypasses this entirely.
 # ---------------------------------------------------------------------------
 ATTORNEY_MAP = {
-    'makgetha': 'M. Makgetha',
-    'mbhalati': 'M. Mbhalati',
-    'tshitshiba': 'M. Tshitshiba',
+    'makgetha': 'Mr Makgetha',
+    'mbhalati': 'Mr Mbhalati',
+    'tshitshiba': 'Mr Tshitshiba',
 }
 
 # Minimum gap between consecutive appointments for the same attorney (minutes).
