@@ -1704,12 +1704,12 @@
 <div class="modal" id="deleteModal">
     <div class="modal-content">
         <div class="modal-header">
-            <h3>Cancel Appointment</h3>
+            <h3>Delete Appointment</h3>
             <button class="modal-close" onclick="closeDeleteModal()"><i class="fas fa-times"></i></button>
         </div>
         <div style="text-align:center;padding:1rem;">
             <i class="fas fa-exclamation-triangle" style="font-size:3rem;color:var(--warning);margin-bottom:1rem;"></i>
-            <p style="font-size:1.1rem;margin-bottom:1rem;">Are you sure you want to cancel this appointment?</p>
+            <p style="font-size:1.1rem;margin-bottom:1rem;">Are you sure you want to cancel/delete this appointment?</p>
             <p style="color:var(--neutral-500);font-size:0.9rem;">This action cannot be undone.</p>
         </div>
         <form method="POST" action="" id="deleteForm">
@@ -1719,7 +1719,7 @@
                     <i class="fas fa-times"></i> No, keep it
                 </button>
                 <button type="submit" class="btn btn-danger">
-                    <i class="fas fa-trash"></i> Yes, cancel
+                    <i class="fas fa-trash"></i> Yes, delete
                 </button>
             </div>
         </form>
