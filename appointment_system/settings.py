@@ -99,9 +99,9 @@ DATABASES = {
 
         'PASSWORD': os.environ['DB_PASSWORD'],
 
-        'HOST': 'shuttle.proxy.rlwy.net',
+        'HOST': 'postgres.railway.internal',
 
-        'PORT': '29227',
+        'PORT': '5432',
 
     }
 
