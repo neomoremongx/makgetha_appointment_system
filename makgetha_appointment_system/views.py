@@ -124,7 +124,7 @@ def _build_dashboard_context(request, base_qs, extra=None):
 def login_view(request):
     """Handle user login"""
     if request.user.is_authenticated:
-        return redirect('home')
+        return redirect('admin')
 
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -141,7 +141,7 @@ def login_view(request):
                 request.session.set_expiry(1209600)
 
             messages.success(request, f'Welcome back, {user.username}!')
-            return redirect('home')
+            return redirect('admin')
         else:
             messages.error(request, 'Invalid username or password.')
 
@@ -208,8 +208,6 @@ def search_appointment(request):
 # ---------------------------------------------------------------------------
 # Create
 # ---------------------------------------------------------------------------
-
-@login_required(login_url='login')
 def create_appointment(request):
     """Create a new appointment."""
     if request.method == 'POST':
@@ -239,7 +237,7 @@ def create_appointment(request):
         if appointment_dt < now:
             messages.error(request, 'Cannot create an appointment in the past. Please choose a future date and time.')
             request.session['conflict_form_data'] = form_data
-            return redirect('home')
+            return redirect('admin')
 
         conflict = check_appointment_spacing(attorney_value, appointment_dt)
 
@@ -253,7 +251,7 @@ def create_appointment(request):
                 f'— this one is only {int(gap)} minute{"s" if gap != 1 else ""} away.'
             )
             request.session['conflict_form_data'] = form_data
-            return redirect('home')
+            return redirect('admin')
 
         appointment = Appointment.objects.create(
             client_name=client_name,
@@ -265,7 +263,7 @@ def create_appointment(request):
 
         request.session['new_appointment_id'] = appointment.appointment_id
 
-    return redirect('home')
+    return redirect('admin')
 
 
 # ---------------------------------------------------------------------------
@@ -310,7 +308,7 @@ def update_appointment(request, id):
         if appointment_dt < now:
             messages.error(request, 'Cannot update an appointment to a past date. Please choose a future date and time.')
             request.session['conflict_form_data'] = form_data
-            return redirect('home')
+            return redirect('admin')
 
         conflict = check_appointment_spacing(attorney_value, appointment_dt, exclude_id=id)
 
@@ -324,7 +322,7 @@ def update_appointment(request, id):
                 f'— this one is only {int(gap)} minute{"s" if gap != 1 else ""} away.'
             )
             request.session['conflict_form_data'] = form_data
-            return redirect('home')
+            return redirect('admin')
 
         appointment.client_name          = client_name
         appointment.service_type         = service_type
@@ -334,7 +332,7 @@ def update_appointment(request, id):
             appointment.attorney = attorney_value
         appointment.save()
 
-    return redirect('home')
+    return redirect('admin')
 
 
 # ---------------------------------------------------------------------------
@@ -356,7 +354,7 @@ def delete_appointment(request, id):
         appointment.delete()
         messages.success(request, f'Appointment {appt_id} has been cancelled successfully.')
 
-    return redirect('home')
+    return redirect('admin')
 
 
 # ---------------------------------------------------------------------------
