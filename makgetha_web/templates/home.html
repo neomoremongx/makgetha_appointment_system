@@ -1,0 +1,775 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>M. Makgetha Attorneys Inc. | Divorce, Criminal Defence &amp; Civil Litigation Lawyers — Potchefstroom, North West</title>
+    <meta name="description" content="M. Makgetha Attorneys Inc. — trusted attorneys in Potchefstroom, North West, South Africa. Specialising in divorce, maintenance, civil litigation, criminal defence, Road Accident Fund claims, immigration, deceased estates, domestic violence and harassment matters. Serving Potchefstroom, Klerksdorp, Mahikeng and the wider North West Province since 2010.">
+    <meta name="keywords" content="attorneys Potchefstroom, lawyers Potchefstroom, divorce attorney Potchefstroom, maintenance lawyer North West, civil litigation Potchefstroom, criminal defence attorney, RAF claims attorney, immigration lawyer Potchefstroom, deceased estate attorney, domestic violence protection order, harassment interdict, legal services North West South Africa, M Makgetha Attorneys">
+    <meta name="author" content="M. Makgetha Attorneys Inc.">
+    <meta name="robots" content="index, follow">
+    <meta name="geo.region" content="ZA-NW">
+    <meta name="geo.placename" content="Potchefstroom">
+    <meta name="geo.position" content="-26.7145;27.0974">
+    <meta name="ICBM" content="-26.7145, 27.0974">
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="M. Makgetha Attorneys Inc. | Premier Legal Expertise, Potchefstroom">
+    <meta property="og:description" content="Trusted attorneys in Potchefstroom offering divorce, maintenance, civil litigation, criminal defence, RAF claims, immigration and deceased estate services across the North West Province.">
+    <meta property="og:locale" content="en_ZA">
+    <meta property="og:site_name" content="M. Makgetha Attorneys Inc.">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <me ta name="twitter:title" content="M. Makgetha Attorneys Inc. | Potchefstroom Attorneys">
+    <meta name="twitter:description" content="Premier legal services in Potchefstroom — divorce, criminal defence, civil litigation, RAF claims, immigration and more. Call 079 582 3164.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ink: #111210;
+            --charcoal: #1c1d1b;
+            --navy: #0d2137;
+            --navy-mid: #163352;
+            --navy-deep: #08131f;
+            --graphite: #2e2f2d;
+            --stone: #4a4b48;
+            --warm-white: #f5f2ec;
+            --cream: #ede8df;
+            --parchment: #d9d1c4;
+            --gold: #b8965a;
+            --gold-light: #cead78;
+            --gold-dim: #8a6e3e;
+            --red-accent: #7a2020;
+            --nav-h: 76px;
+            --ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; font-size: 16px; }
+
+        body {
+            background: var(--warm-white);
+            color: var(--ink);
+            font-family: 'EB Garamond', Georgia, serif;
+            line-height: 1.65;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ─── TYPOGRAPHY ─── */
+        h1, h2, h3, h4 { font-family: 'Playfair Display', Georgia, serif; font-weight: 600; line-height: 1.15; letter-spacing: -0.01em; }
+        .label { font-family: 'Jost', sans-serif; font-weight: 500; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; }
+
+        .container { width: min(90%, 1240px); margin: 0 auto; }
+
+        /* ─── NAV ─── */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            height: var(--nav-h);
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 5%;
+            background: rgba(8, 19, 31, 0.97);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(184, 150, 90, 0.2);
+            transition: background 0.4s var(--ease);
+        }
+        .logo-wrap { display: flex; align-items: center; gap: 14px; text-decoration: none; }
+        .logo-img { width: 44px; height: 44px; object-fit: cover; border: 1px solid var(--gold); }
+        .logo-name { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: var(--gold); line-height: 1.1; }
+        .logo-name span { font-family: 'Jost', sans-serif; font-weight: 300; font-size: 0.62rem; letter-spacing: 0.22em; color: var(--parchment); display: block; margin-top: 2px; text-transform: uppercase; }
+
+        .nav-list { display: flex; list-style: none; gap: 36px; align-items: center; }
+        .nav-list a { font-family: 'Jost', sans-serif; font-size: 0.78rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--parchment); text-decoration: none; transition: color 0.2s; }
+        .nav-list a:hover, .nav-list a.active { color: var(--gold); }
+        .nav-cta { font-family: 'Jost', sans-serif; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink) !important; background: var(--gold); padding: 10px 22px; transition: background 0.2s !important; }
+        .nav-cta:hover { background: var(--gold-light) !important; color: var(--ink) !important; }
+        .menu-toggle { display: none; background: none; border: none; color: var(--parchment); font-size: 1.4rem; cursor: pointer; }
+
+        /* ─── HERO ─── */
+        .hero {
+            min-height: 100vh;
+            background: var(--navy);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-left {
+            display: flex; flex-direction: column; justify-content: center;
+            padding: calc(var(--nav-h) + 80px) 7% 80px;
+            position: relative; z-index: 2;
+        }
+        .hero-eyebrow { display: flex; align-items: center; gap: 16px; margin-bottom: 32px; }
+        .hero-eyebrow .line { width: 40px; height: 1px; background: var(--gold); }
+        .hero-eyebrow span { font-family: 'Jost', sans-serif; font-size: 0.68rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); }
+        .hero h1 { font-size: clamp(2.6rem, 4.5vw, 4rem); color: var(--warm-white); font-weight: 600; margin-bottom: 28px; }
+        .hero h1 em { font-style: italic; color: var(--gold); }
+        .hero-desc { font-size: 1.1rem; color: var(--parchment); opacity: 0.8; max-width: 440px; line-height: 1.75; margin-bottom: 48px; }
+        .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; }
+
+        .btn-primary { display: inline-block; font-family: 'Jost', sans-serif; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; padding: 16px 36px; background: var(--gold); color: var(--ink); text-decoration: none; transition: background 0.25s var(--ease), transform 0.25s var(--ease); }
+        .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+        .btn-ghost { display: inline-block; font-family: 'Jost', sans-serif; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; padding: 15px 36px; border: 1px solid rgba(184,150,90,0.5); color: var(--parchment); text-decoration: none; transition: border-color 0.25s, color 0.25s; }
+        .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+
+        .hero-stats {
+            display: flex; gap: 40px; margin-top: 64px; padding-top: 40px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+        }
+        .hero-stat .number { font-family: 'Playfair Display', serif; font-size: 2.2rem; color: var(--gold); font-weight: 400; }
+        .hero-stat .text { font-family: 'Jost', sans-serif; font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--stone); margin-top: 4px; }
+
+        .hero-right { position: relative; }
+        .hero-image-wrap {
+            position: absolute; inset: 0;
+            background: url('https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069&auto=format&fit=crop') center/cover no-repeat;
+        }
+        .hero-image-wrap::after {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(100deg, var(--navy) 0%, rgba(13,33,55,0.3) 60%, transparent 100%);
+        }
+        .hero-badge {
+            position: absolute; bottom: 60px; left: -40px; z-index: 3;
+            background: var(--navy); border-left: 3px solid var(--gold);
+            padding: 28px 32px; max-width: 280px;
+        }
+        .hero-badge p { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.05rem; color: var(--warm-white); line-height: 1.5; }
+        .hero-badge cite { font-family: 'Jost', sans-serif; font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); margin-top: 12px; display: block; }
+
+        /* ─── TRUST BAR ─── */
+        .trust-bar { background: var(--navy-deep); padding: 24px 0; border-bottom: 1px solid rgba(184,150,90,0.15); }
+        .trust-bar-inner { display: flex; align-items: center; justify-content: center; gap: 64px; flex-wrap: wrap; }
+        .trust-item { display: flex; align-items: center; gap: 12px; font-family: 'Jost', sans-serif; font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--parchment); }
+        .trust-item i { color: var(--gold); font-size: 0.9rem; }
+
+        /* ─── SECTION LABEL ─── */
+        .section-label { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
+        .section-label .line { width: 32px; height: 1px; background: var(--gold); }
+        .section-label span { font-family: 'Jost', sans-serif; font-size: 0.65rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); }
+        .section-heading { font-size: clamp(2rem, 3.5vw, 2.8rem); margin-bottom: 20px; }
+        .section-sub { font-size: 1.1rem; color: var(--stone); max-width: 540px; line-height: 1.75; }
+
+        /* ─── ABOUT ─── */
+        .about { background: var(--warm-white); padding: 120px 0; }
+        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 100px; align-items: center; }
+        .about-image-col { position: relative; }
+        .about-img-main { width: 100%; height: 580px; object-fit: cover; display: block; }
+        .about-img-accent {
+            position: absolute; bottom: -32px; right: -32px;
+            width: 220px; height: 160px; object-fit: cover;
+            border: 6px solid var(--warm-white);
+        }
+        .about-since {
+            position: absolute; top: 32px; left: -20px;
+            background: var(--navy); color: var(--gold);
+            font-family: 'Playfair Display', serif;
+            padding: 20px 24px; text-align: center;
+        }
+        .about-since .year { font-size: 2rem; font-weight: 700; display: block; }
+        .about-since .since { font-family: 'Jost', sans-serif; font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--parchment); }
+        .about-text { font-size: 1.1rem; color: var(--stone); line-height: 1.8; margin-bottom: 20px; }
+        .about-cta { margin-top: 40px; }
+
+        .values-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; margin-top: 48px; border: 1px solid var(--cream); }
+        .value-item { padding: 28px 24px; background: var(--cream); }
+        .value-item h4 { font-family: 'Jost', sans-serif; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+        .value-item p { font-size: 0.95rem; color: var(--stone); line-height: 1.6; }
+
+        /* ─── SERVICES ─── */
+        .services { background: var(--navy); padding: 120px 0; }
+        .services-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 64px; }
+        .services-header .section-sub { color: var(--parchment); opacity: 0.7; }
+        .services-header .section-heading { color: var(--warm-white); }
+        .services-header .section-label span, .services .section-label span { color: var(--gold); }
+        .services .section-label .line { background: var(--gold); }
+        .services-view-all { font-family: 'Jost', sans-serif; font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); text-decoration: none; display: flex; align-items: center; gap: 8px; flex-shrink: 0; transition: gap 0.2s; }
+        .services-view-all:hover { gap: 14px; }
+        .services-view-all i { font-size: 0.7rem; }
+
+        .services-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; background: rgba(255,255,255,0.06); }
+        .service-card {
+            background: var(--navy-mid);
+            padding: 40px 28px;
+            transition: background 0.3s var(--ease);
+            position: relative; overflow: hidden;
+            text-decoration: none;
+        }
+        .service-card::before {
+            content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+            background: var(--gold); transform: scaleX(0); transform-origin: left;
+            transition: transform 0.4s var(--ease);
+        }
+        .service-card:hover { background: #0d2a48; }
+        .service-card:hover::before { transform: scaleX(1); }
+        .service-num { font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 400; color: rgba(255,255,255,0.06); line-height: 1; margin-bottom: 28px; transition: color 0.3s; }
+        .service-card:hover .service-num { color: rgba(184,150,90,0.15); }
+        .service-icon { color: var(--gold); font-size: 1.2rem; margin-bottom: 20px; }
+        .service-card h3 { font-family: 'Playfair Display', serif; font-size: 1.15rem; color: var(--warm-white); margin-bottom: 12px; font-weight: 600; }
+        .service-card p { font-size: 0.9rem; color: rgba(217,209,196,0.6); line-height: 1.65; font-family: 'Jost', sans-serif; font-weight: 300; }
+        .service-arrow { color: var(--gold); font-size: 0.75rem; margin-top: 28px; display: block; opacity: 0; transform: translateX(-6px); transition: opacity 0.3s, transform 0.3s; font-family: 'Jost', sans-serif; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 500; }
+        .service-card:hover .service-arrow { opacity: 1; transform: translateX(0); }
+
+        /* ─── WHY US ─── */
+        .why { background: var(--warm-white); padding: 120px 0; }
+        .why-grid { display: grid; grid-template-columns: 5fr 7fr; gap: 100px; align-items: start; }
+        .why-image { position: relative; }
+        .why-img { width: 100%; height: 640px; object-fit: cover; display: block; }
+        .why-pull {
+            position: absolute; bottom: 40px; right: -40px;
+            background: var(--navy); padding: 36px 32px; max-width: 260px;
+        }
+        .why-pull .big { font-family: 'Playfair Display', serif; font-size: 3rem; color: var(--gold); line-height: 1; }
+        .why-pull .desc { font-family: 'Jost', sans-serif; font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--parchment); margin-top: 8px; }
+
+        .why-list { margin-top: 52px; }
+        .why-item { padding: 32px 0; border-bottom: 1px solid var(--cream); display: flex; gap: 28px; align-items: flex-start; }
+        .why-item:first-child { border-top: 1px solid var(--cream); }
+        .why-icon { width: 44px; height: 44px; background: var(--cream); display: flex; align-items: center; justify-content: center; color: var(--gold); font-size: 1rem; flex-shrink: 0; margin-top: 2px; }
+        .why-item h4 { font-family: 'Playfair Display', serif; font-size: 1.2rem; margin-bottom: 8px; }
+        .why-item p { font-size: 1rem; color: var(--stone); line-height: 1.7; }
+
+        /* ─── CTA BANNER ─── */
+        .cta-banner {
+            background: var(--navy); padding: 100px 0;
+            background-image: url('https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover; background-position: center;
+            position: relative;
+        }
+        .cta-banner::before { content: ''; position: absolute; inset: 0; background: rgba(8,19,31,0.91); }
+        .cta-inner { position: relative; text-align: center; max-width: 680px; margin: 0 auto; }
+        .cta-inner h2 { font-size: clamp(2rem, 4vw, 3rem); color: var(--warm-white); margin-bottom: 20px; }
+        .cta-inner p { font-size: 1.1rem; color: var(--parchment); opacity: 0.75; margin-bottom: 40px; line-height: 1.75; }
+        .cta-inner .label { color: var(--gold); margin-bottom: 24px; display: block; }
+        .cta-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+        /* ─── CONTACT STRIP ─── */
+        .contact-strip { background: var(--navy-mid); padding: 80px 0; }
+        .contact-strip-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: rgba(255,255,255,0.05); }
+        .contact-strip-item { background: var(--navy-mid); padding: 36px 32px; }
+        .contact-strip-item i { color: var(--gold); font-size: 1.1rem; margin-bottom: 16px; display: block; }
+        .contact-strip-item h4 { font-family: 'Jost', sans-serif; font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--parchment); margin-bottom: 10px; }
+        .contact-strip-item p, .contact-strip-item a { font-family: 'EB Garamond', serif; font-size: 1rem; color: rgba(217,209,196,0.65); text-decoration: none; line-height: 1.6; }
+        .contact-strip-item a:hover { color: var(--gold); }
+
+        /* ─── FOOTER ─── */
+        footer { background: var(--navy-deep); border-top: 1px solid rgba(184,150,90,0.2); padding: 60px 0 32px; }
+        .footer-top { display: flex; gap: 80px; margin-bottom: 48px; }
+        .footer-brand { flex: 2; }
+        .footer-logo { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--gold); margin-bottom: 16px; }
+        .footer-logo span { font-family: 'Jost', sans-serif; font-size: 0.6rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--parchment); display: block; margin-top: 3px; }
+        .footer-brand p { font-size: 0.95rem; color: rgba(217,209,196,0.5); line-height: 1.7; max-width: 340px; }
+        .footer-col { flex: 1; }
+        .footer-col h5 { font-family: 'Jost', sans-serif; font-size: 0.65rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; }
+        .footer-col ul { list-style: none; }
+        .footer-col li { margin-bottom: 10px; }
+        .footer-col a { font-family: 'Jost', sans-serif; font-size: 0.82rem; color: rgba(217,209,196,0.5); text-decoration: none; transition: color 0.2s; }
+        .footer-col a:hover { color: var(--gold); }
+        .footer-bottom { border-top: 1px solid rgba(255,255,255,0.05); padding-top: 24px; display: flex; justify-content: space-between; align-items: center; }
+        .footer-bottom p { font-family: 'Jost', sans-serif; font-size: 0.7rem; color: rgba(255,255,255,0.25); letter-spacing: 0.05em; }
+
+        /* ─── TESTIMONIALS ─── */
+        .testimonials { background: var(--navy-deep); padding: 120px 0; }
+        .testimonials .section-heading { color: var(--warm-white); }
+        .testimonials .section-label span { color: var(--gold); }
+        .testimonials .section-label .line { background: var(--gold); }
+        .testimonials-intro { font-size: 1.05rem; color: var(--parchment); opacity: 0.7; max-width: 560px; line-height: 1.75; margin-bottom: 64px; }
+        .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: rgba(255,255,255,0.04); }
+        .testimonial-card { background: rgba(13,33,55,0.8); padding: 44px 36px; position: relative; }
+        .testimonial-card::before { content: '\201C'; font-family: 'Playfair Display', serif; font-size: 5rem; color: var(--gold); opacity: 0.2; position: absolute; top: 20px; left: 28px; line-height: 1; }
+        .testimonial-text { font-family: 'EB Garamond', serif; font-size: 1.05rem; color: var(--parchment); line-height: 1.8; margin-bottom: 28px; position: relative; z-index: 1; }
+        .testimonial-stars { color: var(--gold); font-size: 0.75rem; letter-spacing: 3px; margin-bottom: 16px; }
+        .testimonial-author { font-family: 'Jost', sans-serif; font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); }
+        .testimonial-matter { font-family: 'Jost', sans-serif; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(217,209,196,0.4); margin-top: 4px; }
+        @media (max-width: 900px) { .testimonials-grid { grid-template-columns: 1fr; } }
+
+        /* ─── FAQ ─── */
+        .faq { background: var(--cream); padding: 120px 0; }
+        .faq-grid { display: grid; grid-template-columns: 5fr 7fr; gap: 100px; align-items: start; }
+        .faq-list { margin-top: 0; }
+        .faq-item { border-bottom: 1px solid var(--parchment); }
+        .faq-item:first-child { border-top: 1px solid var(--parchment); }
+        .faq-q { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 600; color: var(--ink); padding: 22px 0; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 16px; list-style: none; }
+        .faq-q::after { content: '+'; font-family: 'Jost', sans-serif; font-size: 1.2rem; color: var(--gold); flex-shrink: 0; transition: transform 0.3s; }
+        .faq-item.open .faq-q::after { transform: rotate(45deg); }
+        .faq-a { font-size: 1rem; color: var(--stone); line-height: 1.75; padding-bottom: 22px; display: none; }
+        .faq-item.open .faq-a { display: block; }
+
+        /* ─── AREAS ─── */
+        .areas { background: var(--warm-white); padding: 100px 0; border-top: 1px solid var(--cream); }
+        .areas-inner { display: grid; grid-template-columns: 1fr 2fr; gap: 80px; align-items: start; }
+        .areas-tags { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
+        .area-tag { font-family: 'Jost', sans-serif; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 10px 18px; border: 1px solid var(--parchment); color: var(--stone); background: var(--cream); }
+        .areas-text { font-size: 1.05rem; color: var(--stone); line-height: 1.8; }
+        @media (max-width: 900px) { .faq-grid, .areas-inner { grid-template-columns: 1fr; gap: 48px; } }
+        .wa-btn { position: fixed; bottom: 28px; right: 28px; width: 58px; height: 58px; background: #25D366; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.6rem; text-decoration: none; box-shadow: 0 8px 24px rgba(37,211,102,0.35); z-index: 99; transition: transform 0.25s var(--ease); }
+        .wa-btn:hover { transform: scale(1.1); }
+
+        /* ─── MOBILE ─── */
+        @media (max-width: 1100px) { .services-grid { grid-template-columns: repeat(3, 1fr); } }
+        @media (max-width: 900px) {
+            .hero { grid-template-columns: 1fr; min-height: auto; }
+            .hero-right { height: 360px; }
+            .hero-badge { display: none; }
+            .about-grid, .why-grid { grid-template-columns: 1fr; gap: 60px; }
+            .about-img-accent { display: none; }
+            .why-pull { position: static; max-width: none; margin-top: 24px; }
+            .services-grid { grid-template-columns: repeat(2, 1fr); }
+            .services-header { flex-direction: column; gap: 24px; align-items: flex-start; }
+            .contact-strip-grid { grid-template-columns: 1fr 1fr; }
+            .footer-top { flex-direction: column; gap: 40px; }
+        }
+        @media (max-width: 680px) {
+            .nav-list { display: none; }
+            .nav-list.open { display: flex; flex-direction: column; position: fixed; top: var(--nav-h); left: 0; right: 0; background: var(--navy-deep); padding: 32px 5%; gap: 20px; border-top: 1px solid rgba(184,150,90,0.15); }
+            .menu-toggle { display: block; }
+            .hero-left { padding-left: 5%; padding-right: 5%; }
+            .services-grid { grid-template-columns: 1fr; }
+            .contact-strip-grid { grid-template-columns: 1fr; }
+            .trust-bar-inner { gap: 28px; justify-content: flex-start; padding: 0 5%; }
+            .values-row { grid-template-columns: 1fr; }
+            .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+        }
+
+        /* ─── ANIMATIONS ─── */
+        .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s var(--ease), transform 0.7s var(--ease); }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+    </style>
+</head>
+<body>
+<!-- NAV -->
+<nav id="nav">
+    <a href="/home" class="logo-wrap">
+        <img src="{static 'makgetha_web/images/accident.png'}" alt="M. Makgetha Attorneys" class="logo-img">
+        <div class="logo-name">M. MAKGETHA<span>Attorneys Inc.</span></div>
+    </a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu"><i class="fas fa-bars"></i></button>
+    <ul class="nav-list" id="navList">
+        <li><a href="/home" class="active">Home</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/services">Services</a></li>
+        <li><a href="/contact">Contact</a></li>
+        <li><a href="/contact" class="nav-cta">Consult Now</a></li>
+    </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-left">
+        <div class="hero-eyebrow"><span class="line"></span><span>Potchefstroom, South Africa</span></div>
+        <h1>Your Case Is<br><em>Our Expertise</em></h1>
+        <p class="hero-desc">M. Makgetha Attorneys Inc. delivers premier legal counsel with integrity, precision and an unwavering commitment to your outcome. Serving Potchefstroom, Klerksdorp, Mahikeng and the wider North West province, our experienced attorneys handle divorce, maintenance, civil litigation, criminal defence, immigration, deceased estates and more.</p>
+        <div class="hero-actions">
+            <a href="/contact" class="btn-primary">Schedule a Consultation</a>
+            <a href="/services" class="btn-ghost">View Our Services</a>
+        </div>
+        <div class="hero-stats">
+            <div class="hero-stat"><div class="number">15+</div><div class="text">Years of Practice</div></div>
+            <div class="hero-stat"><div class="number">500+</div><div class="text">Cases Resolved</div></div>
+            <div class="hero-stat"><div class="number">98%</div><div class="text">Client Satisfaction</div></div>
+        </div>
+    </div>
+    <div class="hero-right">
+        <div class="hero-image-wrap"></div>
+        <div class="hero-badge">
+            <p>"We treat every matter as if it were our own."</p>
+            <cite>M. Makgetha — Principal Attorney</cite>
+        </div>
+    </div>
+</section>
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+    <div class="trust-bar-inner">
+        <div class="trust-item"><i class="fas fa-shield-halved"></i><span>Confidential & Discreet</span></div>
+        <div class="trust-item"><i class="fas fa-scale-balanced"></i><span>Registered with Law Society of SA</span></div>
+        <div class="trust-item"><i class="fas fa-award"></i><span>15+ Years Established</span></div>
+        <div class="trust-item"><i class="fas fa-handshake"></i><span>Client-First Approach</span></div>
+        <div class="trust-item"><i class="fas fa-phone"></i><span>Responsive Communication</span></div>
+    </div>
+</div>
+
+<!-- ABOUT -->
+<section class="about">
+    <div class="container">
+        <div class="about-grid">
+            <div class="about-image-col reveal">
+                <img class="about-img-main" src="https://images.unsplash.com/photo-1568992687947-868a62a9f521?q=80&w=1632&auto=format&fit=crop" alt="Legal counsel">
+                <img class="about-img-accent" src="https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=800&auto=format&fit=crop" alt="Consultation">
+                <div class="about-since"><span class="year">2010</span><span class="since">Est.</span></div>
+            </div>
+            <div class="reveal reveal-delay-1">
+                <div class="section-label"><span class="line"></span><span>About the Firm</span></div>
+                <h2 class="section-heading">A Practice Built on Trust &amp; Results</h2>
+                <p class="about-text">M. Makgetha Attorneys Inc. was founded with a singular vision: to deliver exceptional legal services that truly prioritise client needs. For over a decade, we have served individuals, families and businesses across Potchefstroom and the broader North West region, building a reputation as one of the area's most trusted and results-driven law firms.</p>
+                <p class="about-text">We combine deep legal expertise across family law, civil litigation and criminal defence with a human approach — because we understand that behind every case is a person's life, livelihood and future. From our offices at 136 Peter Mokaba Avenue, Potchefstroom, our team provides accessible, high-quality legal advice at every stage of your matter.</p>
+                <p class="about-text">Whether you are facing a difficult divorce, navigating a maintenance dispute, defending a criminal charge, or winding up a loved one's estate, our attorneys bring the knowledge, dedication and courtroom experience needed to secure the best possible outcome for you and your family.</p>
+                <div class="values-row">
+                    <div class="value-item"><h4>Integrity</h4><p>Transparent, honest and ethical counsel in every matter — no hidden fees, no false promises.</p></div>
+                    <div class="value-item"><h4>Client Focus</h4><p>Your goals and circumstances define our legal strategy. We listen first, then act.</p></div>
+                    <div class="value-item"><h4>Excellence</h4><p>Rigorous case preparation, thorough legal research and skilled courtroom representation.</p></div>
+                    <div class="value-item"><h4>Discretion</h4><p>Complete attorney-client privilege and confidentiality, always respected and protected.</p></div>
+                </div>
+                <div class="about-cta"><a href="/about" class="btn-primary">Our Story</a></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services">
+    <div class="container">
+        <div class="services-header">
+            <div>
+                <div class="section-label"><span class="line"></span><span>What We Do</span></div>
+                <h2 class="section-heading" style="color:var(--warm-white);">Comprehensive Legal<br>Practice Areas</h2>
+            </div>
+            <a href="/services" class="services-view-all">All Services <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <div class="services-grid">
+            <a href="/services" class="service-card reveal">
+                <div class="service-num">01</div>
+                <div class="service-icon"><i class="fas fa-ring"></i></div>
+                <h3>Divorce Matters</h3>
+                <p>Contested and uncontested divorce, forfeiture of benefits, division of the joint estate, and settlement agreements. We guide you through every step of the South African divorce process with clarity and compassion.</p>
+                <span class="service-arrow">Learn more →</span>
+            </a>
+            <a href="/services" class="service-card reveal reveal-delay-1">
+                <div class="service-num">02</div>
+                <div class="service-icon"><i class="fas fa-child-reaching"></i></div>
+                <h3>Maintenance Matters</h3>
+                <p>Spousal and child maintenance applications, enforcement of maintenance orders, and variations where circumstances have changed. We pursue fair, legally enforceable outcomes for every client.</p>
+                <span class="service-arrow">Learn more →</span>
+            </a>
+            <a href="/services" class="service-card reveal reveal-delay-2">
+                <div class="service-num">03</div>
+                <div class="service-icon"><i class="fas fa-gavel"></i></div>
+                <h3>Civil Litigation</h3>
+                <p>Contractual disputes, property and boundary disagreements, debt recovery, damages claims and commercial litigation in the Magistrate's Court and High Court of South Africa.</p>
+                <span class="service-arrow">Learn more →</span>
+            </a>
+            <a href="/services" class="service-card reveal reveal-delay-3">
+                <div class="service-num">04</div>
+                <div class="service-icon"><i class="fas fa-shield-halved"></i></div>
+                <h3>Domestic Violence</h3>
+                <p>Urgent protection orders under the Domestic Violence Act, emergency interdicts and victim advocacy. We act swiftly to safeguard you and your children from harm.</p>
+                <span class="service-arrow">Learn more →</span>
+            </a>
+            <a href="/services" class="service-card reveal">
+                <div class="service-num">05</div>
+                <div class="service-icon"><i class="fas fa-scroll"></i></div>
+                <h3>Deceased Estates</h3>
+                <p>Will drafting, estate administration, reporting to the Master of the High Court, and intestate succession. We handle the legal process sensitively so your family can focus on what matters.</p>
+                <span class="service-arrow">Learn more →</span>
+            </a>
+            <a href="/services" class="service-card reveal reveal-delay-1">
+                <div class="service-num">06</div>
+                <div class="service-icon"><i class="fas fa-car-burst"></i></div>
+                <h3>Road Accident Fund</h3>
+                <p>RAF claims for serious injuries, loss of income, general damages and funeral expenses. We maximise your compensation and handle all correspondence with the Fund on your behalf.</p>
+                <span class="service-arrow">Learn more →</span>
+            </a>
+            <a href="/services" class="service-card reveal reveal-delay-2">
+                <div class="service-num">07</div>
+                <div class="service-icon"><i class="fas fa-handcuffs"></i></div>
+                <h3>Unlawful Arrests</h3>
+                <p>Constitutional rights defence, wrongful arrest and malicious prosecution claims against the South African Police Service and other authorities. We hold the state accountable.</p>
+                <span class="service-arrow">Learn more →</span>
+            </a>
+            <a href="/services" class="service-card reveal reveal-delay-3">
+                <div class="service-num">08</div>
+                <div class="service-icon"><i class="fas fa-passport"></i></div>
+                <h3>Immigration</h3>
+                <p>Temporary and permanent residence permits, critical skills visas, spousal visas, asylum applications and citizenship guidance — navigating the Department of Home Affairs for you.</p>
+                <span class="service-arrow">Learn more →</span>
+            </a>
+            <a href="/services" class="service-card reveal">
+                <div class="service-num">09</div>
+                <div class="service-icon"><i class="fas fa-balance-scale"></i></div>
+                <h3>Criminal Defence</h3>
+                <p>Aggressive, strategic defence from the investigation stage through to trial and sentencing. We protect your rights, secure bail where possible, and fight every charge with full force.</p>
+                <span class="service-arrow">Learn more →</span>
+            </a>
+            <a href="/services" class="service-card reveal reveal-delay-1">
+                <div class="service-num">10</div>
+                <div class="service-icon"><i class="fas fa-user-shield"></i></div>
+                <h3>Harassment Matters</h3>
+                <p>Interdicts and protection orders for workplace bullying, stalking, cyber-harassment and sexual harassment. We help you reclaim your safety, dignity and peace of mind.</p>
+                <span class="service-arrow">Learn more →</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- WHY US -->
+<section class="why">
+    <div class="container">
+        <div class="why-grid">
+            <div class="reveal">
+                <img class="why-img" src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=1742&auto=format&fit=crop" alt="Attorney at work">
+                <div class="why-pull">
+                    <div class="big">98%</div>
+                    <div class="desc">Client Satisfaction Rate</div>
+                </div>
+            </div>
+            <div class="reveal reveal-delay-1">
+                <div class="section-label"><span class="line"></span><span>Why Choose Us</span></div>
+                <h2 class="section-heading">Counsel You Can<br>Count On</h2>
+                <p style="font-size:1.05rem; color:var(--stone); margin-bottom:8px; line-height:1.75;">We don't just handle your case — we invest in your outcome. Our firm has built its reputation in Potchefstroom and the North West on a foundation of honest communication, meticulous preparation and an absolute refusal to take shortcuts when your rights are at stake. Here is what sets us apart:</p>
+                <div class="why-list">
+                    <div class="why-item">
+                        <div class="why-icon"><i class="fas fa-user-tie"></i></div>
+                        <div>
+                            <h4>Direct Partner Access</h4>
+                            <p>You work directly with a senior attorney throughout your matter — not a paralegal or junior clerk. This means better advice, faster decisions and a consistent point of contact from start to finish.</p>
+                        </div>
+                    </div>
+                    <div class="why-item">
+                        <div class="why-icon"><i class="fas fa-lock"></i></div>
+                        <div>
+                            <h4>Strict Confidentiality</h4>
+                            <p>Every consultation and matter is handled with the utmost discretion. Attorney-client privilege is sacrosanct at our firm — your personal, family and business affairs remain completely private.</p>
+                        </div>
+                    </div>
+                    <div class="why-item">
+                        <div class="why-icon"><i class="fas fa-clock"></i></div>
+                        <div>
+                            <h4>Responsive &amp; Transparent</h4>
+                            <p>We keep you informed at every stage of your matter with regular updates and clear explanations. No legal jargon, no unexplained delays and no surprise invoices — just honest, open communication.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+    <div class="container">
+        <div class="section-label reveal"><span class="line"></span><span>Client Testimonials</span></div>
+        <h2 class="section-heading reveal">What Our Clients Say</h2>
+        <p class="testimonials-intro reveal">Our clients' trust is the measure of our success. Here is what some of the individuals and families we have represented across Potchefstroom and the North West Province have shared about their experience with our firm.</p>
+        <div class="testimonials-grid">
+            <div class="testimonial-card reveal">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-text">From my very first call, M. Makgetha Attorneys made me feel heard and supported. They handled my contested divorce with absolute professionalism, protecting my interests at every turn and achieving a settlement I never thought possible. I cannot recommend them highly enough to anyone in Potchefstroom facing a difficult divorce.</p>
+                <div class="testimonial-author">T. Modise</div>
+                <div class="testimonial-matter">Contested Divorce — Potchefstroom</div>
+            </div>
+            <div class="testimonial-card reveal reveal-delay-1">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-text">I was arrested under circumstances I could not fully understand, and the experience was terrifying. M. Makgetha's team appeared at my bail application within hours, secured my release and built a solid defence that resulted in the charges being withdrawn. Their knowledge of the Potchefstroom Magistrate's Court is second to none.</p>
+                <div class="testimonial-author">K. van Niekerk</div>
+                <div class="testimonial-matter">Criminal Defence — Potchefstroom</div>
+            </div>
+            <div class="testimonial-card reveal reveal-delay-2">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-text">After my husband's passing, I was overwhelmed by the estate process. The team at M. Makgetha guided me through every step — from reporting the estate to the Master to the final distribution — with patience and genuine care. They made a very difficult time much easier to navigate.</p>
+                <div class="testimonial-author">P. Lekganyane</div>
+                <div class="testimonial-matter">Deceased Estate Administration</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq">
+    <div class="container">
+        <div class="faq-grid">
+            <div class="reveal">
+                <div class="section-label"><span class="line"></span><span>Common Questions</span></div>
+                <h2 class="section-heading">Frequently Asked Legal Questions</h2>
+                <p class="section-sub">We believe informed clients make better decisions. Here are honest answers to the questions we hear most often.</p>
+            </div>
+            <div class="faq-list reveal reveal-delay-1">
+                <div class="faq-item open">
+                    <div class="faq-q">How much does an initial consultation cost?</div>
+                    <p class="faq-a">We offer an initial consultation at a competitive rate so you can get professional legal advice before committing to a full matter. During this session, we assess your situation, explain your legal options and give you a clear picture of costs involved. Contact us to confirm current consultation fees.</p>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q">How long does a divorce take in South Africa?</div>
+                    <p class="faq-a">An uncontested divorce — where both parties agree on all terms including assets, maintenance and custody — can typically be finalised in 6 to 10 weeks. A contested divorce, where parties dispute one or more issues, can take several months to over a year depending on court availability and the complexity of the matter. Our attorneys work to resolve disputes efficiently and, where possible, through negotiation before litigation.</p>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q">What should I do if I am arrested in Potchefstroom?</div>
+                    <p class="faq-a">Remain calm and exercise your constitutional right to silence. Do not make any statement to the police without an attorney present. Contact M. Makgetha Attorneys Inc. as soon as possible — we can advise you, appear at your bail application and begin building your defence immediately. Prompt legal representation is critical in criminal matters.</p>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q">Can I claim from the Road Accident Fund (RAF)?</div>
+                    <p class="faq-a">If you were injured in a road accident in South Africa — whether as a driver, passenger, pedestrian or cyclist — you may be entitled to claim compensation from the Road Accident Fund for medical expenses, loss of income and general damages. Strict prescription periods apply, so it is important to act quickly. Our attorneys handle RAF claims on a contingency basis in appropriate cases.</p>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q">How do I report and wind up a deceased estate?</div>
+                    <p class="faq-a">When a person passes away, their estate must be reported to the Master of the High Court within 14 days. The process then involves appointing an executor, liquidating and distributing assets, settling debts and filing the necessary accounts. This can take several months. Our attorneys manage the entire process, reducing the administrative burden on grieving families.</p>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-q">Do you assist with immigration matters?</div>
+                    <p class="faq-a">Yes. We assist with a wide range of immigration applications including temporary and permanent residence permits, critical skills work visas, corporate visas, spousal and partner visas, and appeals against decisions by the Department of Home Affairs. Immigration law is complex and subject to frequent regulatory changes — professional guidance significantly improves your chances of success.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- AREAS WE SERVE -->
+<section class="areas">
+    <div class="container">
+        <div class="areas-inner reveal">
+            <div>
+                <div class="section-label"><span class="line"></span><span>Where We Practise</span></div>
+                <h2 class="section-heading">Areas We Serve</h2>
+            </div>
+            <div>
+                <p class="areas-text">Our attorneys are based in Potchefstroom and regularly appear in the Potchefstroom Magistrate's Court and the North West High Court. We proudly serve clients across the entire North West Province and can advise clients throughout South Africa on matters that do not require personal court attendance. Whether you live in Potchefstroom, Klerksdorp, Mahikeng, Rustenburg, Vryburg, Lichtenburg or any surrounding town or township, we are here to help.</p>
+                <div class="areas-tags" style="margin-top:28px;">
+                    <span class="area-tag">Potchefstroom</span>
+                    <span class="area-tag">Klerksdorp</span>
+                    <span class="area-tag">Mahikeng</span>
+                    <span class="area-tag">Rustenburg</span>
+                    <span class="area-tag">Vryburg</span>
+                    <span class="area-tag">Lichtenburg</span>
+                    <span class="area-tag">Wolmaransstad</span>
+                    <span class="area-tag">Delareyville</span>
+                    <span class="area-tag">Schweizer-Reneke</span>
+                    <span class="area-tag">Ikageng</span>
+                    <span class="area-tag">North West Province</span>
+                    <span class="area-tag">South Africa</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA BANNER -->
+<section class="cta-banner">
+    <div class="container">
+        <div class="cta-inner reveal">
+            <span class="label">Take the First Step</span>
+            <h2>Protect Your Rights Today</h2>
+            <p>Don't navigate legal challenges alone. Contact us for an initial consultation — confidential, professional and obligation-free.</p>
+            <div class="cta-actions">
+                <a href="/contact" class="btn-primary">Schedule a Consultation</a>
+                <a href="tel:0795823164" class="btn-ghost">Call 079 582 3164</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CONTACT STRIP -->
+<div class="contact-strip">
+    <div class="container">
+        <div class="contact-strip-grid">
+            <div class="contact-strip-item">
+                <i class="fas fa-map-marker-alt"></i>
+                <h4>Address</h4>
+                <p>136 Peter Mokaba Avenue<br>Potchefstroom, 2520</p>
+            </div>
+            <div class="contact-strip-item">
+                <i class="fas fa-phone"></i>
+                <h4>Telephone</h4>
+                <a href="tel:0795823164">079 582 3164</a><br>
+                <a href="tel:0182945174">018 294 5174</a>
+            </div>
+            <div class="contact-strip-item">
+                <i class="fas fa-envelope"></i>
+                <h4>Email</h4>
+                <a href="/cdn-cgi/l/email-protection#ef86818980af82828e84888a9b878e8e9b9b809d818a969cc18c8082"><span class="__cf_email__" data-cfemail="345d5a525b745959555f5351405c555540405b465a514d471a575b59">[email&#160;protected]</span></a>
+            </div>
+            <div class="contact-strip-item">
+                <i class="fas fa-clock"></i>
+                <h4>Office Hours</h4>
+                <p>Monday – Friday<br>08:00 – 16:30</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+    <div class="container">
+        <div class="footer-top">
+            <div class="footer-brand">
+                <div class="footer-logo">M. Makgetha<span>Attorneys Inc.</span></div>
+                <p>Comprehensive legal solutions for individuals, families and businesses across Potchefstroom and the North West Province — Divorce, Maintenance, Civil Litigation, Criminal Defence, Road Accident Fund Claims, Immigration, Deceased Estates and more. Trusted counsel in Potchefstroom since 2010. Registered with the Law Society of South Africa.</p>
+            </div>
+            <div class="footer-col">
+                <h5>Navigate</h5>
+                <ul>
+                    <li><a href="/home">Home</a></li>
+                    <li><a href="/about">About</a></li>
+                    <li><a href="/services">Services</a></li>
+                    <li><a href="/contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h5>Practice Areas</h5>
+                <ul>
+                    <li><a href="/services">Divorce Matters</a></li>
+                    <li><a href="/services">Maintenance</a></li>
+                    <li><a href="/services">Civil Litigation</a></li>
+                    <li><a href="/services">Criminal Defence</a></li>
+                    <li><a href="/services">Immigration</a></li>
+                    <li><a href="/services">Road Accident Fund</a></li>
+                    <li><a href="/services">Deceased Estates</a></li>
+                    <li><a href="/services">Domestic Violence</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h5>Contact</h5>
+                <ul>
+                    <li><a href="tel:0795823164">079 582 3164</a></li>
+                    <li><a href="tel:0182945174">018 294 5174</a></li>
+                    <li><a href="/cdn-cgi/l/email-protection#0a63646c654a67676b616d6f7e626b6b7e7e6578646f737924696567"><span class="__cf_email__" data-cfemail="b5dcdbd3daf5d8d8d4ded2d0c1ddd4d4c1c1dac7dbd0ccc69bd6dad8">[email&#160;protected]</span></a></li>
+                    <li><a href="/contact">Get Directions</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 M. Makgetha Attorneys Inc. All rights reserved.</p>
+            <p>Potchefstroom, North West, South Africa</p>
+        </div>
+    </div>
+</footer>
+
+<!-- WHATSAPP -->
+<a href="https://wa.me/27795823164?text=Hi%20M.%20Makgetha%20Attorneys!%20I%20would%20like%20to%20enquire%20about%20legal%20services." class="wa-btn" target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    // Nav scroll
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+        nav.style.background = window.scrollY > 60 ? 'rgba(8, 19, 31, 0.99)' : 'rgba(8, 19, 31, 0.97)';
+    });
+
+    // Mobile menu
+    const toggle = document.getElementById('menuToggle');
+    const navList = document.getElementById('navList');
+    toggle.addEventListener('click', () => {
+        navList.classList.toggle('open');
+        toggle.innerHTML = navList.classList.contains('open') ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+    });
+    navList.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+        navList.classList.remove('open');
+        toggle.innerHTML = '<i class="fas fa-bars"></i>';
+    }));
+
+    // FAQ toggle
+    document.querySelectorAll('.faq-q').forEach(q => {
+        q.addEventListener('click', () => {
+            q.closest('.faq-item').classList.toggle('open');
+        });
+    });
+
+    // Reveal on scroll
+    const revealEls = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    revealEls.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

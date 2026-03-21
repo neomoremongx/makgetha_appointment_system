@@ -31,7 +31,7 @@ SECRET_KEY = 'django-insecure-7t3*4^l_agll(#ft(rxxr)(6u1qw3ljgfgjqr2@3q0a&-3#idw
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['makgethaappointmentsystem-production.up.railway.app','mmakgethaattorneys.com']
+ALLOWED_HOSTS = ['makgethaappointmentsystem-production.up.railway.app','mmakgethaattorneys.com','127.0.0.1']
 
 # Security Settings for RAILWAY.com
 CSRF_TRUSTED_ORIGINS = ['http://makgethaappointmentsystem-production.up.railway.app','https://makgethaappointmentsystem-production.up.railway.app','http://mmakgethaattorneys.com/','https://mmakgethaattorneys.com']
@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'makgetha_appointment_system'
+    'makgetha_appointment_system',
+    'makgetha_web'
 ]
 
 MIDDLEWARE = [
@@ -99,9 +100,9 @@ DATABASES = {
 
         'PASSWORD': os.environ['DB_PASSWORD'],
 
-        'HOST': 'postgres.railway.internal',
+        'HOST': 'shuttle.proxy.rlwy.net',
 
-        'PORT': '5432',
+        'PORT': '29227',
 
     }
 
@@ -146,6 +147,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [BASE_DIR / 'static']
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
