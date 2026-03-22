@@ -15,32 +15,6 @@
     <meta property="og:title" content="Contact M. Makgetha Attorneys Inc. | Potchefstroom | 079 582 3164">
     <meta property="og:description" content="Visit us at 136 Peter Mokaba Avenue, Potchefstroom or call 079 582 3164. Expert attorneys ready to assist with divorce, criminal defence, civil litigation, RAF claims, immigration and more.">
     <meta property="og:locale" content="en_ZA">
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "LegalService",
-      "name": "M. Makgetha Attorneys Inc.",
-      "url": "https://www.mmakgetha.co.za/contact",
-      "description": "Contact M. Makgetha Attorneys Inc. in Potchefstroom for expert legal advice on divorce, criminal defence, civil litigation, Road Accident Fund claims, immigration, deceased estates and more.",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "136 Peter Mokaba Avenue",
-        "addressLocality": "Potchefstroom",
-        "addressRegion": "North West",
-        "postalCode": "2520",
-        "addressCountry": "ZA"
-      },
-      "telephone": ["+27795823164", "+27182945174", "+27180119464"],
-      "openingHours": "Mo-Fr 08:00-16:30",
-      "geo": {
-        "@type": "GeoCoordinates",
-        "latitude": -26.7145,
-        "longitude": 27.0974
-      },
-      "hasMap": "https://www.google.com/maps?q=136+Peter+Mokaba+Avenue,+Potchefstroom,+2520",
-      "areaServed": ["Potchefstroom", "Klerksdorp", "Mahikeng", "Rustenburg", "North West Province", "South Africa"]
-    }
-    </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
@@ -90,7 +64,13 @@
         .page-hero h1 em { font-style: italic; color: var(--gold); }
         .page-hero-sub { font-size: 1.05rem; color: rgba(217,209,196,0.65); margin-top: 20px; max-width: 480px; font-family: 'Jost', sans-serif; font-weight: 300; line-height: 1.7; }
         .page-hero-line { width: 64px; height: 2px; background: var(--gold); margin-top: 32px; }
-
+         
+        /* ─── TRUST BAR ─── */
+        .trust-bar { background: var(--navy-deep); padding: 24px 0; border-bottom: 1px solid rgba(184,150,90,0.15); }
+        .trust-bar-inner { display: flex; align-items: center; justify-content: center; gap: 64px; flex-wrap: wrap; }
+        .trust-item { display: flex; align-items: center; gap: 12px; font-family: 'Jost', sans-serif; font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--parchment); }
+        .trust-item i { color: var(--gold); font-size: 0.9rem; }
+        
         /* SECTION LABELS */
         .section-label { display: flex; align-items: center; gap: 16px; margin-bottom: 18px; }
         .section-label .line { width: 32px; height: 1px; background: var(--gold); }
@@ -102,7 +82,6 @@
         .contact-grid { display: grid; grid-template-columns: 5fr 7fr; gap: 80px; align-items: start; }
 
         /* LEFT - INFO */
-        .contact-info { }
         .contact-info > p { font-size: 1.05rem; color: var(--stone); line-height: 1.8; margin-bottom: 48px; }
         .info-blocks { display: flex; flex-direction: column; gap: 1px; background: var(--cream); margin-bottom: 48px; }
         .info-block { background: var(--warm-white); padding: 28px 28px; display: flex; gap: 20px; align-items: flex-start; transition: background 0.25s; }
@@ -185,20 +164,7 @@
 </head>
 <body>
 
-<nav id="nav">
-    <a href="/home" class="logo-wrap">
-        <img src="./images/M-Makgetha-Attorneys-Inc-Potchefstroom-Logo-41f5b5.jpg" alt="M. Makgetha Attorneys" class="logo-img">
-        <div class="logo-name">M. MAKGETHA<span>Attorneys Inc.</span></div>
-    </a>
-    <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
-    <ul class="nav-list" id="navList">
-        <li><a href="/home">Home</a></li>
-        <li><a href="/about">About</a></li>
-        <li><a href="/services">Services</a></li>
-        <li><a href="/contact" class="active">Contact</a></li>
-        <li><a href="/contact" class="nav-cta">Consult Now</a></li>
-    </ul>
-</nav>
+{% include "components/nav.html" %}
 
 <header class="page-hero">
     <div class="page-hero-bg"></div>
@@ -211,6 +177,17 @@
         </div>
     </div>
 </header>
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+    <div class="trust-bar-inner">
+        <div class="trust-item"><i class="fas fa-shield-halved"></i><span>Confidential & Discreet</span></div>
+        <div class="trust-item"><i class="fas fa-scale-balanced"></i><span>Registered with Law Society of SA</span></div>
+        <div class="trust-item"><i class="fas fa-award"></i><span>15+ Years Established</span></div>
+        <div class="trust-item"><i class="fas fa-handshake"></i><span>Client-First Approach</span></div>
+        <div class="trust-item"><i class="fas fa-phone"></i><span>Responsive Communication</span></div>
+    </div>
+</div>
 
 <a href="https://wa.me/27795823164?text=Hi%20M.%20Makgetha%20Attorneys!%20I%20would%20like%20to%20enquire%20about%20legal%20services." class="wa-btn" target="_blank"><i class="fab fa-whatsapp"></i></a>
 
@@ -340,20 +317,7 @@
     </div>
 </section>
 
-<footer>
-    <div class="container">
-        <div class="footer-top">
-            <div class="footer-brand">
-                <div class="footer-logo">M. Makgetha<span>Attorneys Inc.</span></div>
-                <p>Comprehensive legal solutions for individuals, families and businesses across Potchefstroom and the North West Province — Divorce, Maintenance, Civil Litigation, Criminal Defence, Road Accident Fund Claims, Immigration, Deceased Estates and more. Trusted counsel in Potchefstroom since 2010. Registered with the Law Society of South Africa.</p>
-            </div>
-            <div class="footer-col"><h5>Navigate</h5><ul><li><a href="/home">Home</a></li><li><a href="/about">About</a></li><li><a href="/services">Services</a></li><li><a href="/contact">Contact</a></li></ul></div>
-            <div class="footer-col"><h5>Practice Areas</h5><ul><li><a href="/services">Divorce Matters</a></li><li><a href="/services">Maintenance</a></li><li><a href="/services">Civil Litigation</a></li><li><a href="/services">Criminal Defence</a></li><li><a href="/services">Immigration</a></li><li><a href="/services">Road Accident Fund</a></li><li><a href="/services">Deceased Estates</a></li></ul></div>
-            <div class="footer-col"><h5>Contact</h5><ul><li><a href="tel:0795823164">079 582 3164</a></li><li><a href="tel:0182945174">018 294 5174</a></li><li><a href="/cdn-cgi/l/email-protection#e881868e87a8858589838f8d9c8089899c9c879a868d919bc68b8785"><span class="__cf_email__" data-cfemail="620b0c040d220f0f03090507160a030316160d100c071b114c010d0f">[email&#160;protected]</span></a></li></ul></div>
-        </div>
-        <div class="footer-bottom"><p>© 2025 M. Makgetha Attorneys Inc. All rights reserved.</p><p>Potchefstroom, North West, South Africa</p></div>
-    </div>
-</footer>
+{% include "components/footer.html" %}
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     const toggle = document.getElementById('menuToggle');

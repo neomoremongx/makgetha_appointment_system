@@ -13,26 +13,6 @@
     <meta property="og:title" content="About M. Makgetha Attorneys Inc. | Potchefstroom Law Firm Since 2010">
     <meta property="og:description" content="Established in 2010, M. Makgetha Attorneys Inc. is one of Potchefstroom's most trusted law firms. Specialising in divorce, criminal defence, civil litigation, RAF claims, immigration and deceased estates.">
     <meta property="og:locale" content="en_ZA">
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "LegalService",
-      "name": "M. Makgetha Attorneys Inc.",
-      "url": "https://www.mmakgetha.co.za/about",
-      "description": "M. Makgetha Attorneys Inc. is a full-service law firm established in 2010, based in Potchefstroom, North West, South Africa. We specialise in divorce, maintenance, civil litigation, criminal defence, RAF claims, immigration and deceased estates.",
-      "foundingDate": "2010",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "136 Peter Mokaba Avenue",
-        "addressLocality": "Potchefstroom",
-        "addressRegion": "North West",
-        "postalCode": "2520",
-        "addressCountry": "ZA"
-      },
-      "telephone": ["+27795823164", "+27182945174"],
-      "areaServed": ["Potchefstroom", "Klerksdorp", "Mahikeng", "North West Province", "South Africa"]
-    }
-    </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
@@ -104,6 +84,44 @@
         .section-label .line { width: 32px; height: 1px; background: var(--gold); }
         .section-label span { font-family: 'Jost', sans-serif; font-size: 0.65rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); }
         .section-heading { font-size: clamp(2rem, 3.5vw, 2.8rem); margin-bottom: 20px; }
+
+        /* TRUST BAR */
+        .trust-bar { background: var(--navy-deep); padding: 24px 0; border-bottom: 1px solid rgba(184,150,90,0.15); }
+        .trust-bar-inner { display: flex; align-items: center; justify-content: center; gap: 64px; flex-wrap: wrap; }
+        .trust-item { display: flex; align-items: center; gap: 12px; font-family: 'Jost', sans-serif; font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--parchment); }
+        .trust-item i { color: var(--gold); font-size: 0.9rem; }
+
+        /* HERO SUB */
+        .page-hero-sub { font-size: 1rem; color: rgba(217,209,196,0.65); margin-top: 18px; max-width: 500px; font-family: 'Jost', sans-serif; font-weight: 300; line-height: 1.75; }
+
+        /* TESTIMONIALS */
+        .testimonials { background: var(--navy-deep); padding: 120px 0; }
+        .testimonials .section-heading { color: var(--warm-white); }
+        .testimonials .section-label span { color: var(--gold); }
+        .testimonials .section-label .line { background: var(--gold); }
+        .testimonials-intro { font-size: 1.05rem; color: var(--parchment); opacity: 0.7; max-width: 560px; line-height: 1.75; margin-bottom: 64px; }
+        .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: rgba(255,255,255,0.04); }
+        .testimonial-card { background: rgba(13,33,55,0.8); padding: 44px 36px; position: relative; }
+        .testimonial-card::before { content: '\201C'; font-family: 'Playfair Display', serif; font-size: 5rem; color: var(--gold); opacity: 0.2; position: absolute; top: 20px; left: 28px; line-height: 1; }
+        .testimonial-text { font-family: 'EB Garamond', serif; font-size: 1.05rem; color: var(--parchment); line-height: 1.8; margin-bottom: 28px; position: relative; z-index: 1; }
+        .testimonial-stars { color: var(--gold); font-size: 0.75rem; letter-spacing: 3px; margin-bottom: 16px; }
+        .testimonial-author { font-family: 'Jost', sans-serif; font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); }
+        .testimonial-matter { font-family: 'Jost', sans-serif; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(217,209,196,0.4); margin-top: 4px; }
+
+        /* COMMUNITY */
+        .community { background: var(--cream); padding: 120px 0; }
+        .community-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 100px; align-items: center; }
+        .community-img { width: 100%; height: 480px; object-fit: cover; display: block; }
+        .community-text p { font-size: 1.1rem; color: var(--stone); line-height: 1.8; margin-bottom: 22px; }
+        .community-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; margin-top: 44px; background: var(--parchment); border: 1px solid var(--parchment); }
+        .community-stat { background: var(--cream); padding: 28px 24px; }
+        .community-stat .num { font-family: 'Playfair Display', serif; font-size: 2.2rem; color: var(--gold); line-height: 1; }
+        .community-stat .lbl { font-family: 'Jost', sans-serif; font-size: 0.64rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--stone); margin-top: 8px; }
+
+        @media (max-width: 900px) {
+            .testimonials-grid { grid-template-columns: 1fr; }
+            .community-grid { grid-template-columns: 1fr; gap: 48px; }
+        }
 
         /* STORY */
         .story { padding: 120px 0; background: var(--warm-white); }
@@ -194,25 +212,15 @@
             .approach-steps { grid-template-columns: 1fr; }
             .values-grid { grid-template-columns: 1fr; }
             .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+            .trust-bar-inner { gap: 28px; justify-content: flex-start; padding: 0 5%; }
+            .community-stats { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
-<nav id="nav">
-    <a href="/home" class="logo-wrap">
-        <img src="./images/M-Makgetha-Attorneys-Inc-Potchefstroom-Logo-41f5b5.jpg" alt="M. Makgetha Attorneys" class="logo-img">
-        <div class="logo-name">M. MAKGETHA<span>Attorneys Inc.</span></div>
-    </a>
-    <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
-    <ul class="nav-list" id="navList">
-        <li><a href="/home">Home</a></li>
-        <li><a href="/about" class="active">About</a></li>
-        <li><a href="/services">Services</a></li>
-        <li><a href="/contact">Contact</a></li>
-        <li><a href="/contact" class="nav-cta">Consult Now</a></li>
-    </ul>
-</nav>
+<!-- Nav -->
+{% include "components/nav.html" %}
 
 <!-- PAGE HERO -->
 <header class="page-hero">
@@ -221,12 +229,24 @@
         <div class="page-hero-content">
             <div class="breadcrumb"><a href="/home">Home</a><span>/</span><span>About</span></div>
             <h1>A Firm Built on<br><em>Integrity &amp; Trust</em></h1>
+            <p class="page-hero-sub">Established in Potchefstroom in 2010, M. Makgetha Attorneys Inc. has spent over 15 years earning the trust of individuals, families and businesses across the North West Province.</p>
             <div class="page-hero-line"></div>
         </div>
     </div>
 </header>
 
 <a href="https://wa.me/27795823164?text=Hi%20M.%20Makgetha%20Attorneys!%20I%20would%20like%20to%20enquire%20about%20legal%20services." class="wa-btn" target="_blank"><i class="fab fa-whatsapp"></i></a>
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+    <div class="trust-bar-inner">
+        <div class="trust-item"><i class="fas fa-shield-halved"></i><span>Confidential &amp; Discreet</span></div>
+        <div class="trust-item"><i class="fas fa-scale-balanced"></i><span>Registered with Law Society of SA</span></div>
+        <div class="trust-item"><i class="fas fa-award"></i><span>15+ Years Established</span></div>
+        <div class="trust-item"><i class="fas fa-handshake"></i><span>Client-First Approach</span></div>
+        <div class="trust-item"><i class="fas fa-map-pin"></i><span>Potchefstroom, North West</span></div>
+    </div>
+</div>
 
 <!-- STORY -->
 <section class="story">
@@ -338,6 +358,59 @@
     </div>
 </section>
 
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+    <div class="container">
+        <div class="section-label reveal"><span class="line"></span><span>Client Testimonials</span></div>
+        <h2 class="section-heading reveal">What Our Clients Say</h2>
+        <p class="testimonials-intro reveal">Our reputation in Potchefstroom and the North West Province has been built one client at a time. Here is what some of the individuals and families we have represented have shared about their experience with our firm.</p>
+        <div class="testimonials-grid">
+            <div class="testimonial-card reveal">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-text">From my very first call, M. Makgetha Attorneys made me feel heard and genuinely supported. They handled my contested divorce with professionalism and care, protecting my interests at every turn and securing a settlement I never thought possible. I cannot recommend them highly enough to anyone facing a difficult family law matter in Potchefstroom.</p>
+                <div class="testimonial-author">T. Modise</div>
+                <div class="testimonial-matter">Contested Divorce — Potchefstroom</div>
+            </div>
+            <div class="testimonial-card reveal reveal-delay-1">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-text">I was wrongfully arrested and had no idea what my rights were. M. Makgetha's team appeared at my bail application within hours, secured my release and built a strong defence that ultimately resulted in the charges being withdrawn. Their knowledge of the Potchefstroom courts and criminal procedure is exceptional. They truly fight for you.</p>
+                <div class="testimonial-author">K. van Niekerk</div>
+                <div class="testimonial-matter">Criminal Defence — North West</div>
+            </div>
+            <div class="testimonial-card reveal reveal-delay-2">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-text">After losing my husband, the estate process felt completely overwhelming. The team at M. Makgetha guided me through every single step — from reporting the estate to the Master of the High Court to the final distribution — with patience, sensitivity and genuine care. They made one of the hardest periods of my life much easier to navigate.</p>
+                <div class="testimonial-author">P. Lekganyane</div>
+                <div class="testimonial-matter">Deceased Estate Administration</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- COMMUNITY COMMITMENT -->
+<section class="community">
+    <div class="container">
+        <div class="community-grid">
+            <div class="reveal">
+                <img class="community-img" src="https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=1632&auto=format&fit=crop" alt="Community commitment Potchefstroom attorneys">
+            </div>
+            <div class="reveal reveal-delay-1">
+                <div class="section-label"><span class="line"></span><span>Our Commitment</span></div>
+                <h2 class="section-heading">Rooted in Potchefstroom,<br>Committed to Justice</h2>
+                <p class="community-text">M. Makgetha Attorneys Inc. is more than a law firm — we are a fixture of the Potchefstroom legal community. Our roots here run deep, and our commitment to the people of this city and the wider North West Province is reflected in everything we do. We believe access to quality legal representation is not a luxury — it is a right.</p>
+                <p class="community-text">Over 15 years of practice in the local courts has given us an understanding of this community that goes beyond legal procedure. We know the pressures families face, the challenges businesses navigate, and the urgency that comes with criminal, family and personal injury matters. We bring that human understanding to every case we handle.</p>
+                <p class="community-text">Our firm is built to last — on sound ethics, professional excellence and a genuine investment in the wellbeing of our clients and our community. When you instruct M. Makgetha Attorneys, you are choosing attorneys who take pride not just in winning cases, but in doing right by the people they serve.</p>
+                <div class="community-stats">
+                    <div class="community-stat"><div class="num">2010</div><div class="lbl">Year Founded in Potchefstroom</div></div>
+                    <div class="community-stat"><div class="num">10+</div><div class="lbl">Practice Areas Covered</div></div>
+                    <div class="community-stat"><div class="num">500+</div><div class="lbl">Matters Successfully Resolved</div></div>
+                    <div class="community-stat"><div class="num">98%</div><div class="lbl">Client Satisfaction Rate</div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 <!-- CTA -->
 <section class="cta-banner">
     <div class="container">
@@ -353,50 +426,20 @@
     </div>
 </section>
 
-<footer>
-    <div class="container">
-        <div class="footer-top">
-            <div class="footer-brand">
-                <div class="footer-logo">M. Makgetha<span>Attorneys Inc.</span></div>
-                <p>Comprehensive legal solutions for individuals, families and businesses across Potchefstroom and the North West Province — Divorce, Maintenance, Civil Litigation, Criminal Defence, Road Accident Fund Claims, Immigration, Deceased Estates and more. Trusted counsel in Potchefstroom since 2010. Registered with the Law Society of South Africa.</p>
-            </div>
-            <div class="footer-col">
-                <h5>Contact</h5>
-                <ul><li><a href="tel:0795823164">079 582 3164</a></li><li><a href="tel:0182945174">018 294 5174</a></li><li><a href="/cdn-cgi/l/email-protection#0861666e6748656569636f6d7c6069697c7c677a666d717b266b6765"><span class="__cf_email__" data-cfemail="e28b8c848da28f8f83898587968a838396968d908c879b91cc818d8f">[email&#160;protected]</span></a></li></ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>© 2025 M. Makgetha Attorneys Inc. All rights reserved.</p>
-            <p>Potchefstroom, North West, South Africa</p>
-        </div>
-    </div>
-</footer>
-
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-    const nav = document.getElementById('nav');
-    const toggle = document.getElementById('menuToggle');
-    const navList = document.getElementById('navList');
-    toggle.addEventListener('click', () => { navList.classList.toggle('open'); toggle.innerHTML = navList.classList.contains('open') ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>'; });
-    navList.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { navList.classList.remove('open'); toggle.innerHTML = '<i class="fas fa-bars"></i>'; }));
-    const reveals = document.querySelectorAll('.reveal');
-    const io = new Intersec            </div>
-            <div class="footer-col">
-                <h5>Navigate</h5>
-                <ul><li><a href="/home">Home</a></li><li><a href="/about">About</a></li><li><a href="/services">Services</a></li><li><a href="/contact">Contact</a></li></ul>
-            </div>
-            <div class="footer-col">
-                <h5>Practice Areas</h5>
-                <ul><li><a href="/services">Divorce Matters</a></li><li><a href="/services">Maintenance</a></li><li><a href="/services">Civil Litigation</a></li><li><a href="/services">Criminal Defence</a></li><li><a href="/services">Immigration</a></li><li><a href="/services">Road Accident Fund</a></li><li><a href="/services">Deceased Estates</a></li></ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>© 2025 M. Makgetha Attorneys Inc. All rights reserved.</p>
-            <p>Potchefstroom, North West, South Africa</p>
-        </div>
-    </div>
-</footer>
+<!-- Footer -->
+{% include "components/footer.html" %}
 
 <script>
+    const toggle = document.getElementById('menuToggle');
+    const navList = document.getElementById('navList');
+    toggle.addEventListener('click', () => {
+        navList.classList.toggle('open');
+        toggle.innerHTML = navList.classList.contains('open') ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+    });
+    navList.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+        navList.classList.remove('open');
+        toggle.innerHTML = '<i class="fas fa-bars"></i>';
+    }));
     const io = new IntersectionObserver((entries) => {
         entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
     }, { threshold: 0.12 });

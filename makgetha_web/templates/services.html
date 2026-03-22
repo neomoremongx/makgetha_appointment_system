@@ -13,40 +13,7 @@
     <meta property="og:title" content="Legal Services | M. Makgetha Attorneys Inc. | Potchefstroom, North West">
     <meta property="og:description" content="Comprehensive legal services in Potchefstroom: divorce, maintenance, civil litigation, criminal defence, RAF claims, immigration, deceased estates, domestic violence and harassment matters.">
     <meta property="og:locale" content="en_ZA">
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "LegalService",
-      "name": "M. Makgetha Attorneys Inc.",
-      "url": "https://www.mmakgetha.co.za/services",
-      "description": "M. Makgetha Attorneys Inc. provides comprehensive legal services in Potchefstroom and the North West Province including divorce, maintenance, civil litigation, criminal defence, Road Accident Fund claims, immigration, deceased estates, domestic violence and harassment matters.",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "136 Peter Mokaba Avenue",
-        "addressLocality": "Potchefstroom",
-        "addressRegion": "North West",
-        "postalCode": "2520",
-        "addressCountry": "ZA"
-      },
-      "telephone": ["+27795823164", "+27182945174"],
-      "hasOfferCatalog": {
-        "@type": "OfferCatalog",
-        "name": "Legal Services",
-        "itemListElement": [
-          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Divorce Matters", "description": "Contested and uncontested divorce, child custody, asset division and forfeiture of benefits."}},
-          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Maintenance Matters", "description": "Child and spousal maintenance applications, enforcement and variation of maintenance orders."}},
-          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Civil Litigation", "description": "Contract disputes, property claims, debt recovery and commercial litigation."}},
-          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Criminal Defence", "description": "Bail applications, plea negotiations, trial representation and appeals."}},
-          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Road Accident Fund Claims", "description": "Personal injury, loss of income and general damages claims from the RAF."}},
-          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Immigration Law", "description": "Work visas, permanent residency, spousal visas, asylum and DHA appeals."}},
-          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Deceased Estate Administration", "description": "Will drafting, executor appointments and estate administration."}},
-          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Domestic Violence", "description": "Urgent protection orders and interdicts under the Domestic Violence Act."}},
-          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Unlawful Arrest", "description": "Constitutional rights defence and civil damages against SAPS."}},
-          {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Harassment Matters", "description": "Protection orders for workplace, stalking and cyber harassment."}}
-        ]
-      }
-    }
-    </script>
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
@@ -95,6 +62,12 @@
         .page-hero h1 { font-size: clamp(2.8rem, 5vw, 4.2rem); color: var(--warm-white); max-width: 640px; }
         .page-hero h1 em { font-style: italic; color: var(--gold); }
         .page-hero-line { width: 64px; height: 2px; background: var(--gold); margin-top: 28px; }
+
+         /* ─── TRUST BAR ─── */
+        .trust-bar { background: var(--navy-deep); padding: 24px 0; border-bottom: 1px solid rgba(184,150,90,0.15); }
+        .trust-bar-inner { display: flex; align-items: center; justify-content: center; gap: 64px; flex-wrap: wrap; }
+        .trust-item { display: flex; align-items: center; gap: 12px; font-family: 'Jost', sans-serif; font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--parchment); }
+        .trust-item i { color: var(--gold); font-size: 0.9rem; }
 
         /* BUTTONS */
         .btn-primary { display: inline-block; font-family: 'Jost', sans-serif; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; padding: 16px 36px; background: var(--gold); color: var(--ink); text-decoration: none; transition: background 0.25s; }
@@ -217,20 +190,7 @@
 </head>
 <body>
 
-<nav id="nav">
-    <a href="/home" class="logo-wrap">
-        <img src="./images/M-Makgetha-Attorneys-Inc-Potchefstroom-Logo-41f5b5.jpg" alt="M. Makgetha Attorneys" class="logo-img">
-        <div class="logo-name">M. MAKGETHA<span>Attorneys Inc.</span></div>
-    </a>
-    <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
-    <ul class="nav-list" id="navList">
-        <li><a href="/home">Home</a></li>
-        <li><a href="/about">About</a></li>
-        <li><a href="/services" class="active">Services</a></li>
-        <li><a href="/contact">Contact</a></li>
-        <li><a href="/contact" class="nav-cta">Consult Now</a></li>
-    </ul>
-</nav>
+{% include "components/nav.html" %}
 
 <header class="page-hero">
     <div class="page-hero-bg"></div>
@@ -242,6 +202,16 @@
         </div>
     </div>
 </header>
+<!-- TRUST BAR -->
+<div class="trust-bar">
+    <div class="trust-bar-inner">
+        <div class="trust-item"><i class="fas fa-shield-halved"></i><span>Confidential & Discreet</span></div>
+        <div class="trust-item"><i class="fas fa-scale-balanced"></i><span>Registered with Law Society of SA</span></div>
+        <div class="trust-item"><i class="fas fa-award"></i><span>15+ Years Established</span></div>
+        <div class="trust-item"><i class="fas fa-handshake"></i><span>Client-First Approach</span></div>
+        <div class="trust-item"><i class="fas fa-phone"></i><span>Responsive Communication</span></div>
+    </div>
+</div>
 
 <a href="https://wa.me/27795823164?text=Hi%20M.%20Makgetha%20Attorneys!%20I%20would%20like%20to%20enquire%20about%20legal%20services." class="wa-btn" target="_blank"><i class="fab fa-whatsapp"></i></a>
 
@@ -597,22 +567,10 @@
     </div>
 </section>
 
-<footer>
-    <div class="container">
-        <div class="footer-top">
-            <div class="footer-brand">
-                <div class="footer-logo">M. Makgetha<span>Attorneys Inc.</span></div>
-                <p>Comprehensive legal solutions for individuals, families and businesses across Potchefstroom and the North West Province — Divorce, Maintenance, Civil Litigation, Criminal Defence, Road Accident Fund Claims, Immigration, Deceased Estates and more. Trusted counsel in Potchefstroom since 2010. Registered with the Law Society of South Africa.</p>
-            </div>
-            <div class="footer-col"><h5>Navigate</h5><ul><li><a href="/home">Home</a></li><li><a href="/about">About</a></li><li><a href="/services">Services</a></li><li><a href="/contact">Contact</a></li></ul></div>
-            <div class="footer-col"><h5>Practice Areas</h5><ul><li><a href="/services">Divorce Matters</a></li><li><a href="/services">Maintenance</a></li><li><a href="/services">Civil Litigation</a></li><li><a href="/services">Criminal Defence</a></li><li><a href="/services">Immigration</a></li><li><a href="/services">Road Accident Fund</a></li><li><a href="/services">Deceased Estates</a></li></ul></div>
-            <div class="footer-col"><h5>Contact</h5><ul><li><a href="tel:0795823164">079 582 3164</a></li><li><a href="tel:0182945174">018 294 5174</a></li><li><a href="/cdn-cgi/l/email-protection#076e696168476a6a666c6062736f66667373687569627e742964686a"><span class="__cf_email__" data-cfemail="630a0d050c230e0e02080406170b020217170c110d061a104d000c0e">[email&#160;protected]</span></a></li></ul></div>
-        </div>
-        <div class="footer-bottom"><p>© 2025 M. Makgetha Attorneys Inc. All rights reserved.</p><p>Potchefstroom, North West, South Africa</p></div>
-    </div>
-</footer>
+{% include "components/footer.html" %}
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+<script>
     // Nav
     const toggle = document.getElementById('menuToggle');
     const navList = document.getElementById('navList');
