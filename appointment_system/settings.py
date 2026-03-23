@@ -100,9 +100,9 @@ DATABASES = {
 
         'PASSWORD': os.environ['DB_PASSWORD'],
 
-        'HOST': 'postgres.railway.internal',
+        'HOST': 'shuttle.proxy.rlwy.net',
 
-        'PORT': '5432',
+        'PORT': '29227',
 
     }
 
@@ -166,4 +166,9 @@ if DEBUG:
     ]
 
 
-
+#Email Settings
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = '465'
+EMAIL_HOST_USER = 'neomoremongx@gmail.com'
+EMAIL_HOST_PASSWORD = 'pxcosqmpbjlodmyw'
+EMAIL_USE_SSL = True

@@ -253,7 +253,8 @@
             <div class="contact-form-wrap reveal reveal-delay-1">
                 <h3 class="form-title">Send Us a Message</h3>
                 <p class="form-subtitle">We respond to all enquiries within one business day.</p>
-                <form action="contact.php" method="post" id="contactForm">
+                <form action="{% url 'contact' %}" method="post" id="contactForm">
+                     {% csrf_token %}
                     <div class="form-row">
                         <div class="form-group">
                             <label for="name">Full Name</label>
@@ -300,7 +301,7 @@
 
 {% include "components/footer.html" %}
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
     const toggle = document.getElementById('menuToggle');
     const navList = document.getElementById('navList');
     toggle.addEventListener('click', () => { navList.classList.toggle('open'); toggle.innerHTML = navList.classList.contains('open') ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>'; });
