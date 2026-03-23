@@ -2,3 +2,4 @@ django
 psycopg
 python-dotenv
 gunicorn
+resend
