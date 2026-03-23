@@ -340,7 +340,8 @@
             </div>
             <div class="form-body">
                 <div id="formStatus" class="hidden"></div>
-                <form id="appointmentForm">
+                <form action="{% url 'appointment' %}" method="post"id="appointmentForm">
+                     {% csrf_token %}
                     <div class="form-grid">
                         <div class="input-group full-width">
                             <label>Full name *</label>

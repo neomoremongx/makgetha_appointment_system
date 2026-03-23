@@ -163,12 +163,14 @@ if DEBUG:
     CSRF_TRUSTED_ORIGINS += [
         'http://localhost:8000',
         'http://127.0.0.1:8000',
+        'https://resend.com/',
     ]
 
 
-#Email Settings
+"""
 EMAIL_HOST = os.environ['EMAIL_HOST']
 EMAIL_PORT = os.environ['EMAIL_PORT']
 EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER']
 EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
 EMAIL_USE_SSL = os.environ['EMAIL_USE_SSL']
+"""
