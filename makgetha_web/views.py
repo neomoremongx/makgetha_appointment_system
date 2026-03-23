@@ -22,7 +22,7 @@ def get_contact(request):
             subject,
             message,
             email,
-            ['neomoremongx@gmail.com'],
+            ['info@mmakgethaattorneys.com'],
         )
         return render(request, 'contact.html')
 

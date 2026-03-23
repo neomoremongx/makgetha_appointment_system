@@ -167,8 +167,8 @@ if DEBUG:
 
 
 #Email Settings
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = '465'
-EMAIL_HOST_USER = 'neomoremongx@gmail.com'
-EMAIL_HOST_PASSWORD = 'pxcosqmpbjlodmyw'
-EMAIL_USE_SSL = True
+EMAIL_HOST = os.environ['EMAIL_HOST']
+EMAIL_PORT = os.environ['EMAIL_PORT']
+EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER']
+EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
+EMAIL_USE_SSL = os.environ['EMAIL_USE_SSL']
