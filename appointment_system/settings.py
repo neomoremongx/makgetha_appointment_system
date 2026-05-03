@@ -90,19 +90,19 @@ DATABASES = {
 
     'default': {
 
-        #'ENGINE': 'django.db.backends.sqlite3',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+        #'ENGINE': 'django.db.backends.postgresql',
 
-        'ENGINE': 'django.db.backends.postgresql',
+        #'NAME': 'railway',
 
-        'NAME': 'railway',
+        #'USER': 'postgres',
 
-        'USER': 'postgres',
+        #'PASSWORD': os.environ['DB_PASSWORD'],
 
-        'PASSWORD': os.environ['DB_PASSWORD'],
+        #'HOST': 'shuttle.proxy.rlwy.net',
 
-        'HOST': 'shuttle.proxy.rlwy.net',
-
-        'PORT': '29227',
+        #'PORT': '29227',
 
     }
 
